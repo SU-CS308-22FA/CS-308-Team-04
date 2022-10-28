@@ -5,6 +5,9 @@ node_modules
 /.pnp
 .pnp.js
 
+#database access
+config.env
+
 # testing
 /coverage
 
