@@ -7,6 +7,7 @@ import React, {
   } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
+import "./UpdateProfile.css"
 
 const UpdateProfile = (props) => {
 
