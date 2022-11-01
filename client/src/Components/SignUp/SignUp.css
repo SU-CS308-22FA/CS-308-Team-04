@@ -9,17 +9,15 @@
 
     border-color:red;
     border-radius: 5px;
+    width: 50%;
 }
 
 .input_class{
     border-radius: 5px;
     border-color:black;
+    width: 50%;
 }
 
-input {
-    border-color : red;
-    width: 100%;
-}
 
 .card{
     text-align: center;

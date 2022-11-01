@@ -1,5 +1,5 @@
-import {faCheck,faTimes,faInfoCircle} from "@fortawesome/free-solid-svg-icons"
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+
+
 import { useEffect, useRef, useState } from "react";
 import "./SignUp.css";
 import { Link,useNavigate } from "react-router-dom";
@@ -77,7 +77,6 @@ const SignUp = () => {
 
     const SubmitButtonHandler = (event) => {
         event.preventDefault();
-        console.log("Kirazi sikim");
       //  navigate("/SignUpv2", { state : {
        //     email : email,
         //    password : password
@@ -90,7 +89,7 @@ const SignUp = () => {
             <div className="card">
                     <p ref = {errRef} className = {errMsg ? "errmsg" : "offscreen"} aria-live = "assertive"> {errMsg}</p>
                     <h1> GENC FOOTBALL</h1>
-                    <Link className="btn btn-link" to="/Login">If you have acoount please click here to Log in</Link> 
+                    <Link className="btn btn-link" to="/Login">If you have account please click here to Log in</Link> 
                     <form >
                         <div>
                             <label htmlFor= "email"></label>
