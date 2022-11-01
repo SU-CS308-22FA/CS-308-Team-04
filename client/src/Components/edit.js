@@ -18,6 +18,7 @@ export default function Edit() {
  useEffect(() => {
    async function fetchData() {
      const id = params.id.toString();
+     // const response = await fetch(`localhost:5000/record/${params.id.toString()}`);
      const response = await fetch(`https://genc-football-backend.herokuapp.com/record/${params.id.toString()}`);
  
      if (!response.ok) {
