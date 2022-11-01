@@ -77,11 +77,11 @@ const SignUp = () => {
 
     const SubmitButtonHandler = (event) => {
         event.preventDefault();
-      //  navigate("/SignUpv2", { state : {
-       //     email : email,
-        //    password : password
-        //}   
-       // });
+        navigate("/SignUpSecondPage", { state : {
+            email : email,
+            password : password
+        }   
+        });
         
     }
     return(

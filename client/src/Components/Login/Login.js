@@ -22,8 +22,9 @@ const Login = (props) => {
   }
 
   const loginHandler = async (event) => {
-    event.preventDefault();
 
+    event.preventDefault();
+    
     async function fetchData(){
       const response = await fetch(`/GencFootball/users/${email}`);
       //console.log(response);
