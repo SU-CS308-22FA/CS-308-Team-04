@@ -25,6 +25,8 @@ const Login = (props) => {
     event.preventDefault();
     
     async function fetchData(){
+
+      //const response = await fetch(`/GencFootball/users/${email}`);
       const response = await fetch(`https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`);
       //console.log(response);
       if(!response.ok) {
@@ -42,16 +44,24 @@ const Login = (props) => {
       }
       setisUserExist(true);
       console.log(user_fetch._id);
-      return user_fetch._id;
+      return { user_id :user_fetch._id,
+        user_passwrd :user_fetch.password};
     }
-    let user_id = await fetchData();
+    let user_obj = await fetchData();
+    let user_id = user_obj.user_id;
+    let user_password = user_obj.user_passwrd;
+  
     console.log("user id is :",user_id);
-    if(is_user_exist){
+    if(is_user_exist){ 
+      if(user_password == password ){
         navigate("/Profile",{state : {
           user_id : user_id
         }
       });
-      
+      }
+      else{
+        window.alert("Wrong password");
+      }
     }
   };
 
