@@ -1,8 +1,7 @@
 import React, {useRef,useState,useEffect,useReducer,useContext,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-
+import "../SignUp/SignUp.css";
 const Login = (props) => {
 
   const [email,setEmail] = useState("");
@@ -59,7 +58,7 @@ const Login = (props) => {
 
   return (
     <div>
-
+    <div>
       <form onSubmit={loginHandler}>
         <label htmlfor="email"></label>
         <input type="email"  className = "input_class" 
@@ -69,8 +68,9 @@ const Login = (props) => {
         <input type="password" className="input_class" 
           id="password" placeholder="Password" 
           autoComplete="off" onChange={PasswordChangeHandler}/>
-        <button type="btn btn-succes">login</button>
+        <button className="btn btn-success" type="btn btn-succes">login</button>
       </form>
+    </div>
     </div>
   );
 };

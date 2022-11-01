@@ -131,7 +131,7 @@ const SignUp = () => {
                             </input>
                         </div>
                         <p>By Clicking Sign In you agree to Genc Football Terms and Conditions,Privacy Policy and Cookie Policy</p>
-                        <button className="btn btn-success" disabled = {ValidEmail && ValidPassword && SamePassword ? false : true} onClick={SubmitButtonHandler}>Sign In</button>
+                        <button className="btn btn-success" disabled = {ValidEmail && ValidPassword && SamePassword ? false : true} onClick={SubmitButtonHandler}>Sign Up</button>
                     </form>
             </div>
         </div>
