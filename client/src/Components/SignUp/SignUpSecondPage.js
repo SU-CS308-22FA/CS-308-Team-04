@@ -34,7 +34,7 @@ import "./SignUpSecondPage.css";
         console.log("Button is clicked");
 
         async function fetchData(){
-            const response = await fetch("/GencFootball/user/add",{
+            const response = await fetch("https://genc-football-backend.herokuapp.com/GencFootball/user/add",{
                 method : "POST",
                 headers: {
                     "Content-Type": "application/json",

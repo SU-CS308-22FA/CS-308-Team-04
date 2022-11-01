@@ -34,7 +34,7 @@ const UpdateProfile = (props) => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(userUpdatedInfo)
       };
-      fetch(`/GencFootball/user/${userUpdatedInfo._id}`, requestOptions)
+      fetch(`https://genc-football-backend.herokuapp.com/GencFootball/user/${userUpdatedInfo._id}`, requestOptions)
       .catch(err => {
         console.log("Caught error",err);
       })

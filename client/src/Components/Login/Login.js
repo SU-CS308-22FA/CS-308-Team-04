@@ -25,7 +25,7 @@ const Login = (props) => {
     event.preventDefault();
     
     async function fetchData(){
-      const response = await fetch(`/GencFootball/users/${email}`);
+      const response = await fetch(`https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`);
       //console.log(response);
       if(!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
