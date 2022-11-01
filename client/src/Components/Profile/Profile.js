@@ -28,9 +28,9 @@ const Profile = (props) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
-      );
+
+      //const response = await fetch(`/GencFootball/user/${user_id}`);
+      const response = await fetch(`https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`);
       //console.log(response);
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
