@@ -1,0 +1,124 @@
+.profile_card {
+    padding: 0.25rem;
+    background-color: white;
+    margin: 2rem auto;
+    max-width: 450px;
+    /*max-width: 95%;*/
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 45%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .circle {
+    width: 10rem;
+    height: 10rem;
+    background-color: gray;
+    border-radius: 50%;
+  }
+  
+  .cat {
+    border-radius: 50%;
+    width: 12.5rem;
+    height: 12.5rem;
+    display: "block";
+    background: url("https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb")
+      red;
+    background-position: center;
+    background-size: 12.5rem;
+  }
+  
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .container_infobox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.1rem;
+  }
+  
+  .divider {
+    width: 2rem;
+    height: auto;
+    display: inline-block;
+  }
+  
+  div.circletag {
+    display: block;
+    width: 10rem;
+    height: 10rem;
+    background: #e6e7ed;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+  }
+  div.circletag > img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+  
+  .button {
+    appearance: none;
+    backface-visibility: hidden;
+    background-color: #27ae60;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: rgba(39, 174, 96, 0.15) 0 4px 9px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+      sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 1.5;
+    outline: none;
+    overflow: hidden;
+    padding: 13px 20px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+    margin-top: 1rem;
+    max-width: 250px;
+    width: 20%;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .button:hover {
+    background-color: #1e8449;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: 0.35s;
+  }
+  
+  .button:active {
+    transform: translateY(2px);
+    transition-duration: 0.35s;
+  }
+  
+  .button:hover {
+    box-shadow: rgba(39, 174, 96, 0.2) 0 6px 12px;
+  }
+  
