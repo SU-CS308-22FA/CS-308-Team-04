@@ -9,13 +9,14 @@ import RecordList from "./Components/recordList";
 import Edit from "./Components/edit";
 import Create from "./Components/create";
 import Profile from "./Components/Profile/Profile";
+import ProfileActual from "./Components/Profile/ProfileActual";
 
 const App = () => {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route exact path="/" element={<Profile/>} />
+        <Route exact path="/" element={<ProfileActual/>} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/create" element={<Create />} />
       </Routes>
