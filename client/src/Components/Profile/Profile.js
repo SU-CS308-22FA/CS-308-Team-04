@@ -90,10 +90,10 @@ const Profile = (props) => {
       </div>
       <div className="container">
         <button className="button" onClick={UpdateUserHandler}>
-          Update!
+          Update
         </button>
         <button className="button" onClick={DeleteUserHandler}>
-          Delete!
+          Delete
         </button>
       </div>
     </div>

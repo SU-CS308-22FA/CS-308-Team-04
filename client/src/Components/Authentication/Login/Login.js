@@ -1,7 +1,7 @@
 import React, {useRef,useState,useEffect,useReducer,useContext,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../SignUp/SignUp.css";
+//import "../SignUp/SignUp.css";
 const Login = (props) => {
 
   const [email,setEmail] = useState("");
