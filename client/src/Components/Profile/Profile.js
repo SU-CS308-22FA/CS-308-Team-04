@@ -1,10 +1,9 @@
-import { Button } from "bootstrap";
 import React, {
-  useRef,
+  //useRef,
   useState,
   useEffect,
-  useReducer,
-  useContext,
+  //useReducer,
+  //useContext,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Profile.css";
@@ -47,7 +46,7 @@ const Profile = (props) => {
     }
     fetchData();
     return;
-  }, []);
+  }, [user_id]);
 
   const DeleteUserHandler = async (event) => {
     event.preventDefault();
@@ -72,8 +71,8 @@ const Profile = (props) => {
   return (
     <div>
       <div className="container">
-        <div class="circletag">
-          <img src="https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb" />
+        <div className="circletag">
+          <img alt="cat" src="https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb" />
         </div>
       </div>
       <div className="profile_card">
@@ -90,10 +89,10 @@ const Profile = (props) => {
       </div>
       <div className="container">
         <button className="button" onClick={UpdateUserHandler}>
-          Update!
+          Update
         </button>
         <button className="button" onClick={DeleteUserHandler}>
-          Delete!
+          Delete
         </button>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import React, {
-    useRef,
+    //useRef,
     useState,
-    useEffect,
-    useReducer,
-    useContext,
+    //useEffect,
+    //useReducer,
+    //useContext,
   } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -23,10 +23,16 @@ const UpdateProfile = (props) => {
         name: userInfo.name,
         surname: userInfo.surname,
         mobile_number: userInfo.mobile_number,
-        birth_date:  moment(userInfo.birth_date).utc().format('yyyy-MM-dd')
+        birth_date:  new Date(userInfo.birth_date)
       });
 
-      
+    const buttonCancelHandler = (event) =>
+    {
+      event.preventDefault();
+      navigate("/Profile",{state : {
+        user_id : userUpdatedInfo._id
+      }})
+    };
 
     const buttonUpdateHandler = (event) =>{
         event.preventDefault();
@@ -41,18 +47,15 @@ const UpdateProfile = (props) => {
       })
       .then(response => response.json());
       window.alert("User successfully updated");
+      navigate("/Profile",{state : {
+        user_id : userUpdatedInfo._id
+      }})
     };
     return(
 
         <div>
-        <div className="profile_prep_logo_div">
-          <img
-            style={{ width: 25 + "%" }}
-            src="https://d3cy9zhslanhfa.cloudfront.net/media/3800C044-6298-4575-A05D5C6B7623EE37/4B45D0EC-3482-4759-82DA37D8EA07D229/webimage-8A27671A-8A53-45DC-89D7BF8537F15A0D.png"
-          ></img>
-        </div>
         <div className="profile_prep_text_div">
-          <h1 className="profile_prep_text">Let's prepare your profile</h1>
+          <h1 className="profile_prep_text">Update your information</h1>
         </div>
         <div className="profile_prep_form_card">
           <form>
@@ -116,9 +119,9 @@ const UpdateProfile = (props) => {
                 id="birth_date"
                 required
                 onChange={(event) =>
-                    setUpdatedUserInfo({ ...userUpdatedInfo, birth_date: event.target.value })
+                    setUpdatedUserInfo({ ...userUpdatedInfo, birth_date: new Date(event.target.value) })
                 }
-                value={userUpdatedInfo.birth_date}
+                value={moment(userUpdatedInfo.birth_date).format("yyyy-MM-DD")}
               />
             </div>
             <input
@@ -127,6 +130,8 @@ const UpdateProfile = (props) => {
               value="Save"
               onClick={buttonUpdateHandler}
             />
+            <button
+            className="button" onClick={buttonCancelHandler}>Cancel</button>
           </form>
         </div>
       </div>
