@@ -15,7 +15,7 @@ export default function Navbar() {
    <div>
      <nav className="navbar navbar-expand-lg navbar-light bg-light">
        <NavLink className="navbar-brand" to="/">
-       <img style={{"maxHeight" : 100}} src={navbarLogo}></img>
+       <img alt="" style={{"maxHeight" : 100}} src={navbarLogo}></img>
        </NavLink>
        <div className="collapse navbar-collapse" id="navbarSupportedContent">
          <ul className="navbar-nav ml-auto">

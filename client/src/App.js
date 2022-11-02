@@ -1,7 +1,7 @@
-import React, {useContext} from "react";
+import React from "react";
 import Login from "./Components/Authentication/Login/Login";
-import SignUp from "./Components/Authentication/Login/SignUp/SignUp";
-import SignUpSecondPage from "./Components/Authentication/Login/SignUp/SignUpSecondPage";
+import SignUp from "./Components/Authentication/SignUp/SignUp";
+import SignUpSecondPage from "./Components/Authentication/SignUp/SignUpSecondPage";
 import Profile from "./Components/Profile/Profile";
 import UpdateProfile from "./Components/Profile/UpdateProfile";
 // We use Route in order to define the different routes of our application

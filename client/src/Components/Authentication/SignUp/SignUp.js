@@ -25,7 +25,7 @@ const SignUp = () => {
     const [SamePasswordFocus,setSamePasswordFocus] = useState(false);
 
     const[errMsg,setErrMsg] = useState("");
-    const[successMsg,setSueccessmsg] = useState("");
+    //const[successMsg,setSueccessmsg] = useState("");
 
     let navigate = useNavigate(); 
 

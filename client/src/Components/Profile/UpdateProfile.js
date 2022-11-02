@@ -1,9 +1,9 @@
 import React, {
-    useRef,
+    //useRef,
     useState,
-    useEffect,
-    useReducer,
-    useContext,
+    //useEffect,
+    //useReducer,
+    //useContext,
   } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -23,7 +23,7 @@ const UpdateProfile = (props) => {
         name: userInfo.name,
         surname: userInfo.surname,
         mobile_number: userInfo.mobile_number,
-        birth_date:  moment(userInfo.birth_date).utc().format('yyyy-MM-dd')
+        birth_date:  new Date(userInfo.birth_date)
       });
 
     const buttonCancelHandler = (event) =>
@@ -119,9 +119,9 @@ const UpdateProfile = (props) => {
                 id="birth_date"
                 required
                 onChange={(event) =>
-                    setUpdatedUserInfo({ ...userUpdatedInfo, birth_date: event.target.value })
+                    setUpdatedUserInfo({ ...userUpdatedInfo, birth_date: new Date(event.target.value) })
                 }
-                value={userUpdatedInfo.birth_date}
+                value={moment(userUpdatedInfo.birth_date).format("yyyy-MM-DD")}
               />
             </div>
             <input
