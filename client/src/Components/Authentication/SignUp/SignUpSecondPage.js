@@ -6,9 +6,10 @@ import React, {
   //useContext,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./SignUpSecondPage.css";
-var moment = require('moment');  
-
+import classes from "./SignUpSecondPage.module.css";
+import Card from "../../UI/Card/Card";
+import navbarLogo from "../../../images/navbar-logo.png";
+var moment = require("moment");
 
 const Profile = (props) => {
   const navigate = useNavigate();
@@ -45,99 +46,105 @@ const Profile = (props) => {
   };
 
   return (
-    <div>
-      <div className="profile_prep_text_div">
-        <h1 className="profile_prep_text">Let's prepare your profile</h1>
+    <>
+      <div className={classes.logo_div}>
+        <img alt="" style={{ maxHeight: 150 }} src={navbarLogo}></img>
       </div>
-      <div className="profile_prep_form_card">
-        <form>
-          <div className="form-field">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              required
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, username: event.target.value })
-              }
-              value={userInfo.username}
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, name: event.target.value })
-              }
-              value={userInfo.name}
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="surname">Last Name</label>
-            <input
-              type="text"
-              name="surname"
-              id="surname"
-              required
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, surname: event.target.value })
-              }
-              value={userInfo.surname}
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="mobile_number">Mobile Number</label>
-            <input
-              type="text"
-              name="mobile_number"
-              id="mobile_number"
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, mobile_number: event.target.value })
-              }
-              value={userInfo.mobile_number}
-              required
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="birth_date">Birth Date</label>
-            <input
-              type="date"
-              name="birth_date"
-              id="birth_date"
-              required
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, birth_date: new Date(event.target.value) })
-              }
-              value={moment(userInfo.birth_date).format("yyyy-MM-DD")}
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="profile_type">Profile Type</label>
-            <select
-              id="profile_type"
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, profile_type: "Personal" })
-              }
-            >
-              <option value="trainer">Trainer</option>
-              <option value="scout">Scout</option>
-              <option value="personal">Personal</option>
-            </select>
-          </div>
-          <input
-            className="button"
-            type="submit"
-            value="Save"
-            onClick={buttonSaveHandler}
-          />
-        </form>
-      </div>
-    </div>
+      <h1>Let's prepare your profile</h1>
+      <Card>
+          <form>
+            <div className={classes.input_field}>
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                required
+                onChange={(event) =>
+                  setUserInfo({ ...userInfo, username: event.target.value })
+                }
+                value={userInfo.username}
+              />
+            </div>
+            <div className={classes.input_field}>
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                required
+                onChange={(event) =>
+                  setUserInfo({ ...userInfo, name: event.target.value })
+                }
+                value={userInfo.name}
+              />
+            </div>
+            <div className={classes.input_field}>
+              <label htmlFor="surname">Last Name</label>
+              <input
+                type="text"
+                name="surname"
+                id="surname"
+                required
+                onChange={(event) =>
+                  setUserInfo({ ...userInfo, surname: event.target.value })
+                }
+                value={userInfo.surname}
+              />
+            </div>
+            <div className={classes.input_field}>
+              <label htmlFor="mobile_number">Mobile Number</label>
+              <input
+                type="text"
+                name="mobile_number"
+                id="mobile_number"
+                onChange={(event) =>
+                  setUserInfo({
+                    ...userInfo,
+                    mobile_number: event.target.value,
+                  })
+                }
+                value={userInfo.mobile_number}
+                required
+              />
+            </div>
+            <div className={classes.input_field}>
+              <label htmlFor="birth_date">Birth Date</label>
+              <input
+                type="date"
+                name="birth_date"
+                id="birth_date"
+                required
+                onChange={(event) =>
+                  setUserInfo({
+                    ...userInfo,
+                    birth_date: new Date(event.target.value),
+                  })
+                }
+                value={moment(userInfo.birth_date).format("yyyy-MM-DD")}
+              />
+            </div>
+            <div className={classes.input_field}>
+              <label htmlFor="profile_type">Profile Type</label>
+              <select
+                id="profile_type"
+                onChange={(event) =>
+                  setUserInfo({ ...userInfo, profile_type: "Personal" })
+                }
+              >
+                <option value="trainer">Trainer</option>
+                <option value="scout">Scout</option>
+                <option value="personal">Personal</option>
+              </select>
+            </div>
+            <button className={classes.submit_button}
+              type="submit"
+              value="Save"
+              onClick={buttonSaveHandler}
+            >Save Profile</button>
+          </form>
+      </Card>
+    </>
   );
 };
 export default Profile;

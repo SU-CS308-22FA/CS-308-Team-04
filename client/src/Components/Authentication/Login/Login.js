@@ -5,8 +5,12 @@ import React, {
   //useReducer,
   //useContext,
 } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-//import "../SignUp/SignUp.css";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import classes from "./Login.module.css";
+import Card from "../../UI/Card/Card";
+import navbarLogo from "../../../images/navbar-logo.png";
+
+
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,34 +70,57 @@ const Login = (props) => {
       .catch((error) => window.alert(error));
   };
   return (
-    <div>
-      <div>
-        <form onSubmit={loginHandler}>
-          <label htmlfor="email"></label>
-          <input
+
+    <Card>
+      <img alt="" style={{ maxHeight: 100 }} src={navbarLogo}></img>
+      <form onSubmit={loginHandler}>
+        <div className={classes.input_field}>
+        <input
             type="email"
-            className="input_class"
             id="email"
             placeholder="E-mail"
             autoComplete="off"
             onChange={EmailChangeHandler}
             required="required"
           />
-          <label htmlfor="password"></label>
-          <input
+          
+        </div>
+        <div className={classes.input_field}>
+        <input
             type="password"
-            className="input_class"
             id="password"
             placeholder="Password"
             autoComplete="off"
             onChange={PasswordChangeHandler}
           />
-          <button className="btn btn-success" type="btn btn-succes">
-            login
-          </button>
-        </form>
+          
+        </div>
+        
+        <button className={classes.submit_button}>
+          Log In
+        </button>
+      </form>
+      <div className={classes.divider}>
+        <hr></hr>
+        <p>or</p>
+        <hr></hr>
       </div>
-    </div>
+      <div className={classes.sign_in_div}>
+        <p>Dont have an account?</p>
+        <Link className={classes.sign_in_button} to="/">
+          Sign up
+        </Link>
+      </div>
+      
+      <button className={classes.media_button}>
+        <img></img>
+        <p>Sign in with Google</p>
+      </button>
+      <button className={classes.media_button}>
+        <img></img>
+        <p>Sign in with Facebook</p>
+      </button>
+    </Card>
   );
 };
 export default Login;
