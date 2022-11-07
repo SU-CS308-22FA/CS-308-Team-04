@@ -1,0 +1,13 @@
+.App {
+  background-color: #032A34;
+  height: 100vh;
+  width: 100%;
+}
+
+.Content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

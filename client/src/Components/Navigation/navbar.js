@@ -10,9 +10,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import { NavLink } from "react-router-dom";
  
 // Here, we display our Navbar
-export default function Navbar() {
+export default function Navbar(props) {
  return (
-   <div>
+   <div className= {props.className}>
      <nav className="navbar navbar-expand-lg navbar-light bg-light">
        <NavLink className="navbar-brand" to="/">
        <img alt="" style={{"maxHeight" : 100}} src={navbarLogo}></img>

@@ -6,8 +6,8 @@ import React, {
   //useContext,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./Profile.css";
-
+import classes from "./Profile.module.css";
+import Card from "../UI/Card/Card";
 const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,9 +27,10 @@ const Profile = (props) => {
 
   useEffect(() => {
     async function fetchData() {
-
       //const response = await fetch(`/GencFootball/user/${user_id}`);
-      const response = await fetch(`https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`);
+      const response = await fetch(
+        `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
+      );
       //console.log(response);
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -69,33 +70,51 @@ const Profile = (props) => {
     });
   };
   return (
-    <div>
-      <div className="container">
-        <div className="circletag">
-          <img alt="cat" src="https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb" />
+    <>
+      <Card className={classes.profile_bar}>
+        <div className={classes.profile_img_divider}>
+          <img
+            className={classes.profile_logo}
+            alt="cat"
+            src="https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb"
+          />
+          <div className={classes.profile_info}>
+            <h2 className={classes.h2}>
+              {userInfo.name} {userInfo.surname}
+            </h2>
+            <h2 className={classes.h2}>@{userInfo.username}</h2>
+          </div>
         </div>
-      </div>
-      <div className="profile_card">
-        <div className="container_infobox">
-          <p>Username: @{userInfo.username}</p>
+        <div className={classes.profile_counts}>
+          <div
+            className={classes.following_div}
+            style={{ "padding-right": "10px" }}
+          >
+            <h2 className={classes.h2}>followers</h2>
+            <p>31</p>
+          </div>
+          <div className={classes.following_div}>
+            <h2 className={classes.h2}>following</h2>
+            <p>69</p>
+          </div>
         </div>
-        <div className="container_infobox">
-          <p>
-            Full Name: {userInfo.name} {userInfo.surname}
-          </p>
-          <div className="divider" />
-          <p>Email: {userInfo.email}</p>
+      </Card>
+      <div className={classes.body}>
+        <div className={classes.posts}>
+        <div className={classes.post_title}>Followed Posts:</div>
+          <div className={classes.post_content}></div>
         </div>
+
+        <div className={classes.right_bar}></div>
       </div>
-      <div className="container">
-        <button className="button" onClick={UpdateUserHandler}>
-          Update
-        </button>
-        <button className="button" onClick={DeleteUserHandler}>
-          Delete
-        </button>
-      </div>
-    </div>
+    
+      <button className="button" onClick={UpdateUserHandler}>
+        Update
+      </button>
+      <button className="button" onClick={DeleteUserHandler}>
+        Delete
+      </button>
+    </>
   );
 };
 export default Profile;
