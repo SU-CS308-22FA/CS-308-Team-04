@@ -68,15 +68,43 @@ const SignUp = () => {
     console.log(rePassword);
   };
 
+  const isUserExists = async (email) => {
+    let response = await fetch(`https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`);
+      
+    console.log(response);
+    if (!response.ok) {
+      const message = `An error has occurred: ${response.statusText}`;
+      return null;
+    }
+    if (response.status === 404) {
+      //user not found
+      return false;
+    }
+    //user exists
+    return true;
+  }
+
   const SubmitButtonHandler = (event) => {
     event.preventDefault();
-    navigate("/SignUpSecondPage", {
-      state: {
-        email: email,
-        password: password,
-      },
-    });
+
+
+    isUserExists(email).then(
+      (isExists) => {
+        if(!isExists)
+        {
+          navigate("/SignUpSecondPage", {
+            state: {
+              email: email,
+              password: password,
+            },
+          });
+        }
+        else {
+          window.alert("Email has already been exist.");
+        }
+      })
   };
+
   return (
     <Card>
       <img alt="" style={{ maxHeight: 100 }} src={navbarLogo}></img>
