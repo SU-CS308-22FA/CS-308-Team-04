@@ -1,6 +1,8 @@
 .profile_logo {
-  width: 100px;
+  width: 100%;
+  display: flex;
   margin-right: 20px;
+  margin-bottom: 0px;
   border-radius: 50%;
 }
 

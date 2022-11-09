@@ -8,7 +8,7 @@ import React, {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import classes from "./Login.module.css";
 import Card from "../../UI/Card/Card";
-import navbarLogo from "../../../images/navbar-logo.png";
+import navbarLogo from "../../../images/logo_dark.png";
 
 
 const Login = (props) => {
@@ -72,7 +72,7 @@ const Login = (props) => {
   return (
 
     <Card>
-      <img alt="" style={{ maxHeight: 100 }} src={navbarLogo}></img>
+      <img alt="" style={{ maxHeight: 80 }} src={navbarLogo}></img>
       <form onSubmit={loginHandler}>
         <div className={classes.input_field}>
         <input
