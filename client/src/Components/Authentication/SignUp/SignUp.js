@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import classes from "./SignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../UI/Card/Card";
-import navbarLogo from "../../../images/navbar-logo.png";
+import navbarLogo from "../../../images/logo_dark.png";
 const PWS_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -79,7 +79,7 @@ const SignUp = () => {
   };
   return (
     <Card>
-      <img alt="" style={{ maxHeight: 100 }} src={navbarLogo}></img>
+      <img alt="" className="logo" src={navbarLogo}></img>
       <form>
         <div className={classes.input_field}>
           <input
@@ -164,7 +164,7 @@ const SignUp = () => {
       <div className={classes.sign_in_div}>
         <p>Already on Genc Football?</p>
         <Link className={classes.sign_in_button} to="/Login">
-          Sign in
+          Log in
         </Link>
       </div>
       

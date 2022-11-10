@@ -8,7 +8,7 @@ import React, {
 import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./SignUpSecondPage.module.css";
 import Card from "../../UI/Card/Card";
-import navbarLogo from "../../../images/navbar-logo.png";
+import navbarLogo from "../../../images/logo_light.png";
 var moment = require("moment");
 
 const Profile = (props) => {
@@ -48,7 +48,7 @@ const Profile = (props) => {
   return (
     <>
       <div className={classes.logo_div}>
-        <img alt="" style={{ maxHeight: 150 }} src={navbarLogo}></img>
+        <img alt="" style={{ maxHeight: 100 }} src={navbarLogo}></img>
       </div>
       <h1>Let's prepare your profile</h1>
       <Card>

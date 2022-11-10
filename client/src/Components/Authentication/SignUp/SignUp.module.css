@@ -109,7 +109,8 @@ h1 {
     padding-bottom: 16px;
 }
 
-.logo_div {
+img {
     display: flex;
-    width: 500px;
+    max-height: 80px;
+    margin-bottom: 10%;
 }
