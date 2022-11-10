@@ -8,7 +8,6 @@ module.exports = class UserController{
             //let query = {_id : req.params.user_id};
             let user_id = req.params.user_id; 
             console.log(user_id);
-            //let username = "Kiraz1234";
             let user = await UserDAO.getoneUserById(user_id);
             if(!user){
                 console.log("could not found user!");
