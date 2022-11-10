@@ -48,6 +48,24 @@ module.exports = class UserController{
             
     }
     
+    static async apiGetUserWithPost(req,res,next){
+
+        try{
+            let user_id = req.params.user_id;
+            let user = await UserDAO.getUserPostsWithId(user_id);
+            if(!user){
+                res.status(404).json({ error: "Not found" })
+                return;
+            }
+            console.log(user);
+            res.json(user);
+        }
+
+        catch(e){
+            console.log(e);
+            res.status(500).json({error:e});
+        }
+    }
     
     static async apiPostUser(req,res,next){
 

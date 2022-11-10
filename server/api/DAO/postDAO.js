@@ -1,4 +1,6 @@
 const mongodb = require("mongodb");
+const { post } = require("../../routes/dbGencFootball");
+const { apiDeletePosts } = require("../Controller/PostController");
 const ObjectId = mongodb.ObjectId;
 
 let Post;
@@ -51,16 +53,25 @@ module.exports = class PostDAO{
         console.log(displayCursor);
         try{
             const posts_list = await displayCursor.toArray();
-            //await posts_list.sort((a, b) => {
-               // return new Date(b.date) - new Date(a.date);
-               // });
-            //const posts_list = await 
             return posts_list;
         }
 
         catch(e){
             console.error("Unable to convert cursor to array",e);
             return [];
+        }
+    }
+
+    static async deletePosts(user_id,post_id){
+
+        try{
+            const deleteResponse = await Post.deleteOne({user_id : ObjectId(user_id),_id : ObjectId(post_id)});
+            return deleteResponse;
+        }
+
+        catch(e){
+            console.log("Unable to delete reviews",e);
+            return {error:e};
         }
     }
 

@@ -48,4 +48,20 @@ module.exports = class UserController {
             res.status(500).json({error : e.message});
         }
     }
+
+    static async apiDeletePosts(req,res,next){
+        try{
+            console.log("hi");
+            const user_id = req.query.user_id;
+            const post_id = req.query.post_id;
+            //console.log({user_id,post_id});
+            const PostdbResponse = await PostDAO.deletePosts(user_id,post_id);
+            //console.log(PostdbResponse);
+            res.json({status : "success"});
+            //console.log(PostdbResponse);
+        }
+        catch(e) {
+            res.status(500).json({error : e.message});
+        }
+    }
 }
