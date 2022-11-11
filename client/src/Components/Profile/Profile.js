@@ -90,30 +90,31 @@ const Profile = (props) => {
             className={classes.following_div}
             style={{ "padding-right": "10px" }}
           >
-            <h2 className={classes.h2}>followers</h2>
+            <h2 className={classes.h2}>Followers</h2>
             <p>31</p>
           </div>
           <div className={classes.following_div}>
-            <h2 className={classes.h2}>following</h2>
+            <h2 className={classes.h2}>Following</h2>
             <p>69</p>
           </div>
         </div>
       </Card>
       <div className={classes.body}>
         <div className={classes.posts}>
-        <div className={classes.post_title}>Followed Posts:</div>
+        <div className={classes.post_title}>Your Posts:</div>
           <div className={classes.post_content}></div>
         </div>
 
         <div className={classes.right_bar}></div>
-      </div>
-    
-      <button className="button" onClick={UpdateUserHandler}>
-        Update
-      </button>
-      <button className="button" onClick={DeleteUserHandler}>
-        Delete
-      </button>
+      </div >
+      
+        <button className={classes.button} onClick={UpdateUserHandler}>
+          Update
+        </button>
+        <button className={classes.button} onClick={DeleteUserHandler}>
+          Delete
+        </button>
+      
     </>
   );
 };
