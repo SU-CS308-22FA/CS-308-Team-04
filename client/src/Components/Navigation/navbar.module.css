@@ -1,0 +1,20 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+}
+
+.div {
+  width: 80%;
+  margin-bottom: 16px;
+}
+
+.title {
+  text-decoration: none;
+  color: Black;
+  margin: 0;
+  font-weight: 800;
+}

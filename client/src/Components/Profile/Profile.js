@@ -8,6 +8,7 @@ import React, {
 import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./Profile.module.css";
 import Card from "../UI/Card/Card";
+import Navbar from "../Navigation/navbar";
 const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -71,6 +72,7 @@ const Profile = (props) => {
   };
   return (
     <>
+      <Navbar className="Navbar"/>
       <Card className={classes.profile_bar}>
         <div className={classes.profile_img_divider}>
           <img
