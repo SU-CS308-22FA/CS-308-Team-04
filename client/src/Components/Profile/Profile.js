@@ -8,6 +8,8 @@ import React, {
 import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./Profile.module.css";
 import Card from "../UI/Card/Card";
+import PostsList from "./PostsList";
+
 const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,11 +27,13 @@ const Profile = (props) => {
     birth_date: "",
   });
 
+  const [PostLists,setPostListsFunction] = useState([]);
   useEffect(() => {
     async function fetchData() {
       //const response = await fetch(`/GencFootball/user/${user_id}`);
       const response = await fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
+        //`https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
+        `/GencFootball/user/userwithpost/${user_id}`
       );
       //console.log(response);
       if (!response.ok) {
@@ -44,6 +48,7 @@ const Profile = (props) => {
         return;
       }
       setUserInfo(user_fetch);
+      setPostListsFunction(user_fetch.posts);
     }
     fetchData();
     return;
@@ -53,6 +58,7 @@ const Profile = (props) => {
     event.preventDefault();
     await fetch(
       `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`,
+      //`/GencFootball/user/${user_id}`,
       {
         method: "DELETE",
       }
@@ -101,20 +107,21 @@ const Profile = (props) => {
       </Card>
       <div className={classes.body}>
         <div className={classes.posts}>
-        <div className={classes.post_title}>Your Posts:</div>
-          <div className={classes.post_content}></div>
+          <div className={classes.post_title}>Your Posts:</div>
+          {/*<div className={classes.post_content}></div>*/}
+          <PostsList list = {PostLists}></PostsList>
         </div>
 
         <div className={classes.right_bar}></div>
       </div >
-      
-        <button className={classes.button} onClick={UpdateUserHandler}>
-          Update
-        </button>
-        <button className={classes.button} onClick={DeleteUserHandler}>
-          Delete
-        </button>
-      
+
+      <button className={classes.button} onClick={UpdateUserHandler}>
+        Update
+      </button>
+      <button className={classes.button} onClick={DeleteUserHandler}>
+        Delete
+      </button>
+
     </>
   );
 };
