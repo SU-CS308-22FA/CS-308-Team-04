@@ -34,8 +34,8 @@ const Profile = (props) => {
     async function fetchData() {
       //const response = await fetch(`/GencFootball/user/${user_id}`);
       const response = await fetch(
-        //`https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
-        `/GencFootball/user/userwithpost/${user_id}`
+        `https://genc-football-backend.herokuapp.com/GencFootball/user/userwithpost/${user_id}`
+        //`/GencFootball/user/userwithpost/${user_id}`
       );
       //console.log(response);
       if (!response.ok) {
@@ -97,7 +97,7 @@ const Profile = (props) => {
         <div className={classes.profile_counts}>
           <div
             className={classes.following_div}
-            style={{ "padding-right": "10px" }}
+            style={{ "paddingRight": "10px" }}
           >
             <h2 className={classes.h2}>Followers</h2>
             <p>31</p>

@@ -48,9 +48,9 @@ p {
 
 .body {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 80%;
-  height: 60%;
+  height: 65%;
   border-radius: 3px;
 }
 
@@ -65,7 +65,7 @@ p {
 
 .posts {
   width: 70%;
- height: 50%;
+ height: 100%;
  border-radius: 3px;
 }
 
