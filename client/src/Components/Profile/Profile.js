@@ -56,6 +56,7 @@ const Profile = (props) => {
     return;
   }, [user_id]);
 
+  console.log(PostLists);
   const DeleteUserHandler = async (event) => {
     event.preventDefault();
     await fetch(

@@ -9,8 +9,8 @@ const Feed = (props) => {
     const encodedValue = encodeURIComponent(PageNum);
     useEffect(() => {
         fetch(
-           // `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
-            `/GencFootball/posts/getposts?page=${encodedValue}`
+            `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
+           // `/GencFootball/posts/getposts?page=${encodedValue}`
             )
         .catch(err => {
             console.log("Caught error",err);
