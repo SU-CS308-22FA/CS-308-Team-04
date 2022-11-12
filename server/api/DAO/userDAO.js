@@ -45,6 +45,53 @@ module.exports =  class UserDAO{
             }
         }
 
+        static async getUserPostsWithId(user_id){
+
+            console.log(user_id);
+
+            try {
+                const pipeline = [
+                  {
+                      $match: {
+                          _id: new ObjectId(user_id),
+                      },
+                  },
+                        {
+                            $lookup: {
+                                from: "posts",
+                                let: {
+                                    id: "$_id",
+                                },
+                                pipeline: [
+                                    {
+                                        $match: {
+                                            $expr: {
+                                                $eq: ["$user_id", "$$id"],
+                                            },
+                                        },
+                                    },
+                                    {
+                                        $sort: {
+                                            date: -1,
+                                        },
+                                    },
+                                ],
+                                as: "posts",
+                            },
+                        },
+                        {
+                            $addFields: {
+                                posts: "$posts",
+                            },
+                        },
+                    ]
+                return await User.aggregate(pipeline).next()
+              } catch (e) {
+                console.error(`Something went wrong in getUserPostsWithId: ${e}`)
+                throw e
+              }
+        }
+
         static async getoneUserByEmail(user_email){
             try{
 
@@ -88,6 +135,7 @@ module.exports =  class UserDAO{
             
             try{
                 const deleteResponse = await User.deleteOne({_id : ObjectId(user_id)});
+                console.log(deleteResponse);
                 return deleteResponse;
             }
 
