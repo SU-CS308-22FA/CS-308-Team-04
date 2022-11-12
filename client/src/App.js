@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./Components/Authentication/Login/Login";
 import SignUp from "./Components/Authentication/SignUp/SignUp";
 import SignUpSecondPage from "./Components/Authentication/SignUp/SignUpSecondPage";
@@ -12,12 +12,21 @@ import Card from "./Components/UI/Card/Card";
 import "./App.css";
 
 const App = () => {
+
+  const [user, setUser] = useState();
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setUser(loggedInUser);
+    }
+  }, []);
+
   return (
     <div className="App">
       {/*<Navbar className="Navbar"/>*/}
       <div className="Content">
         <Routes>
-          <Route exact path="/" element={<SignUp />} />
+        <Route exact path="/" element={user==null ? <SignUp /> : <Profile />} />
           <Route path="/SignUpSecondPage" element={<SignUpSecondPage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Profile" element={<Profile />} />
