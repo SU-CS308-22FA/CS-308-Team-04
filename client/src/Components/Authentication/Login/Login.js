@@ -55,8 +55,11 @@ const Login = (props) => {
         if (!user_obj) {
           return;
         } //user not found
+        console.log(user_obj)
+        
         console.log("user id is :", user_obj._id);
         if (user_obj.password === password) {
+          localStorage.setItem('user', user_obj._id);
           navigate("/Profile", {
             state: {
               user_id: user_obj._id,

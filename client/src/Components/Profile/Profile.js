@@ -16,7 +16,7 @@ const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  let user_id = location.state.user_id;
+  let user_id = location.state ? location.state.user_id : localStorage.getItem('user');
 
   const [userInfo, setUserInfo] = useState({
     _id: "",

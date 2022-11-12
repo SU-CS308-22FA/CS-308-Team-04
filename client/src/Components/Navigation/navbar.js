@@ -6,7 +6,7 @@ import navbarLogo from "../../images/navbar-logo.png";
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
  
-
+import { Link, useNavigate } from "react-router-dom";
 // We import NavLink to utilize the react router.
 import { NavLink } from "react-router-dom";
 
@@ -14,6 +14,14 @@ import classes from './navbar.module.css'
 
 // Here, we display our Navbar
 export default function Navbar(props) {
+
+  let navigate = useNavigate();
+
+  const logoutHandler = () => {
+    localStorage.removeItem('user');
+    navigate("/Login")
+  }
+
  return (
    <div className= {classes.div}>
      <nav className={classes.navbar}>
@@ -23,6 +31,9 @@ export default function Navbar(props) {
        <NavLink to="/Feed">
         <p className={classes.title}>Feed</p>
        </NavLink>
+       <button className={classes.title} style={{'padding':'0', 'border':'0', 'backgroundColor': 'white'}} onClick={logoutHandler}>Logout
+       </button>
+       
        <NavLink to="/Profile">
         <p className={classes.title}>Profile</p>
        </NavLink>
