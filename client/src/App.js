@@ -3,6 +3,7 @@ import Login from "./Components/Authentication/Login/Login";
 import SignUp from "./Components/Authentication/SignUp/SignUp";
 import SignUpSecondPage from "./Components/Authentication/SignUp/SignUpSecondPage";
 import Profile from "./Components/Profile/Profile";
+import Feed from "./Components/Feed/Feed";
 import UpdateProfile from "./Components/Profile/UpdateProfile";
 // We use Route in order to define the different routes of our application
 import { Route, Routes } from "react-router-dom";
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/Login" element={<Login />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/UpdateProfile" element={<UpdateProfile />} />
+          <Route path="/Feed" element = {<Feed></Feed>} />
         </Routes>
       </div>
     </div>
