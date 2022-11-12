@@ -6,21 +6,26 @@ import navbarLogo from "../../images/navbar-logo.png";
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
  
+
 // We import NavLink to utilize the react router.
 import { NavLink } from "react-router-dom";
- 
+
+import classes from './navbar.module.css'
+
 // Here, we display our Navbar
 export default function Navbar(props) {
  return (
-   <div className= {props.className}>
-     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-       <NavLink className="navbar-brand" to="/">
-       <img alt="" style={{"maxHeight" : 100}} src={navbarLogo}></img>
+   <div className= {classes.div}>
+     <nav className={classes.navbar}>
+       <NavLink to="/">
+       <img alt="" style={{"maxHeight" : 50, "margin" : 0}} src={navbarLogo}></img>
        </NavLink>
-       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-         <ul className="navbar-nav ml-auto">
-         </ul>
-       </div>
+       <NavLink to="/Feed">
+        <p className={classes.title}>Feed</p>
+       </NavLink>
+       <NavLink to="/Profile">
+        <p className={classes.title}>Profile</p>
+       </NavLink>
      </nav>
    </div>
  );
