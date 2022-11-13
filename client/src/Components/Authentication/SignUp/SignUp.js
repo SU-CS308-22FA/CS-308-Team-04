@@ -1,8 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  //useReducer,
+  //useContext,
+} from "react";
 import classes from "./SignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../UI/Card/Card";
 import navbarLogo from "../../../images/logo_dark.png";
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Button from '@mui/material/Button';
+import { FormHelperText } from "@mui/material";
 const PWS_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -25,6 +41,32 @@ const SignUp = () => {
   const [errMsg, setErrMsg] = useState("");
   //const[successMsg,setSueccessmsg] = useState("");
 
+  const [values, setValues] = React.useState({
+    amount: '',
+    password: '',
+    confirmpassword: '',
+    weight: '',
+    weightRange: '',
+    showPassword: false,
+    errormsg: '',
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+  
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -40,17 +82,17 @@ const SignUp = () => {
   }, [email, ValidEmail]);
 
   useEffect(() => {
-    const result = PWS_REGEX.test(password);
+    const result = PWS_REGEX.test(values.password);
     console.log(result);
-    console.log("Password is: ", password);
-    console.log("REPassword is: ", rePassword);
+    console.log("Password is: ", values.password);
+    console.log("REPassword is: ", values.confirmpassword);
     setValidPassword(result);
-    const match = password === rePassword;
+    const match = values.password === values.confirmpassword;
     setSamePassword(match);
     if (match) {
       console.log("Yes passwords are  matched");
     }
-  }, [password, rePassword]);
+  }, [values.password, values.confirmpassword]);
 
   useEffect(() => {
     setErrMsg("");
@@ -108,81 +150,115 @@ const SignUp = () => {
   return (
     <Card>
       <img alt="" className="logo" src={navbarLogo}></img>
-      <form>
-        <div className={classes.input_field}>
-          <input
-            className={
-              email && !ValidEmail ? "error_input_class" : "input_class"
-            }
+      <form onSubmit={SubmitButtonHandler}>
+      <TextField
+            error={email && !ValidEmail}
+            fullWidth
+            size="medium"
             type="email"
-            id="email"
-            placeholder="E-mail"
+            id={email && !ValidEmail ? "outlined-basic" : "outlined-error-helper-text"}
+            label="E-Mail"
             ref={emailRef}
+            variant="outlined"
             autoComplete="off"
             onChange={emailChangeHandler}
-            required="required"
-            aria-invalid={ValidEmail ? "false" : "true"}
-            aria-describedby="error_id"
-            onFocus={() => setEmailFocus(true)}
-            onBlur={() => setEmailFocus(false)}
-          ></input>
-          <p id="error_id" className="error_text">
-            {email && !ValidEmail ? "Invalid Email Type!" : ""}
-          </p>
-        </div>
-        <div className={classes.input_field}>
-          <input
-            className={
-              password && !ValidPassword ? "error_input_class" : "input_class"
-            }
-            type="password"
-            id="password"
-            placeholder="Password"
-            autoComplete="off"
-            onChange={PasswordChangeHandler}
-            required="required"
-            aria-invalid={ValidPassword ? "false" : "true"}
-            aria-describedby="error_id"
-            onFocus={() => setPasswordFocus(true)}
-            onBlur={() => setPasswordFocus(false)}
-          ></input>
-          <p id="error_id" className="error_text">
-            {password && !ValidPassword
-              ? "Your password must contain at least 8 characters, an UpperLetter and a number"
-              : ""}
-          </p>
-        </div>
-        <div>
-          <input
-            className={
-              rePassword && !SamePassword ? "error_input_class" : "input_class"
-            }
-            type="password"
-            id="re-password"
-            placeholder="Confirm Password"
-            autoComplete="off"
-            onChange={RePasswordChangeHandler}
-            required="required"
-            aria-invalid={ValidPassword ? "false" : "true"}
-            aria-describedby="error_id"
-            onFocus={() => setSamePasswordFocus(true)}
-            onBlur={() => setSamePasswordFocus(false)}
-          ></input>
-          <p id="error_id" className="error_text">
-            {rePassword && !SamePassword ? "Your Password does not match!" : ""}
-          </p>
-        </div>
+            margin="dense"
+            helperText={email && !ValidEmail ? "Invalid Email Type!" : ""}
+          /> 
+      <FormControl 
+      fullWidth
+      variant="outlined"
+      margin="dense"
+      >
+        <InputLabel 
+        error={values.password && !ValidPassword}
+        htmlFor="outlined-adornment-password">Password</InputLabel>
+        <OutlinedInput
+          error={values.password && !ValidPassword}
+          id={values.password && !ValidPassword ? "outlined-basic" : "outlined-error"}
+          type={values.showPassword ? 'text' : 'password'}
+          value={values.password}
+          onChange={handleChange('password')}
+          label="Password"
+          helperText={values.password && !ValidPassword ? "Invalid Password!" : ""}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }   
+        />
+        {!!(values.password && !ValidPassword) && (
+            <FormHelperText error id="password-error">
+              {"Invalid Password!"}
+            </FormHelperText>
+          )}
+      </FormControl>
+      
+      <FormControl 
+      fullWidth
+      variant="outlined"
+      margin="dense"
+      >
+        <InputLabel
+        error={values.confirmpassword && !SamePassword} 
+        htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+        <OutlinedInput
+          error={values.confirmpassword && !SamePassword}
+          id={values.confirmpassword && !SamePassword ? "outlined-basic" : "outlined-error-helper-text"}
+          type={values.showPassword ? 'text' : 'password'}
+          value={values.confirmpassword}
+          helperText={values.confirmpassword && !SamePassword ? "Passwords do not match!" : ""}
+          onChange={handleChange('confirmpassword')}
+          label="Confirm Password"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>   
+          }
+        />
+        {!!(values.confirmpassword && !SamePassword) && (
+            <FormHelperText error id="confirmpassword-error">
+              {"Passwords do not match!"}
+            </FormHelperText>
+          )}
+      </FormControl>
+      
         <p>
           By Clicking Sign In you agree to Genc Football ,Privacy Policy and
           Cookie Policy
         </p>
 
-        <button className={classes.submit_button}
-          disabled={ValidEmail && ValidPassword && SamePassword ? false : true}
-          onClick={SubmitButtonHandler}
+        <Button
+        sx={{
+          backgroundColor: '#00FF77',
+          color: 'white',
+          '&:hover': {
+            backgroundColor:'#00CD60',
+          },
+          height: 45,
+        }}
+        fullWidth
+        type="submit"
+        disableElevation
+        variant="contained"
+        disabled={ValidEmail && ValidPassword ? false : true}
         >
           Sign Up
-        </button>
+        </Button>
       </form>
       <div className={classes.divider}>
         <hr></hr>

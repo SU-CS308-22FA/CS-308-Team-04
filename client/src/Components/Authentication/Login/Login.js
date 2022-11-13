@@ -105,7 +105,7 @@ const Login = (props) => {
         console.log(user_obj)
         
         console.log("user id is :", user_obj._id);
-        if (user_obj.password === password) {
+        if (user_obj.password === values.password) {
           localStorage.setItem('user', user_obj._id);
           navigate("/Profile", {
             state: {
@@ -123,7 +123,7 @@ const Login = (props) => {
 
     <Card>
       <img alt="" style={{ maxHeight: 80 }} src={navbarLogo}></img>
-      <form> 
+      <form onSubmit={loginHandler}> 
         <TextField
             error={email && !ValidEmail}
             fullWidth
@@ -134,16 +134,16 @@ const Login = (props) => {
             variant="outlined"
             autoComplete="off"
             onChange={EmailChangeHandler}
-            margin="normal"
+            margin="dense"
+            helperText={email && !ValidEmail ? "Invalid Email Type!" : ""}
           /> 
         <FormControl 
         fullWidth
         variant="outlined"
-        margin="normal"
+        margin="dense"
         >
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
-            
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
@@ -164,14 +164,22 @@ const Login = (props) => {
           />
         </FormControl>
         
-        <Button 
-        fullWidth
-        margin="normal"
-        onClick={() => {
-          loginHandler()
+        <Button
+        sx={{
+          backgroundColor: '#00FF77',
+          color: 'white',
+          '&:hover': {
+            backgroundColor:'#00CD60',
+          },
+          marginTop: 1,
+          marginBottom: 1,
+          height: 45,
         }}
+        fullWidth
+        type="submit"
         disableElevation
         variant="contained"
+        disabled={ValidEmail ? false : true}
         >
           Log In
         </Button>
