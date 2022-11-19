@@ -43,12 +43,7 @@ const SignUp = () => {
 
   const [values, setValues] = React.useState({
     amount: '',
-    password: '',
-    confirmpassword: '',
-    weight: '',
-    weightRange: '',
     showPassword: false,
-    errormsg: '',
   });
 
   const handleChange = (prop) => (event) => {
@@ -82,17 +77,15 @@ const SignUp = () => {
   }, [email, ValidEmail]);
 
   useEffect(() => {
-    const result = PWS_REGEX.test(values.password);
+    const result = PWS_REGEX.test(password);
     console.log(result);
-    console.log("Password is: ", values.password);
-    console.log("REPassword is: ", values.confirmpassword);
     setValidPassword(result);
-    const match = values.password === values.confirmpassword;
+    const match = password === rePassword;
     setSamePassword(match);
     if (match) {
       console.log("Yes passwords are  matched");
     }
-  }, [values.password, values.confirmpassword]);
+  }, [password, rePassword]);
 
   useEffect(() => {
     setErrMsg("");
@@ -177,8 +170,8 @@ const SignUp = () => {
           error={values.password && !ValidPassword}
           id={values.password && !ValidPassword ? "outlined-basic" : "outlined-error"}
           type={values.showPassword ? 'text' : 'password'}
-          value={values.password}
-          onChange={handleChange('password')}
+          value={password}
+          onChange={PasswordChangeHandler}
           label="Password"
           helperText={values.password && !ValidPassword ? "Invalid Password!" : ""}
           endAdornment={
@@ -213,9 +206,9 @@ const SignUp = () => {
           error={values.confirmpassword && !SamePassword}
           id={values.confirmpassword && !SamePassword ? "outlined-basic" : "outlined-error-helper-text"}
           type={values.showPassword ? 'text' : 'password'}
-          value={values.confirmpassword}
+          value={rePassword}
           helperText={values.confirmpassword && !SamePassword ? "Passwords do not match!" : ""}
-          onChange={handleChange('confirmpassword')}
+          onChange={RePasswordChangeHandler}
           label="Confirm Password"
           endAdornment={
             <InputAdornment position="end">
@@ -255,7 +248,7 @@ const SignUp = () => {
         type="submit"
         disableElevation
         variant="contained"
-        disabled={ValidEmail && ValidPassword ? false : true}
+        disabled={ValidEmail && ValidPassword && SamePassword ? false : true}
         >
           Sign Up
         </Button>
