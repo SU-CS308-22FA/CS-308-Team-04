@@ -22,18 +22,26 @@ export default function Navbar(props) {
     navigate("/Login")
   }
 
+  const FeedPageHandler = () => {
+    const user_id = localStorage.getItem("user");
+    navigate("/Feed",{
+      state : {
+        user_id : user_id
+      },
+    });
+
+    return;
+  }
  return (
    <div className= {classes.div}>
      <nav className={classes.navbar}>
        <NavLink to="/">
        <img alt="" style={{"maxHeight" : 50, "margin" : 0}} src={navbarLogo}></img>
        </NavLink>
-       <NavLink to="/Feed">
-        <p className={classes.title}>Feed</p>
-       </NavLink>
+       <button className={classes.title} style={{'padding':'0', 'border':'0', 'backgroundColor': 'white'}} onClick = {FeedPageHandler}>Feed
+       </button>
        <button className={classes.title} style={{'padding':'0', 'border':'0', 'backgroundColor': 'white'}} onClick={logoutHandler}>Logout
        </button>
-       
        <NavLink to="/Profile">
         <p className={classes.title}>Profile</p>
        </NavLink>
