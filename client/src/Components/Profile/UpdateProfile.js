@@ -11,6 +11,12 @@ import "./UpdateProfile.css"
 import navbarLogo from "../../images/logo_light.png";
 import classes from "./UpdateProfile.css";
 import Card from "../UI/Card/Card";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { matchIsValidTel } from 'mui-tel-input'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const UpdateProfile = (props) => {
 
@@ -26,8 +32,12 @@ const UpdateProfile = (props) => {
         name: userInfo.name,
         surname: userInfo.surname,
         mobile_number: userInfo.mobile_number,
-        birth_date:  new Date(userInfo.birth_date)
+        birth_date:  userInfo.birth_date
       });
+    
+    const handleChange = (prop) => (event) => {
+      setUpdatedUserInfo({ ...userInfo, [prop]: event.target.value });
+    };  
 
     const buttonCancelHandler = (event) =>
     {
@@ -70,77 +80,114 @@ const UpdateProfile = (props) => {
         </div>
         <Card>
             <form>
-            <div className={classes.form_field}>
-                <label htmlFor="username">Username</label>
-                <input
+              <TextField
+                  fullWidth
+                  size="medium"
                   type="text"
-                  name="username"
-                  id="username"
-                  required
-                  onChange={(event) =>
-                    setUpdatedUserInfo({ ...userUpdatedInfo, username: event.target.value })
-                  }
+                  id="outlined-basic"
+                  label="Username"
+                  variant="outlined"
+                  autoComplete="off"
+                  onChange={handleChange('username')}
+                  margin="normal"
                   value={userUpdatedInfo.username}
                 />
-              </div>
-              <div className={classes.form_field}>
-                <label htmlFor="name">Name</label>
-                <input
+              <TextField
+                  fullWidth
+                  size="medium"
                   type="text"
-                  name="name"
-                  id="name"
-                  required
-                  onChange={(event) =>
-                    setUpdatedUserInfo({ ...userUpdatedInfo, name: event.target.value })
-                  }
+                  id="outlined-basic"
+                  label="Name"
+                  variant="outlined"
+                  autoComplete="off"
+                  onChange={handleChange('name')}
+                  margin="normal"
                   value={userUpdatedInfo.name}
+                /> 
+          <TextField
+                fullWidth
+                size="medium"
+                type="text"
+                id="outlined-basic"
+                label="Last Name"
+                variant="outlined"
+                autoComplete="off"
+                onChange={handleChange('surname')}
+                margin="normal"
+                value={userUpdatedInfo.surname}
+              />
+            <TextField
+                error={!matchIsValidTel(userUpdatedInfo.mobile_number) && userUpdatedInfo.mobile_number}
+                forceCallingCode="true"
+                focusOnSelectCountry="true"
+                fullWidth
+                size="medium"
+                id={matchIsValidTel(userUpdatedInfo.mobile_number) ? "outlined-basic" : "outlined-error-helper-text"}
+                label="Mobile Number"
+                placeholder="+1-123-456-7890"
+                variant="outlined"
+                value={userUpdatedInfo.mobile_number}
+                autoComplete="off"
+                onChange={handleChange('mobile_number')}
+                margin="normal"
+                helperText={!matchIsValidTel(userUpdatedInfo.mobile_number) && userUpdatedInfo.mobile_number ? "Please enter your number in the correct format!" : ""}
+              /> 
+              <LocalizationProvider 
+                fullWidth
+                dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  size="medium"
+                  openTo="year"
+                  views={['year', 'month', 'day']}
+                  label="Birth Date"
+                  inputFormat="DD/MM/YYYY"
+                  value={userInfo.birth_date}
+                  onChange={(newValue) => {setUpdatedUserInfo({...userUpdatedInfo, birth_date: newValue})}}
+                  renderInput={(params) => <TextField fullWidth margin="normal" {...params} />}
                 />
-              </div>
-              <div className={classes.form_field}>
-                <label htmlFor="surname">Last Name</label>
-                <input
-                  type="text"
-                  name="surname"
-                  id="surname"
-                  required
-                  onChange={(event) =>
-                    setUpdatedUserInfo({ ...userUpdatedInfo, surname: event.target.value })
-                  }
-                  value={userUpdatedInfo.surname}
-                />
-              </div>
-              <div className={classes.form_field}>
-                <label htmlFor="mobile_number">Mobile Number</label>
-                <input
-                  type="text"
-                  name="mobile_number"
-                  id="mobile_number"
-                  onChange={(event) =>
-                    setUpdatedUserInfo({ ...userUpdatedInfo, mobile_number: event.target.value })
-                  }
-                  value={userUpdatedInfo.mobile_number}
-                  required
-                />
-              </div>
-              <div className={classes.form_field}>
-                <label htmlFor="birth_date">Birth Date</label>
-                <input
-                  type="date"
-                  name="birth_date"
-                  id="birth_date"
-                  required
-                  onChange={(event) =>
-                      setUpdatedUserInfo({ ...userUpdatedInfo, birth_date: new Date(event.target.value) })
-                  }
-                  value={moment(userUpdatedInfo.birth_date).format("yyyy-MM-DD")}
-                />
-              </div>
-              <div className={classes.buttons}>
-              <button
-                className="button" type="submit" onClick={buttonUpdateHandler}>Save </button>
-              <button
-              className="button" onClick={buttonCancelHandler}>Back</button>
-              </div>
+            </LocalizationProvider> 
+            <Button
+              sx={{
+                backgroundColor: '#00FF77',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor:'#00CD60',
+                  boxShadow:2,
+                },
+                height: 45,
+                marginTop:1,
+                marginRight:1.98,
+                boxShadow:4,
+                width:9/20,
+              }}
+              onClick={buttonUpdateHandler}
+              disableElevation
+              variant="contained"
+              disabled={matchIsValidTel(userUpdatedInfo.mobile_number) && userUpdatedInfo.username && userUpdatedInfo.name && userUpdatedInfo.surname ? false : true}
+              >
+              Save
+            </Button>
+            <Button
+              sx={{
+                backgroundColor: '#00FF77',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor:'#00CD60',
+                  boxShadow:2,
+                },
+                height: 45,
+                marginTop:1,
+                marginLeft:2,
+                boxShadow:4,
+                width:9/20,
+              }}
+              onClick={buttonCancelHandler}
+              disableElevation
+              variant="contained"
+              disabled={matchIsValidTel(userUpdatedInfo.mobile_number) && userUpdatedInfo.username && userUpdatedInfo.name && userUpdatedInfo.surname ? false : true}
+              >
+              Cancel
+            </Button>
             </form>
         </Card>
       </div>

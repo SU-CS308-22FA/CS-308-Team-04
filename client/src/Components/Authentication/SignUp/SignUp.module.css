@@ -13,7 +13,8 @@
 }
 
 p {
-    font-size: 12px;
+    font-size: 83%;
+    margin-top: 2%;
 }
 
 .submit_button {
@@ -94,6 +95,7 @@ hr {
     margin-top: 10px;
     border: 1px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.16);
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 .media_button p {
@@ -113,4 +115,8 @@ img {
     display: flex;
     max-height: 80px;
     margin-bottom: 10%;
+}
+
+.media_button:hover{
+    box-shadow: 0 3px 9px rgba(0,0,0,0.3);
 }

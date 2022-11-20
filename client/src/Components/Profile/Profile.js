@@ -80,7 +80,7 @@ const Profile = (props) => {
   };
   return (
     <>
-      <Navbar className="Navbar"/>
+      <Navbar className="Navbar" user={userInfo}/>
       <Card className={classes.profile_bar}>
         <div className={classes.profile_img_divider}>
           <img

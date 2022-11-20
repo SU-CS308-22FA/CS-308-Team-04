@@ -9,7 +9,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./SignUpSecondPage.module.css";
 import Card from "../../UI/Card/Card";
 import navbarLogo from "../../../images/logo_light.png";
-var moment = require("moment");
+import TextField from '@mui/material/TextField';
+import dayjs from 'dayjs';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { matchIsValidTel } from 'mui-tel-input'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 
 const Profile = (props) => {
   const navigate = useNavigate();
@@ -23,12 +34,20 @@ const Profile = (props) => {
     name: "",
     surname: "",
     mobile_number: "",
-    birth_date: new Date(Date.now()),
+    birth_date: null,
+    profiletype: "",
   });
+
 
   const [saveClick, setSaveClick] = useState({
     disabled : false
   });
+
+
+  const handleChange = (prop) => (event) => {
+    setUserInfo({ ...userInfo, [prop]: event.target.value });
+  };
+
 
   const isUserExists = async (email) => {
     let response = await fetch(
@@ -94,99 +113,108 @@ const Profile = (props) => {
       </div>
       <h1>Let's prepare your profile</h1>
       <Card>
-        <form>
-          <div className={classes.input_field}>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              required
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, username: event.target.value })
-              }
-              value={userInfo.username}
-            />
-          </div>
-          <div className={classes.input_field}>
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, name: event.target.value })
-              }
-              value={userInfo.name}
-            />
-          </div>
-          <div className={classes.input_field}>
-            <label htmlFor="surname">Last Name</label>
-            <input
-              type="text"
-              name="surname"
-              id="surname"
-              required
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, surname: event.target.value })
-              }
-              value={userInfo.surname}
-            />
-          </div>
-          <div className={classes.input_field}>
-            <label htmlFor="mobile_number">Mobile Number</label>
-            <input
-              type="text"
-              name="mobile_number"
-              id="mobile_number"
-              onChange={(event) =>
-                setUserInfo({
-                  ...userInfo,
-                  mobile_number: event.target.value,
-                })
-              }
-              value={userInfo.mobile_number}
-              required
-            />
-          </div>
-          <div className={classes.input_field}>
-            <label htmlFor="birth_date">Birth Date</label>
-            <input
-              type="date"
-              name="birth_date"
-              id="birth_date"
-              required
-              onChange={(event) =>
-                setUserInfo({
-                  ...userInfo,
-                  birth_date: new Date(event.target.value),
-                })
-              }
-              value={moment(userInfo.birth_date).format("yyyy-MM-DD")}
-            />
-          </div>
-          <div className={classes.input_field}>
-            <label htmlFor="profile_type">Profile Type</label>
-            <select
-              id="profile_type"
-              onChange={(event) =>
-                setUserInfo({ ...userInfo, profile_type: "Personal" })
-              }
-            >
-              <option value="trainer">Trainer</option>
-              <option value="scout">Scout</option>
-              <option value="personal">Personal</option>
-            </select>
-          </div>
-          <button
-            className={classes.submit_button}
+      <form onSubmit={buttonSaveHandler}>
+          <TextField
+                fullWidth
+                size="medium"
+                type="text"
+                id="outlined-basic"
+                label="Username"
+                variant="outlined"
+                autoComplete="off"
+                onChange={handleChange('username')}
+                margin="normal"
+                value={userInfo.username}
+              /> 
+          <TextField
+                fullWidth
+                size="medium"
+                type="text"
+                id="outlined-basic"
+                label="Name"
+                variant="outlined"
+                autoComplete="off"
+                onChange={handleChange('name')}
+                margin="normal"
+                value={userInfo.name}
+              /> 
+          <TextField
+                fullWidth
+                size="medium"
+                type="text"
+                id="outlined-basic"
+                label="Last Name"
+                variant="outlined"
+                autoComplete="off"
+                onChange={handleChange('surname')}
+                margin="normal"
+                value={userInfo.surname}
+              /> 
+          <TextField
+                error={!matchIsValidTel(userInfo.mobile_number) && userInfo.mobile_number}
+                forceCallingCode="true"
+                focusOnSelectCountry="true"
+                fullWidth
+                size="medium"
+                id={matchIsValidTel(userInfo.mobile_number) ? "outlined-basic" : "outlined-error-helper-text"}
+                label="Mobile Number"
+                placeholder="+1-123-456-7890"
+                variant="outlined"
+                value={userInfo.mobile_number}
+                autoComplete="off"
+                onChange={handleChange('mobile_number')}
+                margin="normal"
+                helperText={!matchIsValidTel(userInfo.mobile_number) && userInfo.mobile_number ? "Please enter your number in the correct format!" : ""}
+              /> 
+            <LocalizationProvider 
+            fullWidth
+            dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                size="medium"
+                openTo="year"
+                views={['year', 'month', 'day']}
+                label="Birth Date"
+                inputFormat="DD/MM/YYYY"
+                value={userInfo.birth_date}
+                onChange={(newValue) => {setUserInfo({...userInfo, birth_date: newValue})}}
+                renderInput={(params) => <TextField fullWidth margin="normal" {...params} />}
+              />
+            </LocalizationProvider>
+
+            <FormControl fullWidth
+             margin="normal">
+            <InputLabel id="demo-simple-select-label">Profile Type</InputLabel>
+              <Select
+                  id="outlined-select-profile"
+                  label="Profile Type"
+                  value={userInfo.profileType}
+                  onChange={handleChange('profiletype')}
+                >
+                  <MenuItem value={"trainer"}>Trainer</MenuItem>
+                  <MenuItem value={"scout"}>Scout</MenuItem>
+                  <MenuItem value={"personal"}>Personal</MenuItem>
+              </Select> 
+            </FormControl>
+            <Button
+            sx={{
+              backgroundColor: '#00FF77',
+              color: 'white',
+              '&:hover': {
+                backgroundColor:'#00CD60',
+                boxShadow:2,
+              },
+              height: 45,
+              marginTop:1,
+              boxShadow:4,
+            }}
+            fullWidth
             type="submit"
-            value="Save"
-            onClick={buttonSaveHandler}
-            disabled={saveClick.disabled}>
-              {saveClick.disabled ? 'Saving...' : 'Save Profile'}
-          </button>
+            disableElevation
+            variant="contained"
+            disabled={matchIsValidTel(userInfo.mobile_number) && userInfo.username && userInfo.name && userInfo.surname && userInfo.profiletype ? false : true}
+            >
+              Save
+            </Button>
         </form>
       </Card>
     </>
