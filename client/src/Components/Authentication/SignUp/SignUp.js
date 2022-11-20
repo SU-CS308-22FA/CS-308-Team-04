@@ -70,8 +70,8 @@ const SignUp = () => {
 
   const isUserExists = async (email) => {
     let response = await fetch(
-      //`https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
-      `/GencFootball/users/${email}`
+      `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
+      //`/GencFootball/users/${email}`
       );
       
     console.log(response);
