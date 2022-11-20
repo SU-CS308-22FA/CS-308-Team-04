@@ -1,4 +1,10 @@
-import React from "react";
+import React, {
+  //useRef,
+  useState,
+  useEffect,
+  //useReducer,
+  //useContext,
+} from "react";
 import navbarLogo from "../../images/logo_dark.png";
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -21,10 +27,9 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-
+import { Link, useNavigate, useLocation } from "react-router-dom";
 /*In the navbar.js component, we will create a navigation bar
  that will link us to the required components using the following code. */
-
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
  
@@ -74,24 +79,130 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // Here, we display our Navbar
 export default function Navbar(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  
+  const isMenuOpen = Boolean(anchorEl);
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const [userInfo, setUserInfo] = useState({
+    _id: "",
+    email: "",
+    password: "",
+    username: "",
+    name: "",
+    surname: "",
+    mobile_number: "",
+    birth_date: "",
+  });
+
+  useEffect(() => {
+    setUserInfo(props.user);
+  })
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const logoutHandler = () => {
     localStorage.removeItem('user');
     navigate("/Login")
   }
 
-  const FeedPageHandler = () => {
-    const user_id = localStorage.getItem("user");
-    navigate("/Feed",{
-      state : {
-        user_id : user_id
+  const settingsHandler = () => {
+    window.alert("WIP")
+  }
+
+  const profileHandler = (event) => {
+    event.preventDefault();
+    navigate("/Profile", {
+      state: {
+        user_id: userInfo._id,
       },
     });
+  };
 
-    return;
+  const updateHandler = (event) => {
+    event.preventDefault();
+    navigate("/UpdateProfile", {
+      state: {
+        userInfo: userInfo,
+      },
+    });
+  };
+
+  const feedHandler = () => {
+    navigate("/Feed", {
+      state: {
+        user_id: userInfo._id,
+      },
+    });
   }
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+    anchorEl={anchorEl}
+    id="account-menu"
+    open={isMenuOpen}
+    onClose={handleMenuClose}
+    onClick={handleMenuClose}
+    PaperProps={{
+      elevation: 0,
+      sx: {
+        overflow: 'visible',
+        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+        mt: 1.5,
+        '& .MuiAvatar-root': {
+          width: 32,
+          height: 32,
+          ml: -0.5,
+          mr: 1,
+        },
+        '&:before': {
+          content: '""',
+          display: 'block',
+          position: 'absolute',
+          top: 0,
+          right: 14,
+          width: 10,
+          height: 10,
+          bgcolor: 'background.paper',
+          transform: 'translateY(-50%) rotate(45deg)',
+          zIndex: 0,
+        },
+      },
+    }}
+    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+  >
+      <MenuItem onClick={profileHandler}>
+          <Avatar /> Profile
+        </MenuItem>
+        <MenuItem onClick={updateHandler}>
+          <Avatar /> Update Account
+        </MenuItem>
+        <Divider color="gray" />
+        <MenuItem onClick={settingsHandler}>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem onClick={logoutHandler}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+    </Menu>
+  );
+
+  
  return (
   <Box sx={{ 
     flexGrow: 1}}>
@@ -106,11 +217,13 @@ export default function Navbar(props) {
       >
         <MenuIcon />
       </IconButton>
-      <img alt="" style={{
+      <button
+      onClick={feedHandler}
+      >
+        <img style={{
         "maxHeight" : 40, 
-        "marginBottom" : 4, 
-        
-        }} src={navbarLogo}></img>
+        "marginBottom" : 4, }} alt="" src={navbarLogo}></img>
+      </button>
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
