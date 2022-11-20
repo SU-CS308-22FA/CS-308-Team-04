@@ -73,81 +73,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 // Here, we display our Navbar
-export default function Navbar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function Navbar(props) {
 
-  const isMenuOpen = Boolean(anchorEl);
+  let navigate = useNavigate();
 
+  const logoutHandler = () => {
+    localStorage.removeItem('user');
+    navigate("/Login")
+  }
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-    anchorEl={anchorEl}
-    id="account-menu"
-    open={isMenuOpen}
-    onClose={handleMenuClose}
-    onClick={handleMenuClose}
-    PaperProps={{
-      elevation: 0,
-      sx: {
-        overflow: 'visible',
-        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-        mt: 1.5,
-        '& .MuiAvatar-root': {
-          width: 32,
-          height: 32,
-          ml: -0.5,
-          mr: 1,
-        },
-        '&:before': {
-          content: '""',
-          display: 'block',
-          position: 'absolute',
-          top: 0,
-          right: 14,
-          width: 10,
-          height: 10,
-          bgcolor: 'background.paper',
-          transform: 'translateY(-50%) rotate(45deg)',
-          zIndex: 0,
-        },
+  const FeedPageHandler = () => {
+    const user_id = localStorage.getItem("user");
+    navigate("/Feed",{
+      state : {
+        user_id : user_id
       },
-    }}
-    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-  >
-      <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> Update Account
-        </MenuItem>
-        <Divider color="gray" />
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-    </Menu>
-  );
+    });
 
-
+    return;
+  }
  return (
   <Box sx={{ 
     flexGrow: 1}}>

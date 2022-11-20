@@ -50,7 +50,10 @@ const Profile = (props) => {
 
 
   const isUserExists = async (email) => {
-    let response = await fetch(`https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`);
+    let response = await fetch(
+      `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
+      //`/GencFootball/users/${email}`
+      );
       
     console.log(response);
     if (!response.ok) {
@@ -78,7 +81,9 @@ const Profile = (props) => {
         if(!isExists)
         {
           fetch(
-            "https://genc-football-backend.herokuapp.com/GencFootball/user/add",
+            "https://genc-football-backend.herokuapp.com/GencFootball/user/add"
+            //"/GencFootball/user/add"
+            ,
             {
               method: "POST",
               headers: {

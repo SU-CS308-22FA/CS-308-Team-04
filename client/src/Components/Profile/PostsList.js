@@ -1,6 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import Card from "../UI/Card/Card";
 import classes from "./PostsList.module.css";
 const PostsList = (props) => {
+
+  let navigate = useNavigate();
+
+  const SendProfileHandler = (user_id) => {
+
+      console.log(user_id);
+      navigate("/Profile",{
+        state: {
+        user_id : user_id
+        },
+      });
+  }
   return (
     <div className={classes.PostsList}>
       {props.list.map((element) => (
@@ -12,7 +25,7 @@ const PostsList = (props) => {
           />
           <div className={classes.post_info}>
 
-              <p className={classes.post_info_text}>@{element.username}</p>
+              <button className={classes.post_info_button}  onClick= {() => SendProfileHandler(element.user_id)}>@{element.username}</button>
               <p className={classes.post_info_text}>{element.post_message}</p>
 
             <div className={classes.react_buttons_div}>
