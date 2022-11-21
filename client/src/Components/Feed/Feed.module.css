@@ -1,0 +1,16 @@
+
+.body {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    height: 80%;
+    border-radius: 3px;
+  }
+
+.posts {
+    width: 70%;
+   height: 90%;
+   border-radius: 3px;
+  }
+
+  

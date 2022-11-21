@@ -1,0 +1,64 @@
+.post_img {
+    max-height: 100%;
+    max-width: 100%;
+    display: flex;
+    margin-bottom: 10px; 
+  }
+
+.post_card{
+    display: flex;
+    flex-direction: column;
+    padding-left : 15px;
+    padding-right: 15px;
+    padding-top : 5px;
+    padding-bottom : 15px;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.post_info{
+    min-height: 80px;
+    width : 100%;
+}
+.post_info_text{
+    margin : 0px;
+
+}
+
+.PostsList {
+    width : 100%;
+    height : 100%;
+    overflow-y: auto;
+}
+.react_buttons_div {
+    display: flex;
+    align-items: center;
+}
+
+.react_buttons {
+    background-color:black;
+    color: white;
+    width : 10%;
+    padding: 0px;
+    margin : 0px;
+}
+
+.react_buttons_count {
+    margin: 0px;
+    margin-left: 8px;
+}
+
+.post_info_button{
+
+    margin: 0px;
+    padding: 0px;
+    border : 0;
+    background-color : white;
+    
+}
+
+.post_info_button:hover {
+
+    text-decoration: underline;
+    
+}
