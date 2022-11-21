@@ -111,7 +111,7 @@ label {
 
 .logo_div {
   display: flex;
+  position: relative;
   width: 65%;
-  margin-bottom: 2%;
-  margin-top: -13%;
+  margin-top: -8%;
 }

@@ -15,7 +15,7 @@ import PostsList from "./PostsList";
 const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [reload, setReload] = useState(0);
   let user_id = location.state ? location.state.user_id : localStorage.getItem('user');
 
   const [userInfo, setUserInfo] = useState({
@@ -71,7 +71,7 @@ const Profile = (props) => {
           {setFollowingCount(data.following_count)});
         
     return;
-  }, [user_id]);
+  }, [user_id, reload]);
 
   const FollowUserHandler = (event) => {
     event.preventDefault();
@@ -135,6 +135,22 @@ const Profile = (props) => {
     navigate("/Login");
   };
 
+  const sleep = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+
+  const deleteHandler = async () => {
+    await sleep(100)
+    if (reload == 1)
+    {
+      setReload(0)
+    }
+    else
+    {
+      setReload(1)
+    }
+  }
+
   const UpdateUserHandler = async (event) => {
     event.preventDefault();
     navigate("/UpdateProfile", {
@@ -145,7 +161,7 @@ const Profile = (props) => {
   };
   return (
     <>
-      <Navbar className="Navbar"/>
+      <Navbar className="Navbar" user={userInfo}/>
       <Card className={classes.profile_bar}>
         <div className={classes.profile_img_divider}>
           <img
@@ -184,7 +200,7 @@ const Profile = (props) => {
         <div className={classes.posts}>
           <div className={classes.post_title}>Your Posts:</div>
           {/*<div className={classes.post_content}></div>*/}
-          <PostsList list = {PostLists}></PostsList>
+          <PostsList onDelete={deleteHandler} list = {PostLists}></PostsList>
         </div>
 
         <div className={classes.right_bar}></div>
