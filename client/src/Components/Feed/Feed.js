@@ -97,7 +97,12 @@ const Feed = (props) => {
     setPageNum(PageNum + 1);
   };
 
-  const deleteHandler = () => {
+  const sleep = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+  
+  const deleteHandler = async () => {
+    await sleep(100)
     if (reload == 1)
     {
       setReload(0)

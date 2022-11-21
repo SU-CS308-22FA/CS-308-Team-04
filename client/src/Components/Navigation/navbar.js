@@ -217,7 +217,7 @@ export default function Navbar(props) {
       >
         <MenuIcon />
       </IconButton>
-      <button
+      <button style={{"border":"0px", "background-color": "inherit"}}
       onClick={feedHandler}
       >
         <img style={{

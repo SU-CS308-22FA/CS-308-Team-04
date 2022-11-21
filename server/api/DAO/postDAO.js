@@ -75,4 +75,30 @@ module.exports = class PostDAO{
         }
     }
 
+    static async updatePost(post_id, updated_post){
+        try{
+            const updateResponse = await Post.updateOne(
+
+                {_id : ObjectId(post_id)},
+                {$set : {
+                    user_id : ObjectId(updated_post.user_id),
+                    username : updated_post.username,
+                    post_message : updated_post.post_message,
+                    comments_list : updated_post.comments_list,
+                    comments_count : updated_post.comments_count,
+                    reactions_list : updated_post.reactions_list,
+                    share_count : updated_post.share_count,
+                    date : updated_post.date
+                }}
+            );
+
+            return updateResponse;
+        }
+        catch(e){
+            console.log("Unable to Update Review");
+            return {error:e};
+        }
+
+    }
+
 }
