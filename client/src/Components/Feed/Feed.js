@@ -11,10 +11,10 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 const Feed = (props) => {
   const [PostList, setPostList] = useState([]);
   const [PageNum, setPageNum] = useState(0);
+  const [reload, setReload] = useState(0);
   const [ButtonClicker, set_ButtonClicker] = useState(0);
   const encodedValue = encodeURIComponent(PageNum);
   const location = useLocation();
-
   let user_id = location.state
     ? location.state.user_id
     : localStorage.getItem("user");
@@ -86,7 +86,7 @@ const Feed = (props) => {
         setPostList(data.posts_list);
         //console.log(PostList)
       });
-  }, [ButtonClicker, PageNum]);
+  }, [ButtonClicker, PageNum, reload]);
 
   const PreviosPageHandler = (event) => {
     event.preventDefault();
@@ -97,13 +97,24 @@ const Feed = (props) => {
     setPageNum(PageNum + 1);
   };
 
+  const deleteHandler = () => {
+    if (reload == 1)
+    {
+      setReload(0)
+    }
+    else
+    {
+      setReload(1)
+    }
+  }
+
   return (
     <>
       <Navbar className="Navbar" user={userInfo} />
-      <AddPost onAddPost={AddPostHandler}></AddPost>
+      <AddPost  onAddPost={AddPostHandler}></AddPost>
       <div className={classes.body}>
         <div className={classes.posts}>
-          <PostsList list={PostList}></PostsList>
+          <PostsList onDelete={deleteHandler} list={PostList}></PostsList>
           <Button
             variant="contained"
             startIcon={<ArrowBackIcon />}

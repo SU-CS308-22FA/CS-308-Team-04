@@ -15,7 +15,7 @@ import PostsList from "./PostsList";
 const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [reload, setReload] = useState(0);
   let user_id = location.state ? location.state.user_id : localStorage.getItem('user');
 
   const [userInfo, setUserInfo] = useState({
@@ -54,7 +54,7 @@ const Profile = (props) => {
     }
     fetchData();
     return;
-  }, [user_id]);
+  }, [user_id, reload]);
 
   console.log(PostLists);
   const DeleteUserHandler = async (event) => {
@@ -69,6 +69,17 @@ const Profile = (props) => {
     window.alert("Your Account has been deleted");
     navigate("/Login");
   };
+
+  const deleteHandler = () => {
+    if (reload == 1)
+    {
+      setReload(0)
+    }
+    else
+    {
+      setReload(1)
+    }
+  }
 
   const UpdateUserHandler = async (event) => {
     event.preventDefault();
@@ -113,7 +124,7 @@ const Profile = (props) => {
         <div className={classes.posts}>
           <div className={classes.post_title}>Your Posts:</div>
           {/*<div className={classes.post_content}></div>*/}
-          <PostsList list = {PostLists}></PostsList>
+          <PostsList onDelete={deleteHandler} list = {PostLists}></PostsList>
         </div>
 
         <div className={classes.right_bar}></div>

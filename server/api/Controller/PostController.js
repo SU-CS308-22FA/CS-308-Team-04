@@ -54,9 +54,9 @@ module.exports = class UserController {
             console.log("hi");
             const user_id = req.query.user_id;
             const post_id = req.query.post_id;
-            //console.log({user_id,post_id});
+            console.log({user_id,post_id});
             const PostdbResponse = await PostDAO.deletePosts(user_id,post_id);
-            //console.log(PostdbResponse);
+            console.log(PostdbResponse);
             res.json({status : "success"});
             //console.log(PostdbResponse);
         }

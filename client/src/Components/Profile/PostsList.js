@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate} from "react-router-dom";
 import Card from "../UI/Card/Card";
 import classes from "./PostsList.module.css";
 const PostsList = (props) => {
 
   let navigate = useNavigate();
-
   const SendProfileHandler = (user_id) => {
 
       console.log(user_id);
@@ -13,15 +13,38 @@ const PostsList = (props) => {
         user_id : user_id
         },
       });
-  }
+  }  
+
+  const deletePostHandler = (element) => {
+    console.log(element.user_id, element._id);
+    const encodedValue1 = encodeURIComponent(element.user_id);
+    const encodedValue2 = encodeURIComponent(element._id);
+    fetch(
+      `https://genc-football-backend.herokuapp.com/GencFootball/posts/deleteposts?user_id=${encodedValue1}&post_id=${encodedValue2}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .catch((error) => {
+        window.alert(error);
+      })
+      .then((data) => {
+        console.log(data.json());
+        props.onDelete();
+      });
+  };
+
   return (
     <div className={classes.PostsList}>
       {props.list.map((element) => (
         <Card key={element._id} className={classes.post_card}>
           <img
             className={classes.post_img}
-            alt="ronaldosiu"
-            src="https://media.cnn.com/api/v1/images/stellar/prod/220119103641-ronaldo-siu-celebration.jpg"
+            alt="lorem picsum"
+            src={`https://picsum.photos/1000/450?random=${Math.floor(Math.random() * 20)}`}
           />
           <div className={classes.post_info}>
 
@@ -37,9 +60,13 @@ const PostsList = (props) => {
                 //element.reactions_list[0]
                 }
               </p>
+              <button onClick={ () => {deletePostHandler(element)}} className={classes.react_buttons}>Delete
+              </button>
               {/* TO ADD ALL THE REACTION ON A ARRAY DO THE SAME THING IN UPPER CODE */}
             </div>
+            
           </div>
+          
         </Card>
       ))}
     </div>
