@@ -81,7 +81,7 @@ module.exports = class PostDAO{
 
                 {_id : ObjectId(post_id)},
                 {$set : {
-                    user_id : updated_post.user_id,
+                    user_id : ObjectId(updated_post.user_id),
                     username : updated_post.username,
                     post_message : updated_post.post_message,
                     comments_list : updated_post.comments_list,
