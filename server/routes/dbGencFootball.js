@@ -1,6 +1,8 @@
 const express = require("express");
 const UserCtrl = require("../api/Controller/UserController.js")
 const PostCtrl = require("../api/Controller/PostController.js")
+const FollowCtrl = require("../api/Controller/FollowController.js");
+//const { addFollowerToOtherUserWithID } = require("../api/DAO/followerDAO.js");
 const router = express.Router();
 
 //router.route("/").get((req,res) => res.send("hello world"));
@@ -17,5 +19,14 @@ router.route("/user/userwithpost/:user_id").get(UserCtrl.apiGetUserWithPost);
 router.route("/posts/add").post(PostCtrl.apiPostPosts);
 router.route("/posts/getposts").get(PostCtrl.apiGetPosts);
 router.route("/posts/deleteposts").delete(PostCtrl.apiDeletePosts);
-module.exports = router;
 
+//ROUTERS OF FOLLOWER & FOLLOWING TABLE
+router.route("/follow/addFollower").put(FollowCtrl.apiAddFollowerAndUpdateCounts); // "/follow/addFollower/:user_id"
+router.route("/follow/removeFollower").put(FollowCtrl.apiRemoveFollowerAndUpdateCounts); // "/follow/removeFollower/:user_id"
+router.route("/follow/registerFollow").post(FollowCtrl.apiRegisterUserToFollowTable);
+router.route("/follow/unregisterFollow").delete(FollowCtrl.apiDeleteUserFromFollowTable); // "/follow/unregisterFollow/:user_id"
+router.route("/follow/getFollowerCount").get(FollowCtrl.apiReturnFollowerCount); // "/follow/getFollowerCount/:user_id"
+router.route("/follow/getFollowingCount").get(FollowCtrl.apiReturnFollowingCount); // "follow/getFollowingCount/:user_id"
+router.route("/follow/isFollowing").get(FollowCtrl.apiIsFollowing);
+
+module.exports = router;
