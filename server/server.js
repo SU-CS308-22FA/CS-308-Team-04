@@ -6,6 +6,8 @@ require("dotenv").config({ path: "./config.env" });
 const dbGencFootball= require("./routes/dbGencFootball.js");
 const UserDAO = require("./api/DAO/userDAO.js");
 const PostDAO = require("./api/DAO/postDAO.js");
+const FollowerDAO = require("./api/DAO/followerDAO.js");
+const FollowingDAO = require("./api/DAO/followingDAO.js");
 const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
@@ -36,6 +38,8 @@ MongoClient.connect(
 }).then(async client => {
     await PostDAO.injectDB(client),
     await UserDAO.injectDB(client),
+    await FollowerDAO.injectDB(client),
+    await FollowingDAO.injectDB(client),
     app.listen(port,() => {
         console.log("Listening on port ",port);
     })
