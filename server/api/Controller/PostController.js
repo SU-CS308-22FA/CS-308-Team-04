@@ -81,7 +81,7 @@ module.exports = class UserController {
                 date : new Date()
             };
             
-            const UserdbResponse = await UserDAO.updatePost(post_id,updated_post);
+            const UserdbResponse = await PostDAO.updatePost(post_id,updated_post);
             
             var {error} = UserdbResponse;
             
