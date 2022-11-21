@@ -64,4 +64,42 @@ module.exports = class UserController {
             res.status(500).json({error : e.message});
         }
     }
+
+    static async apiUpdatePost(req,res,next){
+
+        try{
+            
+            const post_id =req.params.post_id;
+            const updated_post = {
+                user_id : req.body.user_id,
+                username : req.body.username,
+                post_message : req.body.post_message,
+                comments_list : req.body.comments_list,
+                comments_count : req.body.comments_count,
+                reactions_list : req.body.reactions_list,
+                share_count : req.body.share_count,
+                date : new Date()
+            };
+            
+            const UserdbResponse = await UserDAO.updatePost(post_id,updated_post);
+            
+            var {error} = UserdbResponse;
+            
+            if(error) {
+                console.log(error);
+                res.status(400).json({error});
+            }
+
+            if(UserdbResponse.modifedCount ===0){
+
+                throw new Error("unable to update post - post may not be original poster");
+            }
+            console.log(UserdbResponse);
+            res.json({status : "success"});
+        }
+
+        catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    }
 }
