@@ -24,6 +24,7 @@ module.exports = class FollowController{
         await FollowingDAO.addNewEntry(followingEntry);
 
         res.json({status : "success"});
+        console.log(user_id);
         }
         catch(e){
 
@@ -104,7 +105,7 @@ module.exports = class FollowController{
 
     static async apiReturnFollowerCount(req,res,next){
         try{
-            const user_id= req.body.user_id;
+            const user_id= req.params.user_id;
             console.log(user_id); //
 
             const follow = await FollowerDAO.returnFollowerCountOfUserWithID(user_id);
@@ -118,7 +119,7 @@ module.exports = class FollowController{
 
     static async apiReturnFollowingCount(req,res,next){
         try{
-            const user_id= req.body.user_id;
+            const user_id= req.params.user_id;
             console.log(user_id); //
 
             const follow = await FollowingDAO.returnFollowingCountOfUserWithID(user_id);

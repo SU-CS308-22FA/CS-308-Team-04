@@ -16,6 +16,7 @@ const Profile = (props) => {
   const location = useLocation();
   let user_email = location.state.email;
   let user_password = location.state.password;
+  let userid = "";
   const [userInfo, setUserInfo] = useState({
     email: user_email,
     password: user_password,
@@ -76,6 +77,32 @@ const Profile = (props) => {
             window.alert(error);
             return;
           });
+          
+          fetch(
+            `https://genc-football-backend.herokuapp.com/GencFootball/users/${userInfo.email}`
+            //`/GencFootball/users/${userInfo.email}`
+            )
+        .then(response => response.json())
+        .then(data => {
+          userid = data._id;
+          console.log("creating registration for user id" + userid);
+          fetch(
+            "https://genc-football-backend.herokuapp.com/GencFootball/follow/registerFollow"
+            //"/GencFootball/follow/registerFollow"
+            ,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({user_id: userid}), // NEED USER ID
+            }
+          ).catch((error) => {
+            window.alert(error);
+            return;
+          });
+        });
+
           window.alert("Your account has been successfully created. Please login.");
           navigate("/Login");
         }

@@ -29,6 +29,9 @@ const Profile = (props) => {
     birth_date: "",
   });
 
+  const [follower_count,setFollowerCount] = useState("Placeholder");
+  const [following_count,setFollowingCount] = useState("Placeholder");
+
   const [PostLists,setPostListsFunction] = useState([]);
   useEffect(() => {
     async function fetchData() {
@@ -53,8 +56,70 @@ const Profile = (props) => {
       setPostListsFunction(user_fetch.posts);
     }
     fetchData();
+
+    fetch(
+      `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerCount/${user_id}`
+      //`/GencFootball/follow/getFollowerCount/${user_id}`
+      ).then(response => response.json())
+        .then(data => {setFollowerCount(data.follower_count)});
+
+    fetch(
+      `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingCount/${user_id}`
+      //`/GencFootball/follow/getFollowingCount/${user_id}`
+      ).then(response => response.json())
+        .then(data => 
+          {setFollowingCount(data.following_count)});
+        
     return;
   }, [user_id]);
+
+  const FollowUserHandler = (event) => {
+    event.preventDefault();
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            {
+              user_id : localStorage.getItem('user'),
+              other_user_id : user_id
+            }
+          )
+      };
+      fetch(
+        `https://genc-football-backend.herokuapp.com/GencFootball/follow/addFollower`
+        //`/GencFootball/follow/addFollower`
+        , requestOptions
+        )
+      .catch(err => {
+        console.log("Caught error",err);
+      })
+      .then(response => response.json());
+      setFollowerCount(follower_count+1);
+  }
+
+  const UnfollowUserHandler = (event) => {
+    event.preventDefault();
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            {
+              user_id : localStorage.getItem('user'),
+              other_user_id : user_id
+            }
+          )
+      };
+      fetch(
+        `https://genc-football-backend.herokuapp.com/GencFootball/follow/removeFollower`
+        //`/GencFootball/follow/removeFollower`
+        , requestOptions
+        )
+      .catch(err => {
+        console.log("Caught error",err);
+      })
+      .then(response => response.json());
+      setFollowerCount(follower_count-1);
+  }
 
   console.log(PostLists);
   const DeleteUserHandler = async (event) => {
@@ -95,17 +160,23 @@ const Profile = (props) => {
             <h2 className={classes.h2}>@{userInfo.username}</h2>
           </div>
         </div>
+        <button className={classes.button} onClick={FollowUserHandler}>
+          Follow
+        </button>
+        <button className={classes.button} onClick={UnfollowUserHandler}>
+          Unfollow
+        </button>
         <div className={classes.profile_counts}>
           <div
             className={classes.following_div}
             style={{ "paddingRight": "10px" }}
           >
             <h2 className={classes.h2}>Followers</h2>
-            <p>31</p>
+            <p>{follower_count}</p>
           </div>
           <div className={classes.following_div}>
             <h2 className={classes.h2}>Following</h2>
-            <p>69</p>
+            <p>{following_count}</p>
           </div>
         </div>
       </Card>
