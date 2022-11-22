@@ -23,12 +23,12 @@ module.exports = class FollowController{
         await FollowerDAO.addNewEntry(followerEntry);
         await FollowingDAO.addNewEntry(followingEntry);
 
-        res.json({status : "success"});
-        console.log(user_id);
+        //res.json({status : "success"});
+        console.log(user_id, success);
         }
         catch(e){
-
-            res.status(500).json({error: e.message});
+            console.log(e.message)
+            //res.status(500).json({error: e.message});
             return
         }
     }
