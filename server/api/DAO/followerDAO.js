@@ -48,10 +48,11 @@ module.exports =  class FollowerDAO{
     }
 
     static async addFollowerToOtherUserWithID(user_id, other_user_id) {
+        let encoded1 = ObjectId(other_user_id); 
         try{
 
             await Follower.update(
-                {user_id: ObjectId(other_user_id)},
+                {user_id: encoded1},
                 {$addToSet: { "follower_list": ObjectId(user_id) },
                 $inc : {
                     follower_count: 1,

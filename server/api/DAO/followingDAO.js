@@ -70,10 +70,11 @@ module.exports =  class FollowingDAO{
     }
 
     static async addFollowingToUserWithID(user_id, other_user_id){
+        let encoded1 = ObjectId(user_id); 
         try{
 
             await Following.update(
-                {user_id: ObjectId(user_id)},
+                {user_id: encoded1},
                 {$addToSet: { "following_list": ObjectId(other_user_id) }, // BU DORU GİBİ
                 $inc : {
                     following_count: 1 // OLDU
