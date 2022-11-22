@@ -140,7 +140,7 @@ const UpdateProfile = (props) => {
                   views={['year', 'month', 'day']}
                   label="Birth Date"
                   inputFormat="DD/MM/YYYY"
-                  value={userInfo.birth_date}
+                  value={userUpdatedInfo.birth_date}
                   onChange={(newValue) => {setUpdatedUserInfo({...userUpdatedInfo, birth_date: newValue})}}
                   renderInput={(params) => <TextField fullWidth margin="normal" {...params} />}
                 />

@@ -51,7 +51,7 @@ module.exports =  class FollowerDAO{
         let encoded1 = ObjectId(other_user_id); 
         try{
 
-            await Follower.update(
+            await Follower.updateOne(
                 {user_id: encoded1},
                 {$addToSet: { "follower_list": ObjectId(user_id) },
                 $inc : {

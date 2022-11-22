@@ -20,11 +20,11 @@ module.exports = class FollowController{
                 following_list : []
             }
 
-        await FollowerDAO.addNewEntry(followerEntry);
-        await FollowingDAO.addNewEntry(followingEntry);
+        const FollowdbResponse = await FollowerDAO.addNewEntry(followerEntry);
+        const FollowingResponse = await FollowingDAO.addNewEntry(followingEntry);
 
         //res.json({status : "success"});
-        console.log(user_id, success);
+        console.log(rq.body.user_id, success);
         }
         catch(e){
             console.log(e.message)
