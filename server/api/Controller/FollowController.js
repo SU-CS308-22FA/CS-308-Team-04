@@ -29,6 +29,7 @@ module.exports = class FollowController{
         catch(e){
 
             res.status(500).json({error: e.message});
+            return
         }
     }
 
