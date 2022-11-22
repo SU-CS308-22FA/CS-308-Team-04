@@ -6,7 +6,6 @@ import React, {
     //useContext,
   } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import moment from "moment";
 import "./UpdateProfile.css"
 import navbarLogo from "../../images/logo_light.png";
 import classes from "./UpdateProfile.css";

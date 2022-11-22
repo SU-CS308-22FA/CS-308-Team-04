@@ -24,6 +24,7 @@ module.exports =  class FollowingDAO{
     }
 
     static async addNewEntry(entry) {
+        entry.user_id = ObjectId(entry.user_id); 
         try{
 
             return await Following.insertOne(entry);    

@@ -24,6 +24,7 @@ module.exports =  class FollowerDAO{
     }
 
     static async addNewEntry(entry) {
+        entry.user_id = ObjectId(entry.user_id); 
         try{
 
             return await Follower.insertOne(entry);    
@@ -53,7 +54,7 @@ module.exports =  class FollowerDAO{
                 {user_id: ObjectId(other_user_id)},
                 {$addToSet: { "follower_list": ObjectId(user_id) },
                 $inc : {
-                    follower_count: 1
+                    follower_count: 1,
                 } }
             );
         }

@@ -71,7 +71,7 @@ const Feed = (props) => {
       console.log(user_fetch);
     }
     fetchData();
-  }, []);
+  },[user_id]);
 
   useEffect(() => {
     fetch(
@@ -86,7 +86,7 @@ const Feed = (props) => {
         setPostList(data.posts_list);
         //console.log(PostList)
       });
-  }, [ButtonClicker, PageNum, reload]);
+  }, [ButtonClicker, PageNum, reload, encodedValue]);
 
   const PreviosPageHandler = (event) => {
     event.preventDefault();
@@ -103,7 +103,7 @@ const Feed = (props) => {
   
   const deleteHandler = async () => {
     await sleep(100)
-    if (reload == 1)
+    if (reload === 1)
     {
       setReload(0)
     }

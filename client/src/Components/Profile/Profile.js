@@ -141,7 +141,7 @@ const Profile = (props) => {
 
   const deleteHandler = async () => {
     await sleep(100)
-    if (reload == 1)
+    if (reload === 1)
     {
       setReload(0)
     }

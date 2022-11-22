@@ -42,7 +42,7 @@
 .post_info_right {
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .post_info_text{

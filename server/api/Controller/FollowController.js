@@ -9,13 +9,13 @@ module.exports = class FollowController{
     static async apiRegisterUserToFollowTable(req,res,next) {
         try {
             const followerEntry = {
-                user_id : ObjectId(req.body.user_id),
+                user_id : req.body.user_id,
                 follower_count : 0,
                 follower_list : []
             }
 
             const followingEntry = {
-                user_id : ObjectId(req.body.user_id),
+                user_id : req.body.user_id,
                 following_count : 0,
                 following_list : []
             }

@@ -10,7 +10,7 @@ import classes from "./SignUpSecondPage.module.css";
 import Card from "../../UI/Card/Card";
 import navbarLogo from "../../../images/logo_light.png";
 import TextField from '@mui/material/TextField';
-import dayjs from 'dayjs';
+//import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -58,7 +58,7 @@ const Profile = (props) => {
       
     console.log(response);
     if (!response.ok) {
-      const message = `An error has occurred: ${response.statusText}`;
+      //const message = `An error has occurred: ${response.statusText}`;
       return null;
     }
     if (response.status === 404) {
