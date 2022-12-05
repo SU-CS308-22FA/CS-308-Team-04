@@ -17,7 +17,6 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.2",
     "dayjs": "^1.11.6",
-    "moment": "^2.29.4",
     "mui-tel-input": "^2.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,8 +25,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node --max_old_space_size=2560 node_modules/.bin/react-scripts start",
-    "build": "node --max_old_space_size=2560 node_modules/.bin/react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

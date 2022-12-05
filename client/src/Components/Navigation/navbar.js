@@ -11,7 +11,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+//import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -26,8 +26,8 @@ import Avatar from '@mui/material/Avatar';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import { Link, useNavigate, useLocation } from "react-router-dom";
+//import MoreIcon from '@mui/icons-material/MoreVert';
+import {useNavigate} from "react-router-dom";
 /*In the navbar.js component, we will create a navigation bar
  that will link us to the required components using the following code. */
 // We import bootstrap to make our application look better.
@@ -80,7 +80,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 // Here, we display our Navbar
 export default function Navbar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+  let currentUserId = localStorage.getItem('user');
   const isMenuOpen = Boolean(anchorEl);
 
   const navigate = useNavigate();
@@ -98,7 +98,7 @@ export default function Navbar(props) {
 
   useEffect(() => {
     setUserInfo(props.user);
-  })
+  },[props.user])
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -121,7 +121,7 @@ export default function Navbar(props) {
     event.preventDefault();
     navigate("/Profile", {
       state: {
-        user_id: userInfo._id,
+        user_id: currentUserId,
       },
     });
   };
@@ -217,7 +217,7 @@ export default function Navbar(props) {
       >
         <MenuIcon />
       </IconButton>
-      <button style={{"border":"0px", "background-color": "inherit"}}
+      <button style={{"border":"0px", "backgroundColor": "inherit"}}
       onClick={feedHandler}
       >
         <img style={{

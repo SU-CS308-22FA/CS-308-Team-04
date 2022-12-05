@@ -6,7 +6,6 @@ import React, {
     //useContext,
   } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import moment from "moment";
 import "./UpdateProfile.css"
 import navbarLogo from "../../images/logo_light.png";
 import classes from "./UpdateProfile.css";
@@ -141,7 +140,7 @@ const UpdateProfile = (props) => {
                   views={['year', 'month', 'day']}
                   label="Birth Date"
                   inputFormat="DD/MM/YYYY"
-                  value={userInfo.birth_date}
+                  value={userUpdatedInfo.birth_date}
                   onChange={(newValue) => {setUpdatedUserInfo({...userUpdatedInfo, birth_date: newValue})}}
                   renderInput={(params) => <TextField fullWidth margin="normal" {...params} />}
                 />

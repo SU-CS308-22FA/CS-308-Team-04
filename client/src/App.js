@@ -7,8 +7,8 @@ import Feed from "./Components/Feed/Feed";
 import UpdateProfile from "./Components/Profile/UpdateProfile";
 // We use Route in order to define the different routes of our application
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./Components/Navigation/navbar";
-import Card from "./Components/UI/Card/Card";
+//import Navbar from "./Components/Navigation/navbar";
+//import Card from "./Components/UI/Card/Card";
 import "./App.css";
 
 const App = () => {
