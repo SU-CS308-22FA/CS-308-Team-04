@@ -145,4 +145,18 @@ module.exports = class UserController{
             res.status(500).json({error : e.message});
         }
     }
+
+    static async apiIsUserPrivate(req,res,next){
+        try{
+            const user_id= req.params.user_id;
+            console.log(user_id);
+            const UserResponse = await UserDAO.isUserPrivate(user_id);
+            res.json(UserResponse);
+
+            console.log(UserResponse);
+        }
+        catch(e) {
+            res.status(500).json({error : e.message});
+        }
+    }
 }

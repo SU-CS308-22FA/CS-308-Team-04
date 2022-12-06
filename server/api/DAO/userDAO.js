@@ -145,4 +145,24 @@ module.exports =  class UserDAO{
                 return {error:e};
             }
         }
+
+        static async isUserPrivate(user_id){
+            
+            try{
+                return await User.findOne({
+                    _id : ObjectId(user_id),
+                    isPrivate: true
+                  },
+                  {projection:
+                    {isPrivate: 1,
+                    _id: 0,}
+                  }
+                  )
+            }
+
+            catch(e){
+                console.log("Unable to delete reviews",e);
+                return {error:e};
+            }
+        }
 }
