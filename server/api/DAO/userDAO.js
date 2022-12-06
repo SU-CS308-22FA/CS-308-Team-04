@@ -118,7 +118,8 @@ module.exports =  class UserDAO{
                         email : updated_user.email,
                         mobile_number : updated_user.mobile_number,
                         birth_date : updated_user.birth_date,
-                        date : updated_user.date
+                        date : updated_user.date,
+                        isPrivate : updated_user.isPrivate
                     }}
                 );
 
