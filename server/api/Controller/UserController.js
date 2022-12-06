@@ -25,6 +25,33 @@ module.exports = class UserController{
         }
     }
 
+    static async apiGetUserWithQuery(req,res,next){
+        console.log("Hi");
+        console.log(req.params.user_info)
+        try {
+
+            //let filters = {user_info : ""};
+            let user_info = req.params.user_info;
+            console.log("You are here");
+            const usersList = await UserDAO.getQueryUserList(user_info);
+            console.log(usersList);
+            console.log("You are here");
+            if(!usersList){
+                console.log("could not found user!");
+                res.status(404).json({error : "Not Found User"});
+                return;
+            }
+            
+            console.log(usersList);
+            res.json(usersList);    
+        }
+
+        catch(e){
+            console.log(e);
+            res.status(500).json({error:e});
+        }
+    }
+
     static async apiGetUserByEmail(req,res,next){
 
         try{
