@@ -9,16 +9,17 @@ import classes from "./SignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../UI/Card/Card";
 import navbarLogo from "../../../images/logo_dark.png";
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Button from '@mui/material/Button';
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Button from "@mui/material/Button";
 import { FormHelperText } from "@mui/material";
+import { USE_LOCAL_BACKEND } from "../../../config.js";
 const PWS_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -42,7 +43,7 @@ const SignUp = () => {
   //const[successMsg,setSueccessmsg] = useState("");
 
   const [values, setValues] = React.useState({
-    amount: '',
+    amount: "",
     showPassword: false,
   });
 
@@ -56,11 +57,10 @@ const SignUp = () => {
       showPassword: !values.showPassword,
     });
   };
-  
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
 
   let navigate = useNavigate();
 
@@ -105,10 +105,11 @@ const SignUp = () => {
 
   const isUserExists = async (email) => {
     let response = await fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
-      //`/GencFootball/users/${email}`
-      );
-      
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/users/${email}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
+    );
+
     console.log(response);
     if (!response.ok) {
       const message = `An error has occurred: ${response.statusText}`;
@@ -120,138 +121,150 @@ const SignUp = () => {
     }
     //user exists
     return true;
-  }
+  };
 
   const SubmitButtonHandler = (event) => {
     event.preventDefault();
 
-
-    isUserExists(email).then(
-      (isExists) => {
-        if(!isExists)
-        {
-          navigate("/SignUpSecondPage", {
-            state: {
-              email: email,
-              password: password,
-            },
-          });
-        }
-        else {
-          window.alert("Email has already been exist.");
-        }
-      })
+    isUserExists(email).then((isExists) => {
+      if (!isExists) {
+        navigate("/SignUpSecondPage", {
+          state: {
+            email: email,
+            password: password,
+          },
+        });
+      } else {
+        window.alert("Email has already been exist.");
+      }
+    });
   };
 
   return (
     <Card>
       <img alt="" className="logo" src={navbarLogo}></img>
       <form onSubmit={SubmitButtonHandler}>
-      <TextField
-            error={email && !ValidEmail}
-            fullWidth
-            size="medium"
-            type="email"
-            id={email && !ValidEmail ? "outlined-basic" : "outlined-error-helper-text"}
-            label="E-Mail"
-            ref={emailRef}
-            variant="outlined"
-            autoComplete="off"
-            onChange={emailChangeHandler}
-            margin="dense"
-            helperText={email && !ValidEmail ? "Invalid Email Type!" : ""}
-          /> 
-      <FormControl 
-      fullWidth
-      variant="outlined"
-      margin="dense"
-      >
-        <InputLabel 
-        error={values.password && !ValidPassword}
-        htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          error={values.password && !ValidPassword}
-          id={values.password && !ValidPassword ? "outlined-basic" : "outlined-error"}
-          type={values.showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={PasswordChangeHandler}
-          label="Password"
-          helperText={values.password && !ValidPassword ? "Invalid Password!" : ""}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {values.showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }   
+        <TextField
+          error={email && !ValidEmail}
+          fullWidth
+          size="medium"
+          type="email"
+          id={
+            email && !ValidEmail
+              ? "outlined-basic"
+              : "outlined-error-helper-text"
+          }
+          label="E-Mail"
+          ref={emailRef}
+          variant="outlined"
+          autoComplete="off"
+          onChange={emailChangeHandler}
+          margin="dense"
+          helperText={email && !ValidEmail ? "Invalid Email Type!" : ""}
         />
-        {!!(values.password && !ValidPassword) && (
+        <FormControl fullWidth variant="outlined" margin="dense">
+          <InputLabel
+            error={values.password && !ValidPassword}
+            htmlFor="outlined-adornment-password"
+          >
+            Password
+          </InputLabel>
+          <OutlinedInput
+            error={values.password && !ValidPassword}
+            id={
+              values.password && !ValidPassword
+                ? "outlined-basic"
+                : "outlined-error"
+            }
+            type={values.showPassword ? "text" : "password"}
+            value={password}
+            onChange={PasswordChangeHandler}
+            label="Password"
+            helperText={
+              values.password && !ValidPassword ? "Invalid Password!" : ""
+            }
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+          {!!(values.password && !ValidPassword) && (
             <FormHelperText error id="password-error">
               {"Invalid Password!"}
             </FormHelperText>
           )}
-      </FormControl>
-      
-      <FormControl 
-      fullWidth
-      variant="outlined"
-      margin="dense"
-      >
-        <InputLabel
-        error={values.confirmpassword && !SamePassword} 
-        htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-        <OutlinedInput
-          error={values.confirmpassword && !SamePassword}
-          id={values.confirmpassword && !SamePassword ? "outlined-basic" : "outlined-error-helper-text"}
-          type={values.showPassword ? 'text' : 'password'}
-          value={rePassword}
-          helperText={values.confirmpassword && !SamePassword ? "Passwords do not match!" : ""}
-          onChange={RePasswordChangeHandler}
-          label="Confirm Password"
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {values.showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>   
-          }
-        />
-        {!!(values.confirmpassword && !SamePassword) && (
+        </FormControl>
+
+        <FormControl fullWidth variant="outlined" margin="dense">
+          <InputLabel
+            error={values.confirmpassword && !SamePassword}
+            htmlFor="outlined-adornment-password"
+          >
+            Confirm Password
+          </InputLabel>
+          <OutlinedInput
+            error={values.confirmpassword && !SamePassword}
+            id={
+              values.confirmpassword && !SamePassword
+                ? "outlined-basic"
+                : "outlined-error-helper-text"
+            }
+            type={values.showPassword ? "text" : "password"}
+            value={rePassword}
+            helperText={
+              values.confirmpassword && !SamePassword
+                ? "Passwords do not match!"
+                : ""
+            }
+            onChange={RePasswordChangeHandler}
+            label="Confirm Password"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+          {!!(values.confirmpassword && !SamePassword) && (
             <FormHelperText error id="confirmpassword-error">
               {"Passwords do not match!"}
             </FormHelperText>
           )}
-      </FormControl>
-      
+        </FormControl>
+
         <p>
           By Clicking Sign In you agree to Genc Football ,Privacy Policy and
           Cookie Policy
         </p>
 
         <Button
-        sx={{
-          backgroundColor: '#00FF77',
-          color: 'white',
-          '&:hover': {
-            backgroundColor:'#00CD60',
-          },
-          height: 45,
-        }}
-        fullWidth
-        type="submit"
-        disableElevation
-        variant="contained"
-        disabled={ValidEmail && ValidPassword && SamePassword ? false : true}
+          sx={{
+            backgroundColor: "#00FF77",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#00CD60",
+            },
+            height: 45,
+          }}
+          fullWidth
+          type="submit"
+          disableElevation
+          variant="contained"
+          disabled={ValidEmail && ValidPassword && SamePassword ? false : true}
         >
           Sign Up
         </Button>
@@ -267,7 +280,7 @@ const SignUp = () => {
           Log in
         </Link>
       </div>
-      
+
       <button className={classes.media_button}>
         <img></img>
         <p>Sign up with Google</p>

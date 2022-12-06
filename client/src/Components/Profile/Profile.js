@@ -8,7 +8,7 @@ import React, {
 import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./Profile.module.css";
 import Card from "../UI/Card/Card";
-
+import { USE_LOCAL_BACKEND } from "../../config.js";
 import Navbar from "../Navigation/navbar";
 import PostsList from "./PostsList";
 
@@ -16,7 +16,9 @@ const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [reload, setReload] = useState(0);
-  let user_id = location.state ? location.state.user_id : localStorage.getItem('user');
+  let user_id = location.state
+    ? location.state.user_id
+    : localStorage.getItem("user");
 
   const [userInfo, setUserInfo] = useState({
     _id: "",
@@ -29,16 +31,16 @@ const Profile = (props) => {
     birth_date: "",
   });
 
-  const [follower_count,setFollowerCount] = useState("Placeholder");
-  const [following_count,setFollowingCount] = useState("Placeholder");
+  const [follower_count, setFollowerCount] = useState("Placeholder");
+  const [following_count, setFollowingCount] = useState("Placeholder");
 
-  const [PostLists,setPostListsFunction] = useState([]);
+  const [PostLists, setPostListsFunction] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      //const response = await fetch(`/GencFootball/user/${user_id}`);
       const response = await fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/user/userwithpost/${user_id}`
-        //`/GencFootball/user/userwithpost/${user_id}`
+        USE_LOCAL_BACKEND
+          ? `/GencFootball/user/userwithpost/${user_id}`
+          : `https://genc-football-backend.herokuapp.com/GencFootball/user/userwithpost/${user_id}`
       );
       //console.log(response);
       if (!response.ok) {
@@ -58,75 +60,81 @@ const Profile = (props) => {
     fetchData();
 
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerCount/${user_id}`
-      //`/GencFootball/follow/getFollowerCount/${user_id}`
-      ).then(response => response.json())
-        .then(data => {setFollowerCount(data.follower_count)});
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowerCount/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerCount/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFollowerCount(data.follower_count);
+      });
 
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingCount/${user_id}`
-      //`/GencFootball/follow/getFollowingCount/${user_id}`
-      ).then(response => response.json())
-        .then(data => 
-          {setFollowingCount(data.following_count)});
-        
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowingCount/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingCount/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFollowingCount(data.following_count);
+      });
+
     return;
   }, [user_id, reload]);
 
   const FollowUserHandler = (event) => {
     event.preventDefault();
-        const requestOptions = {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(
-            {
-              user_id : localStorage.getItem('user'),
-              other_user_id : user_id
-            }
-          )
-      };
-      fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/follow/addFollower`
-        //`/GencFootball/follow/addFollower`
-        , requestOptions
-        )
-      .catch(err => {
-        console.log("Caught error",err);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user"),
+        other_user_id: user_id,
+      }),
+    };
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/addFollower`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/addFollower`,
+      requestOptions
+    )
+      .catch((err) => {
+        console.log("Caught error", err);
       })
-      .then(response => response.json());
-      setFollowerCount(follower_count+1);
-  }
+      .then((response) => response.json());
+    setFollowerCount(follower_count + 1);
+  };
 
   const UnfollowUserHandler = (event) => {
     event.preventDefault();
-        const requestOptions = {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(
-            {
-              user_id : localStorage.getItem('user'),
-              other_user_id : user_id
-            }
-          )
-      };
-      fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/follow/removeFollower`
-        //`/GencFootball/follow/removeFollower`
-        , requestOptions
-        )
-      .catch(err => {
-        console.log("Caught error",err);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user"),
+        other_user_id: user_id,
+      }),
+    };
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/removeFollower`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/removeFollower`,
+      requestOptions
+    )
+      .catch((err) => {
+        console.log("Caught error", err);
       })
-      .then(response => response.json());
-      setFollowerCount(follower_count-1);
-  }
+      .then((response) => response.json());
+    setFollowerCount(follower_count - 1);
+  };
 
   console.log(PostLists);
   const DeleteUserHandler = async (event) => {
     event.preventDefault();
     await fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`,
-      //`/GencFootball/user/${user_id}`,
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/user/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`,
       {
         method: "DELETE",
       }
@@ -135,21 +143,16 @@ const Profile = (props) => {
     navigate("/Login");
   };
 
-  const sleep = ms => new Promise(
-    resolve => setTimeout(resolve, ms)
-  );
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const deleteHandler = async () => {
-    await sleep(100)
-    if (reload === 1)
-    {
-      setReload(0)
+    await sleep(100);
+    if (reload === 1) {
+      setReload(0);
+    } else {
+      setReload(1);
     }
-    else
-    {
-      setReload(1)
-    }
-  }
+  };
 
   const UpdateUserHandler = async (event) => {
     event.preventDefault();
@@ -161,7 +164,7 @@ const Profile = (props) => {
   };
   return (
     <>
-      <Navbar className="Navbar" user={userInfo}/>
+      <Navbar className="Navbar" user={userInfo} />
       <Card className={classes.profile_bar}>
         <div className={classes.profile_img_divider}>
           <img
@@ -185,7 +188,7 @@ const Profile = (props) => {
         <div className={classes.profile_counts}>
           <div
             className={classes.following_div}
-            style={{ "paddingRight": "10px" }}
+            style={{ paddingRight: "10px" }}
           >
             <h2 className={classes.h2}>Followers</h2>
             <p>{follower_count}</p>
@@ -200,11 +203,11 @@ const Profile = (props) => {
         <div className={classes.posts}>
           <div className={classes.post_title}>Your Posts:</div>
           {/*<div className={classes.post_content}></div>*/}
-          <PostsList onDelete={deleteHandler} list = {PostLists}></PostsList>
+          <PostsList onDelete={deleteHandler} list={PostLists}></PostsList>
         </div>
 
         <div className={classes.right_bar}></div>
-      </div >
+      </div>
 
       <button className={classes.button} onClick={UpdateUserHandler}>
         Update
@@ -212,7 +215,6 @@ const Profile = (props) => {
       <button className={classes.button} onClick={DeleteUserHandler}>
         Delete
       </button>
-
     </>
   );
 };

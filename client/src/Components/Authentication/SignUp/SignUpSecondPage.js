@@ -20,6 +20,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { matchIsValidTel } from "mui-tel-input";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { USE_LOCAL_BACKEND } from "../../../config.js";
 
 const Profile = (props) => {
   const navigate = useNavigate();
@@ -76,8 +77,10 @@ const Profile = (props) => {
     isUserExists(userInfo.email).then((isExists) => {
       if (!isExists) {
         fetch(
-          "https://genc-football-backend.herokuapp.com/GencFootball/user/add",
-          //"/GencFootball/user/add"
+          USE_LOCAL_BACKEND
+            ? "/GencFootball/user/add"
+            : "https://genc-football-backend.herokuapp.com/GencFootball/user/add",
+
           {
             method: "POST",
             headers: {
@@ -92,16 +95,19 @@ const Profile = (props) => {
           })
           .then((resp) => {
             fetch(
-              `https://genc-football-backend.herokuapp.com/GencFootball/users/${userInfo.email}`
-              //`/GencFootball/users/${userInfo.email}`
+              USE_LOCAL_BACKEND
+                ? `/GencFootball/users/${userInfo.email}`
+                : `https://genc-football-backend.herokuapp.com/GencFootball/users/${userInfo.email}`
             )
               .then((response) => response.json())
               .then((data) => {
                 userid = data._id;
                 console.log("creating registration for user id" + userid);
                 fetch(
-                  "https://genc-football-backend.herokuapp.com/GencFootball/follow/registerFollow",
-                  //"/GencFootball/follow/registerFollow"
+                  USE_LOCAL_BACKEND
+                    ? "/GencFootball/follow/registerFollow"
+                    : "https://genc-football-backend.herokuapp.com/GencFootball/follow/registerFollow",
+
                   {
                     method: "POST",
                     headers: {
@@ -124,7 +130,6 @@ const Profile = (props) => {
       }
     });
   };
-
   return (
     <>
       <div className={classes.logo_div}>

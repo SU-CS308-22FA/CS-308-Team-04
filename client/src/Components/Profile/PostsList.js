@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import Card from "../UI/Card/Card";
 import classes from "./PostsList.module.css";
+import { USE_LOCAL_BACKEND } from "../../config.js";
 const PostsList = (props) => {
   let navigate = useNavigate();
   const SendProfileHandler = (user_id) => {
@@ -31,7 +32,9 @@ const PostsList = (props) => {
       }),
     };
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/posts/${element._id}`,
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/posts/${element._id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/${element._id}`,
       requestOptions
     )
       .catch((err) => {
@@ -46,7 +49,9 @@ const PostsList = (props) => {
     const encodedValue1 = encodeURIComponent(element.user_id);
     const encodedValue2 = encodeURIComponent(element._id);
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/posts/deleteposts?user_id=${encodedValue1}&post_id=${encodedValue2}`,
+      USE_LOCAL_BACKEND
+        ? `GencFootball/posts/deleteposts?user_id=${encodedValue1}&post_id=${encodedValue2}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/deleteposts?user_id=${encodedValue1}&post_id=${encodedValue2}`,
       {
         method: "DELETE",
         headers: {
@@ -68,14 +73,14 @@ const PostsList = (props) => {
       {props.list.map((element) => (
         <Card key={element._id} className={classes.post_card}>
           <div className={classes.post_header}>
-          <button
-                className={classes.post_info_button}
-                onClick={() => SendProfileHandler(element.user_id)}
-              >
-                @{element.username}
-              </button>
+            <button
+              className={classes.post_info_button}
+              onClick={() => SendProfileHandler(element.user_id)}
+            >
+              @{element.username}
+            </button>
           </div>
-          
+
           <img
             className={classes.post_img}
             alt="lorem picsum"
@@ -85,7 +90,6 @@ const PostsList = (props) => {
           />
           <div className={classes.post_info}>
             <div className={classes.post_info_left}>
-              
               <p className={classes.post_info_text}>{element.post_message}</p>
 
               <div className={classes.react_buttons_div}>
@@ -103,19 +107,19 @@ const PostsList = (props) => {
                     element.reactions_list[0]
                   }
                 </p>
-                
+
                 {/* TO ADD ALL THE REACTION ON A ARRAY DO THE SAME THING IN UPPER CODE */}
               </div>
             </div>
             <div className={classes.post_info_right}>
-            <button
-                  onClick={() => {
-                    deletePostHandler(element);
-                  }}
-                  className={classes.react_buttons}
-                >
-                  Delete
-                </button>
+              <button
+                onClick={() => {
+                  deletePostHandler(element);
+                }}
+                className={classes.react_buttons}
+              >
+                Delete
+              </button>
             </div>
           </div>
         </Card>

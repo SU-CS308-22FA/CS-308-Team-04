@@ -7,6 +7,7 @@ import AddPost from "./AddPost";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { USE_LOCAL_BACKEND } from "../../config.js";
 
 const Feed = (props) => {
   const [PostList, setPostList] = useState([]);
@@ -59,8 +60,9 @@ const Feed = (props) => {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
-        // `/GencFootball/user/${user_id}`
+        USE_LOCAL_BACKEND
+          ? `/GencFootball/user/${user_id}`
+          : `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -71,7 +73,7 @@ const Feed = (props) => {
       console.log(user_fetch);
     }
     fetchData();
-  },[user_id]);
+  }, [user_id]);
 
   useEffect(() => {
     fetch(
@@ -97,26 +99,21 @@ const Feed = (props) => {
     setPageNum(PageNum + 1);
   };
 
-  const sleep = ms => new Promise(
-    resolve => setTimeout(resolve, ms)
-  );
-  
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const deleteHandler = async () => {
-    await sleep(100)
-    if (reload === 1)
-    {
-      setReload(0)
+    await sleep(100);
+    if (reload === 1) {
+      setReload(0);
+    } else {
+      setReload(1);
     }
-    else
-    {
-      setReload(1)
-    }
-  }
+  };
 
   return (
     <>
       <Navbar className="Navbar" user={userInfo} />
-      <AddPost  onAddPost={AddPostHandler}></AddPost>
+      <AddPost onAddPost={AddPostHandler}></AddPost>
       <div className={classes.body}>
         <div className={classes.posts}>
           <PostsList onDelete={deleteHandler} list={PostList}></PostsList>
