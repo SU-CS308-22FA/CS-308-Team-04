@@ -191,6 +191,10 @@ export default function Navbar(props) {
     });
   }
 
+  const clickHandler = () => {
+    console.log("Annen yanımda");
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -284,13 +288,13 @@ export default function Navbar(props) {
               freeSolo
               disableClearable
               options={UsersList ? UsersList : [{ username: "", name: "" }]}
-              getOptionLabel={(option) => `${option.username}${option.name}`}
+              getOptionLabel={(option) => `${option.username},${option.name}`}
               sx={{ width: 500 }}
               renderOption={(props, option, state) => {
                 return (
-                  <h4
+                  <li {...props}
                     key={`${option.username}`}
-                  >{`${option.username}`}</h4>
+                  >{`${option.username}`}</li>
                 );
               }
               }
