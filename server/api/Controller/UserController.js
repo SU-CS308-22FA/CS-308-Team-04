@@ -78,7 +78,8 @@ module.exports = class UserController{
              email : req.body.email,
              mobile_number : req.body.mobile_number,
              birth_date : req.body.birth_date,
-             date : new Date()
+             date : new Date(),
+             isPrivate: false
             }
 
         const UserdbResponse = await UserDAO.addUser(user);
@@ -104,7 +105,8 @@ module.exports = class UserController{
                 email : req.body.email,
                 mobile_number : req.body.mobile_number,
                 birth_date : req.body.birth_date,
-                date : new Date()
+                date : new Date(),
+                isPrivate: req.body.isPrivate
             };
             
             const UserdbResponse = await UserDAO.updateUser(user_id,updated_user);
@@ -136,6 +138,20 @@ module.exports = class UserController{
             console.log(user_id);
             const UserResponse = await UserDAO.deleteUser(user_id);
             res.json({status : "success"});
+
+            console.log(UserResponse);
+        }
+        catch(e) {
+            res.status(500).json({error : e.message});
+        }
+    }
+
+    static async apiIsUserPrivate(req,res,next){
+        try{
+            const user_id= req.params.user_id;
+            console.log(user_id);
+            const UserResponse = await UserDAO.isUserPrivate(user_id);
+            res.json(UserResponse);
 
             console.log(UserResponse);
         }

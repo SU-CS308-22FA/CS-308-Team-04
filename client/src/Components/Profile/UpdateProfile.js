@@ -12,11 +12,13 @@ import classes from "./UpdateProfile.css";
 import Card from "../UI/Card/Card";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Switch from "@mui/material/Switch";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { matchIsValidTel } from "mui-tel-input";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { USE_LOCAL_BACKEND } from "../../config.js";
+import { FormControlLabel } from "@mui/material";
 const UpdateProfile = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,10 +33,11 @@ const UpdateProfile = (props) => {
     surname: userInfo.surname,
     mobile_number: userInfo.mobile_number,
     birth_date: userInfo.birth_date,
+    isPrivate: userInfo.isPrivate,
   });
 
   const handleChange = (prop) => (event) => {
-    setUpdatedUserInfo({ ...userInfo, [prop]: event.target.value });
+    setUpdatedUserInfo({ ...userInfo, [prop]: event.target.value});
   };
 
   const buttonCancelHandler = (event) => {
@@ -164,6 +167,16 @@ const UpdateProfile = (props) => {
                 )}
               />
             </LocalizationProvider>
+            <FormControlLabel control={<Switch
+              checked={userUpdatedInfo.isPrivate}
+              onChange={() => {
+                setUpdatedUserInfo({
+                  ...userUpdatedInfo,
+                  isPrivate: !userUpdatedInfo.isPrivate,
+                });
+              }}
+              inputProps={{ "aria-label": "controlled" }}
+            />} label="Set Profile as Private:" labelPlacement="start"></FormControlLabel>
             <Button
               sx={{
                 backgroundColor: "#00FF77",
