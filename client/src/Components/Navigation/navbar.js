@@ -191,8 +191,8 @@ export default function Navbar(props) {
     });
   }
 
-  const clickHandler = () => {
-    console.log("Annen yanımda");
+  const ClickHandler = (e, value) => {
+    console.log(e.target,value.username,value._id);
   }
 
   const menuId = 'primary-search-account-menu';
@@ -287,8 +287,9 @@ export default function Navbar(props) {
               id="free-solo-2-demo"
               freeSolo
               disableClearable
-              options={UsersList ? UsersList : [{ username: "", name: "" }]}
-              getOptionLabel={(option) => `${option.username},${option.name}`}
+              onChange={ClickHandler}
+              options={UsersList ? UsersList : [{ username: "", name: "" ,_id : ""}]}
+              getOptionLabel={(option) => `${option.username},${option.name} ${option._id}`}
               sx={{ width: 500 }}
               renderOption={(props, option, state) => {
                 return (
