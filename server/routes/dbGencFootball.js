@@ -30,5 +30,7 @@ router.route("/follow/unregisterFollow").delete(FollowCtrl.apiDeleteUserFromFoll
 router.route("/follow/getFollowerCount/:user_id").get(FollowCtrl.apiReturnFollowerCount); // "/follow/getFollowerCount/:user_id" // OK
 router.route("/follow/getFollowingCount/:user_id").get(FollowCtrl.apiReturnFollowingCount); // "follow/getFollowingCount/:user_id" // OK
 router.route("/follow/isFollowing").get(FollowCtrl.apiIsFollowing); // OK !!!!!!!!!!
+router.route("/follow/getFollowerList/:user_id").get(FollowCtrl.apiGetFollowerList);
+router.route("/follow/getFollowingList/:user_id").get(FollowCtrl.apiGetFollowingList);
 
 module.exports = router;
