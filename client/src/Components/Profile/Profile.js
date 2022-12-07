@@ -11,6 +11,22 @@ import Card from "../UI/Card/Card";
 import { USE_LOCAL_BACKEND } from "../../config.js";
 import Navbar from "../Navigation/navbar";
 import PostsList from "./PostsList";
+//import FollowListDialog from "./FollowListDialog";
+/////
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+import PersonIcon from "@mui/icons-material/Person";
+import AddIcon from "@mui/icons-material/Add";
+import Typography from "@mui/material/Typography";
+import { blue } from "@mui/material/colors";
+/////
 
 const Profile = (props) => {
   const location = useLocation();
@@ -29,8 +45,43 @@ const Profile = (props) => {
     surname: "",
     mobile_number: "",
     birth_date: "",
-    isPrivate: ""
+    isPrivate: "",
   });
+
+  /////Used for Follow List Dialog
+  const SendProfileHandler = (user_id) => {
+    setOpen(false);
+    console.log(user_id);
+    navigate("/Profile", {
+      state: {
+        user_id: user_id,
+      },
+    });
+  };
+
+  const [followers, setFollowers] = React.useState([]);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowerList/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerList/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFollowers(data[0].follower_list);
+        console.log("Hello" + data[0].follower_list);
+      });
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+  //////////////
 
   const [follower_count, setFollowerCount] = useState("Placeholder");
   const [following_count, setFollowingCount] = useState("Placeholder");
@@ -192,7 +243,28 @@ const Profile = (props) => {
             style={{ paddingRight: "10px" }}
           >
             <h2 className={classes.h2}>Followers</h2>
-            <p>{follower_count}</p>
+            <div> {/* replace this div if possible and make a separate component*/}
+            <Button variant="Text" onClick={handleClickOpen}>{follower_count}</Button> 
+              <Dialog onClose={handleClose} open={open}>
+                <DialogTitle>Followers</DialogTitle>
+                <List sx={{ pt: 0 }}>
+                  {followers.map((follower) => (
+                    <ListItem
+                      button
+                      onClick={() => SendProfileHandler(follower._id)}
+                      key={follower._id}
+                    >
+                      <ListItemAvatar>
+                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
+                          <PersonIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={follower.username} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Dialog>
+            </div>
           </div>
           <div className={classes.following_div}>
             <h2 className={classes.h2}>Following</h2>
@@ -201,26 +273,26 @@ const Profile = (props) => {
         </div>
       </Card>
       <div className={classes.body}>
-            <div className={classes.posts}>
-      {!(user_id != localStorage.getItem("user") && userInfo.isPrivate) ? (
-              <div>
+        <div className={classes.posts}>
+          {!(user_id != localStorage.getItem("user") && userInfo.isPrivate) ? (
+            <div>
               <div className={classes.post_title}>Your Posts:</div>
               {/*<div className={classes.post_content}></div>*/}
               <PostsList onDelete={deleteHandler} list={PostLists}></PostsList>
-              </div>) 
-        : 
-        (<h1>Private profile</h1>)
-      }
-      </div>
+            </div>
+          ) : (
+            <h1>Private profile</h1>
+          )}
+        </div>
 
-      <div className={classes.right_bar}></div>
+        <div className={classes.right_bar}></div>
       </div>
       <button className={classes.button} onClick={UpdateUserHandler}>
-            Update
-          </button>
-          <button className={classes.button} onClick={DeleteUserHandler}>
-            Delete
-          </button>
+        Update
+      </button>
+      <button className={classes.button} onClick={DeleteUserHandler}>
+        Delete
+      </button>
     </>
   );
 };
