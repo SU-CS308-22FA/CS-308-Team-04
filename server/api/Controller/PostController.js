@@ -15,6 +15,7 @@ module.exports = class UserController {
                 post_message : req.body.post_message,
                 comments_list : [],
                 comments_count : 0,
+                reacted_by : [],
                 reactions_list :[0,0,0,0,0],
                 share_count : 0,
                 date : new Date()
@@ -78,7 +79,7 @@ module.exports = class UserController {
                 comments_count : req.body.comments_count,
                 reactions_list : req.body.reactions_list,
                 share_count : req.body.share_count,
-                date : new Date()
+                date : req.body.date
             };
             
             const UserdbResponse = await PostDAO.updatePost(post_id,updated_post);
@@ -95,6 +96,36 @@ module.exports = class UserController {
                 throw new Error("unable to update post - post may not be original poster");
             }
             console.log(UserdbResponse);
+            res.json({status : "success"});
+        }
+
+        catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    }
+
+    static async apiUpdatePostReaction(req,res,next){
+        try {
+            const post_id =req.params.post_id;
+            const Reaction_info = {
+                reactedby_id : req.body.reactedby_id,
+                reacted_index : req.body.reacted_index
+            }
+            const UserdbResponse = await PostDAO.updatePostReaction(post_id,Reaction_info);
+            
+            var {error} = UserdbResponse;
+            
+            if(error) {
+                console.log(error);
+                res.status(400).json({error});
+            }
+
+            if(UserdbResponse.modifedCount ===0){
+
+                throw new Error("unable to update post");
+            }
+            //console.log(UserdbResponse);
+            //res.json(UserdbResponse);
             res.json({status : "success"});
         }
 
