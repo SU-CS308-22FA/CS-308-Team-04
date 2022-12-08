@@ -19,7 +19,7 @@ router.route("/user/isPrivate/:user_id").get(UserCtrl.apiIsUserPrivate);
 //ROUTERS OF VIEW TABLE
 router.route("/posts/add").post(PostCtrl.apiPostPosts);
 router.route("/posts/:post_id").put(PostCtrl.apiUpdatePost);
-router.route("/posts/getposts").get(PostCtrl.apiGetPosts);
+router.route("/posts/getposts/:user_id").get(PostCtrl.apiGetPosts);
 router.route("/posts/deleteposts").delete(PostCtrl.apiDeletePosts);
 
 //ROUTERS OF FOLLOWER & FOLLOWING TABLE

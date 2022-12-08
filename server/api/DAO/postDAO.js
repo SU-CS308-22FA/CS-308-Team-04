@@ -38,12 +38,56 @@ module.exports = class PostDAO{
         }
     }
 
-    static async getPosts(page){
+    static async getPosts(page, userid){
         const postsPerPage = 10;
         let cursor;
         try{
 
-            cursor = await Post.find().sort({"date":-1});
+            cursor = await Post.aggregate([
+                {
+                  "$lookup": {
+                    "from": "users",
+                    "localField": "user_id",
+                    "foreignField": "_id",
+                    "as": "stage1"
+                  }
+                },
+                {
+                  "$unwind": "$stage1"
+                },
+                {
+                  "$lookup": {
+                    "from": "followers",
+                    "localField": "user_id",
+                    "foreignField": "user_id",
+                    "as": "stage2"
+                  }
+                },
+                {
+                  "$unwind": "$stage2"
+                },
+                {
+                  "$match": {
+                    "$or": [
+                        {"stage1.isPrivate": false},
+                        {"$and": [
+                            {"stage1.isPrivate": true},
+                            {"stage2.follower_list": {"$in": [ObjectId(userid)]}
+                        }]
+                },
+                      {
+                        "user_id": ObjectId(userid)
+                      }
+                    ]
+                  }
+                },
+                {
+                    "$project": {
+                        "stage1": 0,
+                        "stage2": 0
+                    }
+                }
+              ]);
         }
         catch(e){
             console.error("Unable to post Post",e);

@@ -32,12 +32,13 @@ module.exports = class UserController {
     static async apiGetPosts(req,res,next){
         try {
             //const postPerPage = req.query.postPerPage ? parseInt(req.query.postPerPage,10) : 10;
+            let user_id = req.params.user_id;
             const page = req.query.page ? parseInt(req.query.page,10) : 0;
             let posts_list = [];
-            PostDAO.getPosts(page).then(
+            PostDAO.getPosts(page, user_id).then(
                 (data) => {
                     posts_list = data;
-                   // console.log({posts_list,page});
+                    //console.log("deneme"+{posts_list,page}); //
                     res.json({posts_list,page});
                 }
             ); 
