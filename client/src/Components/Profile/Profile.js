@@ -11,6 +11,7 @@ import Card from "../UI/Card/Card";
 import { USE_LOCAL_BACKEND } from "../../config.js";
 import Navbar from "../Navigation/navbar";
 import PostsList from "./PostsList";
+import SimpleDialog from "./SimpleDialog";
 //import FollowListDialog from "./FollowListDialog";
 /////
 import PropTypes from "prop-types";
@@ -49,21 +50,11 @@ const Profile = (props) => {
   });
 
   /////Used for Follow List Dialog
-  const SendProfileHandler = (user_id) => {
-    setOpen(false);
-    console.log(user_id);
-    navigate("/Profile", {
-      state: {
-        user_id: user_id,
-      },
-    });
-  };
-
-  const [followers, setFollowers] = React.useState([]);
+  const [userlist, setUserlist] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpenFollower = () => {
     setOpen(true);
 
     fetch(
@@ -73,8 +64,23 @@ const Profile = (props) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setFollowers(data[0].follower_list);
+        setUserlist(data[0].follower_list);
         console.log("Hello" + data[0].follower_list);
+      });
+  };
+
+  const handleClickOpenFollowing = () => {
+    setOpen(true);
+
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowingList/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingList/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserlist(data[0].following_list);
+        console.log("Hello" + data[0].following_list);
       });
   };
 
@@ -243,32 +249,29 @@ const Profile = (props) => {
             style={{ paddingRight: "10px" }}
           >
             <h2 className={classes.h2}>Followers</h2>
-            <div> {/* replace this div if possible and make a separate component*/}
-            <Button variant="Text" onClick={handleClickOpen}>{follower_count}</Button> 
-              <Dialog onClose={handleClose} open={open}>
-                <DialogTitle>Followers</DialogTitle>
-                <List sx={{ pt: 0 }}>
-                  {followers.map((follower) => (
-                    <ListItem
-                      button
-                      onClick={() => SendProfileHandler(follower._id)}
-                      key={follower._id}
-                    >
-                      <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                          <PersonIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={follower.username} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Dialog>
+            <div>
+              <Button variant="Text" onClick={handleClickOpenFollower}>
+                {follower_count}
+              </Button>
+              <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                userlist={userlist}
+              />
             </div>
           </div>
           <div className={classes.following_div}>
             <h2 className={classes.h2}>Following</h2>
-            <p>{following_count}</p>
+            <div>
+              <Button variant="Text" onClick={handleClickOpenFollowing}>
+                {following_count}
+              </Button>
+              <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                userlist={userlist}
+              />
+            </div>
           </div>
         </div>
       </Card>
