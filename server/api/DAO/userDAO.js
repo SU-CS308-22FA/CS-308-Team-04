@@ -155,7 +155,8 @@ module.exports =  class UserDAO{
                         email : updated_user.email,
                         mobile_number : updated_user.mobile_number,
                         birth_date : updated_user.birth_date,
-                        date : updated_user.date
+                        date : updated_user.date,
+                        isPrivate : updated_user.isPrivate
                     }}
                 );
 
@@ -174,6 +175,26 @@ module.exports =  class UserDAO{
                 const deleteResponse = await User.deleteOne({_id : ObjectId(user_id)});
                 console.log(deleteResponse);
                 return deleteResponse;
+            }
+
+            catch(e){
+                console.log("Unable to delete reviews",e);
+                return {error:e};
+            }
+        }
+
+        static async isUserPrivate(user_id){
+            
+            try{
+                return await User.findOne({
+                    _id : ObjectId(user_id),
+                    isPrivate: true
+                  },
+                  {projection:
+                    {isPrivate: 1,
+                    _id: 0,}
+                  }
+                  )
             }
 
             catch(e){
