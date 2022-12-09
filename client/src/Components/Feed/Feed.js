@@ -35,9 +35,8 @@ const Feed = (props) => {
     console.log(enteredText);
     fetch(
       USE_LOCAL_BACKEND
-      ?`/GencFootball/posts/add`
-      :"https://genc-football-backend.herokuapp.com/GencFootball/posts/add"
-      ,
+        ? `/GencFootball/posts/add`
+        : "https://genc-football-backend.herokuapp.com/GencFootball/posts/add",
       {
         method: "POST",
         headers: {
@@ -80,8 +79,8 @@ const Feed = (props) => {
   useEffect(() => {
     fetch(
       USE_LOCAL_BACKEND
-      ?`/GencFootball/posts/getposts?page=${encodedValue}`
-      :`https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
+        ? `/GencFootball/posts/getposts?page=${encodedValue}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
     )
       .catch((err) => {
         console.log("Caught error", err);
@@ -102,10 +101,7 @@ const Feed = (props) => {
     setPageNum(PageNum + 1);
   };
 
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   const deleteHandler = async () => {
-    await sleep(100);
     if (reload === 1) {
       setReload(0);
     } else {

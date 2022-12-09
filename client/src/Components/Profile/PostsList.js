@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Card from "../UI/Card/Card";
 import classes from "./PostsList.module.css";
 import { USE_LOCAL_BACKEND } from "../../config.js";
+import { useEffect } from "react";
 const PostsList = (props) => {
   let navigate = useNavigate();
+
   const SendProfileHandler = (user_id) => {
     console.log(user_id);
     navigate("/Profile", {
@@ -16,32 +18,27 @@ const PostsList = (props) => {
 
   const likePostHandler = (element) => {
     let updated_reaction_list = element.reactions_list;
-    updated_reaction_list[0] += 1;
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        user_id: element.user_id,
-        username: element.username,
-        post_message: element.post_message,
-        comments_list: element.comments_list,
-        comments_count: element.comments_count,
-        reactions_list: updated_reaction_list,
-        share_count: element.share_count,
-        date: element.date,
+        reactedby_id: localStorage.getItem("user"),
+        reacted_index: 0, //like button index 0, reactions indexes: 1,2,3,4
       }),
     };
     fetch(
       USE_LOCAL_BACKEND
-        ? `/GencFootball/posts/${element._id}`
-        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/${element._id}`,
+        ? `/GencFootball/posts/postreaction/${element._id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/postreaction/${element._id}`,
       requestOptions
     )
       .catch((err) => {
         console.log("Caught error", err);
       })
-      .then((response) => response.json());
-    props.onDelete();
+      .then((response) => {
+        response.json();
+        props.onDelete();
+      });
   };
 
   const deletePostHandler = (element) => {
@@ -104,7 +101,7 @@ const PostsList = (props) => {
                 <p className={classes.react_buttons_count}>
                   {
                     //Math.floor(Math.random() * 100)
-                    element.reactions_list[0]
+                    element.reactions_list[0] //like index
                   }
                 </p>
 
