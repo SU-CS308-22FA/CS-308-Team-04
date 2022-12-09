@@ -16,6 +16,10 @@ const PostsList = (props) => {
     });
   };
 
+  function isImage(url) {
+    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  }
+
   const likePostHandler = (element) => {
     let updated_reaction_list = element.reactions_list;
     const requestOptions = {
@@ -77,14 +81,14 @@ const PostsList = (props) => {
               @{element.username}
             </button>
           </div>
+          {isImage(element.post_photo_url) ? (
+            <img
+              className={classes.post_img}
+              alt="Photo URL is not valid format"
+              src={element.post_photo_url}
+            />
+          ) : null}
 
-          <img
-            className={classes.post_img}
-            alt="lorem picsum"
-            src={`https://picsum.photos/1000/450?random=${Math.floor(
-              Math.random() * 20
-            )}`}
-          />
           <div className={classes.post_info}>
             <div className={classes.post_info_left}>
               <p className={classes.post_info_text}>{element.post_message}</p>
