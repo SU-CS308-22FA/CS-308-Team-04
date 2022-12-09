@@ -34,7 +34,8 @@ const Profile = (props) => {
 
   const [follower_count, setFollowerCount] = useState("Placeholder");
   const [following_count, setFollowingCount] = useState("Placeholder");
-  const [isDisplayedProfileFollowed, setIsDisplayedProfileFollowed] = useState(false);
+  const [isDisplayedProfileFollowed, setIsDisplayedProfileFollowed] =
+    useState(false);
 
   const [PostLists, setPostListsFunction] = useState([]);
   useEffect(() => {
@@ -81,28 +82,28 @@ const Profile = (props) => {
         setFollowingCount(data.following_count);
       });
 
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: localStorage.getItem("user"),
-          other_user_id: user_id,
-        }),
-      };
-      fetch(
-        USE_LOCAL_BACKEND
-          ? `/GencFootball/follow/isFollowing`
-          : `https://genc-football-backend.herokuapp.com/GencFootball/follow/isFollowing`,
-        requestOptions
-      )
-        .catch((err) => {
-          console.log("Caught error", err);
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          setIsDisplayedProfileFollowed(data.isFollowing);
-          //console.log("ISFOLLOWING:"+data.isFollowing)
-        });
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user"),
+        other_user_id: user_id,
+      }),
+    };
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/isFollowing`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/isFollowing`,
+      requestOptions
+    )
+      .catch((err) => {
+        console.log("Caught error", err);
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsDisplayedProfileFollowed(data.isFollowing);
+        //console.log("ISFOLLOWING:"+data.isFollowing)
+      });
 
     return;
   }, [user_id, reload]);
@@ -188,7 +189,16 @@ const Profile = (props) => {
         userInfo: userInfo,
       },
     });
-    console.log("isPrivate: "+userInfo.isPrivate + " isFollowed: "+userInfo.isFollowed + "user_id: " + localStorage.getItem("user")+ "profileId: " + user_id);
+    /*console.log(
+      "isPrivate: " +
+        userInfo.isPrivate +
+        " isFollowed: " +
+        userInfo.isFollowed +
+        "user_id: " +
+        localStorage.getItem("user") +
+        "profileId: " +
+        user_id
+    );*/
   };
   return (
     <>
@@ -208,13 +218,32 @@ const Profile = (props) => {
           </div>
         </div>
         <div>
-        <button className={classes.button} onClick={FollowUserHandler} hidden={user_id!=localStorage.getItem("user") ? (isDisplayedProfileFollowed? 'hidden':undefined) : 'hidden'}>
-          Follow
-        </button>
-        <button className={classes.button} onClick={UnfollowUserHandler} hidden={user_id!=localStorage.getItem("user") ? (isDisplayedProfileFollowed? undefined:'hidden') : 'hidden'}>
-          Unfollow
-        </button>
-
+          <button
+            className={classes.button}
+            onClick={FollowUserHandler}
+            hidden={
+              user_id != localStorage.getItem("user")
+                ? isDisplayedProfileFollowed
+                  ? "hidden"
+                  : undefined
+                : "hidden"
+            }
+          >
+            Follow
+          </button>
+          <button
+            className={classes.button}
+            onClick={UnfollowUserHandler}
+            hidden={
+              user_id != localStorage.getItem("user")
+                ? isDisplayedProfileFollowed
+                  ? undefined
+                  : "hidden"
+                : "hidden"
+            }
+          >
+            Unfollow
+          </button>
         </div>
         <div className={classes.profile_counts}>
           <div
@@ -231,26 +260,28 @@ const Profile = (props) => {
         </div>
       </Card>
       <div className={classes.body}>
-            <div className={classes.posts}>
-      {(user_id == localStorage.getItem("user") || (!userInfo.isPrivate) || ((userInfo.isPrivate) && isDisplayedProfileFollowed)) ? (
-              <div>
+        <div className={classes.posts}>
+          {user_id == localStorage.getItem("user") ||
+          !userInfo.isPrivate ||
+          (userInfo.isPrivate && isDisplayedProfileFollowed) ? (
+            <div>
               <div className={classes.post_title}>Your Posts:</div>
               {/*<div className={classes.post_content}></div>*/}
               <PostsList onDelete={deleteHandler} list={PostLists}></PostsList>
-              </div>) 
-        : 
-        (<h1>Private profile</h1>)
-      }
-      </div>
+            </div>
+          ) : (
+            <h1>Private profile</h1>
+          )}
+        </div>
 
-      <div className={classes.right_bar}></div>
+        <div className={classes.right_bar}></div>
       </div>
       <button className={classes.button} onClick={UpdateUserHandler}>
-            Update
-          </button>
-          <button className={classes.button} onClick={DeleteUserHandler}>
-            Delete
-          </button>
+        Update
+      </button>
+      <button className={classes.button} onClick={DeleteUserHandler}>
+        Delete
+      </button>
     </>
   );
 };
