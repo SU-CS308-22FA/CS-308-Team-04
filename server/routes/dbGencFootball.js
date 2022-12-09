@@ -14,6 +14,7 @@ router.route("/user/:user_id").put(UserCtrl.apiUpdateUser);
 router.route("/user/:user_id").delete(UserCtrl.apiDeleteUser);
 router.route("/users/:email").get(UserCtrl.apiGetUserByEmail);
 router.route("/user/userwithpost/:user_id").get(UserCtrl.apiGetUserWithPost);
+router.route("/user/isPrivate/:user_id").get(UserCtrl.apiIsUserPrivate);
 router.route("/user/userwithquery/:user_info").get(UserCtrl.apiGetUserWithQuery);
 
 //ROUTERS OF VIEW TABLE
