@@ -6,30 +6,30 @@ import React, {
   //useContext,
 } from "react";
 import navbarLogo from "../../images/logo_dark.png";
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
 //import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import Avatar from '@mui/material/Avatar';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import InputAdornment from '@mui/material/InputAdornment';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import InputBase from "@mui/material/InputBase";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MailIcon from "@mui/icons-material/Mail";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import Avatar from "@mui/material/Avatar";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import InputAdornment from "@mui/material/InputAdornment";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 //import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from "react-router-dom";
 /*In the navbar.js component, we will create a navigation bar
@@ -38,54 +38,51 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import { USE_LOCAL_BACKEND } from "../../config.js";
 
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.black, 0.1),
-  '&:hover': {
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.black, 0.2),
   },
   marginRight: theme.spacing(45),
   marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(5),
-    width: 'auto',
+    width: "auto",
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '90vh',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "90vh",
     },
   },
 }));
 
-
-
 // Here, we display our Navbar
 export default function Navbar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState('');
-  let currentUserId = localStorage.getItem('user');
+  const [inputValue, setInputValue] = React.useState("");
+  let currentUserId = localStorage.getItem("user");
   const isMenuOpen = Boolean(anchorEl);
   const [UsersList, setUsersList] = useState("");
   const [UsersList2, setUsersList2] = useState(["1", "2"]);
@@ -104,7 +101,7 @@ export default function Navbar(props) {
 
   useEffect(() => {
     setUserInfo(props.user);
-  }, [props.user])
+  }, [props.user]);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -115,13 +112,13 @@ export default function Navbar(props) {
   };
 
   const logoutHandler = () => {
-    localStorage.removeItem('user');
-    navigate("/Login")
-  }
+    localStorage.removeItem("user");
+    navigate("/Login");
+  };
 
   const settingsHandler = () => {
-    window.alert("WIP")
-  }
+    window.alert("WIP");
+  };
 
   useEffect(() => {
     console.log(UsersList);
@@ -138,8 +135,8 @@ export default function Navbar(props) {
         .catch((error) => {
           console.log("Caught error", error);
         })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           setUsersList(data);
           /*
             if(data){
@@ -152,10 +149,10 @@ export default function Navbar(props) {
             */
         });
     }
-  }, [inputValue])
+  }, [inputValue]);
 
   const filterOptions = createFilterOptions({
-    matchFrom: 'start',
+    matchFrom: "start",
     stringify: (option) => option.username,
   });
 
@@ -163,7 +160,7 @@ export default function Navbar(props) {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     setInputValue(event.target.value);
     await sleep(100);
-  }
+  };
 
   const profileHandler = (event) => {
     event.preventDefault();
@@ -189,13 +186,20 @@ export default function Navbar(props) {
         user_id: userInfo._id,
       },
     });
-  }
+  };
 
+  //search bar click search result which is username handler
   const ClickHandler = (e, value) => {
-    console.log(e.target,value.username,value._id);
-  }
+    console.log(e.target, value.username, value._id);
+    e.preventDefault();
+    navigate("/Profile", {
+      state: {
+        user_id: value._id,
+      },
+    });
+  };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -206,31 +210,31 @@ export default function Navbar(props) {
       PaperProps={{
         elevation: 0,
         sx: {
-          overflow: 'visible',
-          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+          overflow: "visible",
+          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
           mt: 1.5,
-          '& .MuiAvatar-root': {
+          "& .MuiAvatar-root": {
             width: 32,
             height: 32,
             ml: -0.5,
             mr: 1,
           },
-          '&:before': {
+          "&:before": {
             content: '""',
-            display: 'block',
-            position: 'absolute',
+            display: "block",
+            position: "absolute",
             top: 0,
             right: 14,
             width: 10,
             height: 10,
-            bgcolor: 'background.paper',
-            transform: 'translateY(-50%) rotate(45deg)',
+            bgcolor: "background.paper",
+            transform: "translateY(-50%) rotate(45deg)",
             zIndex: 0,
           },
         },
       }}
-      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      transformOrigin={{ horizontal: "right", vertical: "top" }}
+      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <MenuItem onClick={profileHandler}>
         <Avatar /> Profile
@@ -254,12 +258,13 @@ export default function Navbar(props) {
     </Menu>
   );
 
-
   return (
-    <Box sx={{
-      flexGrow: 1
-    }}>
-      <AppBar position="static" color="default" >
+    <Box
+      sx={{
+        flexGrow: 1,
+      }}
+    >
+      <AppBar position="static" color="default">
         <Toolbar>
           <IconButton
             size="large"
@@ -270,13 +275,18 @@ export default function Navbar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <button style={{ "border": "0px", "backgroundColor": "inherit" }}
+          <button
+            style={{ border: "0px", backgroundColor: "inherit" }}
             onClick={feedHandler}
           >
-            <img style={{
-              "maxHeight": 40,
-              "marginBottom": 4,
-            }} alt="" src={navbarLogo}></img>
+            <img
+              style={{
+                maxHeight: 40,
+                marginBottom: 4,
+              }}
+              alt=""
+              src={navbarLogo}
+            ></img>
           </button>
           <Search>
             {/* <SearchIconWrapper>
@@ -288,17 +298,21 @@ export default function Navbar(props) {
               freeSolo
               disableClearable
               onChange={ClickHandler}
-              options={UsersList ? UsersList : [{ username: "", name: "" ,_id : ""}]}
-              getOptionLabel={(option) => `${option.username},${option.name} ${option._id}`}
+              options={
+                UsersList ? UsersList : [{ username: "", name: "", _id: "" }]
+              }
+              getOptionLabel={(option) =>
+                `${option.username},${option.name} ${option._id}`
+              }
               sx={{ width: 500 }}
               renderOption={(props, option, state) => {
                 return (
-                  <li {...props}
+                  <li
+                    {...props}
                     key={`${option.username}`}
                   >{`${option.username}`}</li>
                 );
-              }
-              }
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -306,7 +320,7 @@ export default function Navbar(props) {
                   onChange={SearchTextChangeHandler}
                   InputProps={{
                     ...params.InputProps,
-                    type: 'search',
+                    type: "search",
                     startAdornment: (
                       <InputAdornment position="start">
                         <SearchIcon />
@@ -318,8 +332,12 @@ export default function Navbar(props) {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
