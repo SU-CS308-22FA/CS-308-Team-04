@@ -78,7 +78,7 @@ module.exports = class UserController {
                 comments_count : req.body.comments_count,
                 reactions_list : req.body.reactions_list,
                 share_count : req.body.share_count,
-                date : new Date()
+                date : req.body.date
             };
             
             const UserdbResponse = await PostDAO.updatePost(post_id,updated_post);

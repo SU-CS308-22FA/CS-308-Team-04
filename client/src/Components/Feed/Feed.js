@@ -34,8 +34,10 @@ const Feed = (props) => {
   const AddPostHandler = async (enteredText) => {
     console.log(enteredText);
     fetch(
-      "https://genc-football-backend.herokuapp.com/GencFootball/posts/add",
-      //`/GencFootball/posts/add`
+      USE_LOCAL_BACKEND
+      ?`/GencFootball/posts/add`
+      :"https://genc-football-backend.herokuapp.com/GencFootball/posts/add"
+      ,
       {
         method: "POST",
         headers: {
@@ -77,8 +79,9 @@ const Feed = (props) => {
 
   useEffect(() => {
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
-      // `/GencFootball/posts/getposts?page=${encodedValue}`
+      USE_LOCAL_BACKEND
+      ?`/GencFootball/posts/getposts?page=${encodedValue}`
+      :`https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
     )
       .catch((err) => {
         console.log("Caught error", err);
