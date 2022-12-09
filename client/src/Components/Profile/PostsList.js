@@ -80,10 +80,8 @@ const PostsList = (props) => {
 
           <img
             className={classes.post_img}
-            alt="lorem picsum"
-            src={`https://picsum.photos/1000/450?random=${Math.floor(
-              Math.random() * 20
-            )}`}
+            alt="Photo URL is not valid"
+            src={element.post_photo_url}
           />
           <div className={classes.post_info}>
             <div className={classes.post_info_left}>

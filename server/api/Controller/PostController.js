@@ -13,6 +13,7 @@ module.exports = class UserController {
                 user_id : req.body.user_id,
                 username : req.body.username,
                 post_message : req.body.post_message,
+                post_photo_url : req.body.post_photo_url,
                 comments_list : [],
                 comments_count : 0,
                 reacted_by : [],

@@ -43,8 +43,9 @@ const Feed = (props) => {
     birth_date: "",
   });
 
-  const AddPostHandler = async (enteredText) => {
+  const AddPostHandler = async (enteredText,enteredURL) => {
     console.log(enteredText);
+    console.log(enteredURL);
     fetch(
       USE_LOCAL_BACKEND
         ? `/GencFootball/posts/add`
@@ -58,6 +59,7 @@ const Feed = (props) => {
           user_id: user_id,
           username: userInfo.username,
           post_message: enteredText,
+          post_photo_url:enteredURL
         }),
       }
     )
