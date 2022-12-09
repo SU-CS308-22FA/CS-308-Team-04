@@ -20,6 +20,18 @@ const Feed = (props) => {
     ? location.state.user_id
     : localStorage.getItem("user");
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Feed refreshed");
+      if (reload === 1) {
+        setReload(0);
+      } else {
+        setReload(1);
+      }
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [reload]);
+
   const [userInfo, setUserInfo] = useState({
     _id: "",
     email: "",
