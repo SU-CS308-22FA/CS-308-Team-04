@@ -123,6 +123,8 @@ module.exports = class PostDAO {
                     }
                 }
             );*/
+
+            //CHECK WHETHER USER HAS REACTED TO POST
             const pipeline = [
                 {$match : {_id : ObjectId(post_id)}},
                 {
@@ -147,8 +149,6 @@ module.exports = class PostDAO {
                          index_of_obj: {
                             "$indexOfArray": ["$reacted_by.ReactedBy_id",ObjectId(Reaction_info.reactedby_id)]
                          }
-                        //el1 : "$reacted_by.0.ReactedBy_id"},
-                        //el2 : {"$set":"$react_obj.0.ReactedBy_id"}
                     }
                 }
             ]
@@ -157,6 +157,7 @@ module.exports = class PostDAO {
             console.log("Is exist function returns:", is_exist);
             is_exist.isLiked ? console.log("YEY") : console.log("NAH");
             is_exist;
+            //IF USER HAS NOT REACTED TO POST INSERT HIS USER_ID and reaction_index TO THE "reacted_by" Array
             if (!is_exist.isLiked) {
                 const updateResponse = await Post.updateOne(
                     { _id: ObjectId(post_id) },
@@ -174,11 +175,12 @@ module.exports = class PostDAO {
                 );
                 return updateResponse;
             }
-
+            // USER HAS ALREADY REACTED TO THE POST
             else{
-               // if(is_exist.react_obj[0].Reacted_index){
+    
                 let current_index = is_exist.react_obj[0].Reacted_index;
                 console.log("current_index:",current_index);
+                // IF USER CLICKS THE SAME REACTION AGAIN REMOVE HIS USERID FROM ARRAY AND DECREMENT THE COUNT FOR THIS REACTION
                 if(is_exist.react_obj[0].Reacted_index === Reaction_info.reacted_index){
                     const updateResponse = await Post.updateOne(
                         { _id: ObjectId(post_id) },
@@ -196,8 +198,9 @@ module.exports = class PostDAO {
                     );
                     return updateResponse;
                 }
+                // IF USER WANTS TO CHANGE HIS REACTION, UPDATE THE reacted_index in "reacted_by" ARRAY
+                // AND INCREMENT NEW REACTION COUNT AND DECREASE OLD REACTION COUNT
                 else{
-                    console.log("We are here");
                     const updateResponse = await Post.updateOne(
                         { _id: ObjectId(post_id) },
                         {
@@ -213,7 +216,6 @@ module.exports = class PostDAO {
                     );
                     return updateResponse;
                 }
-               // }
             }
 
         }

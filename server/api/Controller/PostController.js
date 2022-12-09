@@ -125,8 +125,8 @@ module.exports = class UserController {
                 throw new Error("unable to update post");
             }
             //console.log(UserdbResponse);
-            //res.json(UserdbResponse);
-            res.json({status : "success"});
+            res.json(UserdbResponse);
+            //res.json({status : "success"});
         }
 
         catch(e) {
