@@ -33,6 +33,7 @@ const UpdateProfile = (props) => {
     surname: userInfo.surname,
     mobile_number: userInfo.mobile_number,
     birth_date: userInfo.birth_date,
+    post_photo_url: userInfo.post_photo_url,
     isPrivate: userInfo.isPrivate,
   });
 
@@ -84,6 +85,23 @@ const UpdateProfile = (props) => {
         </div>
         <Card>
           <form>
+          <img
+            className="profile_logo_change"
+            alt="cat"
+            src={userUpdatedInfo.post_photo_url}
+          />
+            <TextField
+              fullWidth
+              size="medium"
+              type="text"
+              id="outlined-basic"
+              label="Profile Photo"
+              variant="outlined"
+              autoComplete="off"
+              onChange={handleChange("post_photo_url")}
+              margin="normal"
+              value={userUpdatedInfo.post_photo_url}
+            />
             <TextField
               fullWidth
               size="medium"

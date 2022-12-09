@@ -13,7 +13,6 @@ module.exports = class UserController {
                 user_id : req.body.user_id,
                 username : req.body.username,
                 post_message : req.body.post_message,
-                post_photo_url : req.body.post_photo_url,
                 comments_list : [],
                 comments_count : 0,
                 reacted_by : [],
@@ -80,7 +79,7 @@ module.exports = class UserController {
                 comments_count : req.body.comments_count,
                 reactions_list : req.body.reactions_list,
                 share_count : req.body.share_count,
-                date : req.body.date
+                date : req.body.date,
             };
             
             const UserdbResponse = await PostDAO.updatePost(post_id,updated_post);

@@ -105,6 +105,7 @@ module.exports = class UserController{
              email : req.body.email,
              mobile_number : req.body.mobile_number,
              birth_date : req.body.birth_date,
+             post_photo_url : req.body.post_photo_url,
              date : new Date(),
              isPrivate: false
             }
@@ -132,6 +133,7 @@ module.exports = class UserController{
                 email : req.body.email,
                 mobile_number : req.body.mobile_number,
                 birth_date : req.body.birth_date,
+                post_photo_url : req.body.post_photo_url,
                 date : new Date(),
                 isPrivate: req.body.isPrivate
             };

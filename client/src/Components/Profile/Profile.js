@@ -171,7 +171,7 @@ const Profile = (props) => {
           <img
             className={classes.profile_logo}
             alt="cat"
-            src="https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb"
+            src={userInfo.post_photo_url}
           />
           <div className={classes.profile_info}>
             <h2 className={classes.h2}>
