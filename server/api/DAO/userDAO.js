@@ -156,7 +156,9 @@ module.exports =  class UserDAO{
                         mobile_number : updated_user.mobile_number,
                         birth_date : updated_user.birth_date,
                         date : updated_user.date,
+                        post_photo_url : updated_user.post_photo_url,
                         isPrivate : updated_user.isPrivate
+                        
                     }}
                 );
 
