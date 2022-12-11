@@ -93,8 +93,8 @@ const Feed = (props) => {
   useEffect(() => {
     fetch(
       USE_LOCAL_BACKEND
-        ? `/GencFootball/posts/getposts?page=${encodedValue}`
-        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
+      ? `/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
+      : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
     )
       .catch((err) => {
         console.log("Caught error", err);

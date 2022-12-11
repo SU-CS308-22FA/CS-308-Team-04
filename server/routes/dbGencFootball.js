@@ -20,9 +20,10 @@ router.route("/user/userwithquery/:user_info").get(UserCtrl.apiGetUserWithQuery)
 //ROUTERS OF VIEW TABLE
 router.route("/posts/add").post(PostCtrl.apiPostPosts);
 router.route("/posts/:post_id").put(PostCtrl.apiUpdatePost);
+router.route("/posts/getposts/:user_id").get(PostCtrl.apiGetPosts);
 router.route("/posts/postreaction/:post_id").put(PostCtrl.apiUpdatePostReaction);
-router.route("/posts/getposts").get(PostCtrl.apiGetPosts);
 router.route("/posts/deleteposts").delete(PostCtrl.apiDeletePosts);
+
 //ROUTERS OF FOLLOWER & FOLLOWING TABLE
 router.route("/follow/addFollower").put(FollowCtrl.apiAddFollowerAndUpdateCounts); // "/follow/addFollower/:user_id"
 router.route("/follow/removeFollower").put(FollowCtrl.apiRemoveFollowerAndUpdateCounts); // "/follow/removeFollower/:user_id"
@@ -30,6 +31,6 @@ router.route("/follow/registerFollow").post(FollowCtrl.apiRegisterUserToFollowTa
 router.route("/follow/unregisterFollow").delete(FollowCtrl.apiDeleteUserFromFollowTable); // "/follow/unregisterFollow/:user_id" // OK
 router.route("/follow/getFollowerCount/:user_id").get(FollowCtrl.apiReturnFollowerCount); // "/follow/getFollowerCount/:user_id" // OK
 router.route("/follow/getFollowingCount/:user_id").get(FollowCtrl.apiReturnFollowingCount); // "follow/getFollowingCount/:user_id" // OK
-router.route("/follow/isFollowing").get(FollowCtrl.apiIsFollowing); // OK !!!!!!!!!!
+router.route("/follow/isFollowing").post(FollowCtrl.apiIsFollowing); // OK !!!!!!!!!!
 
 module.exports = router;

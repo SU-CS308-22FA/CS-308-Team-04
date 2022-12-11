@@ -183,7 +183,7 @@ export default function Navbar(props) {
   const feedHandler = () => {
     navigate("/Feed", {
       state: {
-        user_id: userInfo._id,
+        user_id: currentUserId,
       },
     });
   };
