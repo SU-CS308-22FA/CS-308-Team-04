@@ -102,4 +102,38 @@ module.exports =  class FollowerDAO{
         }
     }
 
+    static async GetFollowerListOfUserWithID (user_id) {
+        try{
+
+            return await Follower.aggregate([
+                {
+                  "$match": {
+                    "user_id": ObjectId(user_id)
+                  }
+                },
+                {
+                  "$lookup": {
+                    "from": "users",
+                    "localField": "follower_list",
+                    "foreignField": "_id",
+                    "as": "follower_list"
+                  }
+                },
+                {
+                  "$project": {
+                    "follower_list._id": 1,
+                    "follower_list.name": 1,
+                    "follower_list.surname": 1,
+                    "follower_list.username": 1
+                  }
+                }
+              ]).toArray();
+        }
+        catch(e){
+
+            console.log("Unable to return follower list",e);
+            return {error:e};
+        }
+    }
+
 }

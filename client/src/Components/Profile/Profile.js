@@ -11,6 +11,23 @@ import Card from "../UI/Card/Card";
 import { USE_LOCAL_BACKEND } from "../../config.js";
 import Navbar from "../Navigation/navbar";
 import PostsList from "./PostsList";
+import SimpleDialog from "./SimpleDialog";
+//import FollowListDialog from "./FollowListDialog";
+/////
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+import PersonIcon from "@mui/icons-material/Person";
+import AddIcon from "@mui/icons-material/Add";
+import Typography from "@mui/material/Typography";
+import { blue } from "@mui/material/colors";
+/////
 
 const Profile = (props) => {
   const location = useLocation();
@@ -31,6 +48,46 @@ const Profile = (props) => {
     birth_date: "",
     isPrivate: "",
   });
+
+  /////Used for Follow List Dialog
+  const [userlist, setUserlist] = React.useState([]);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpenFollower = () => {
+    setOpen(true);
+
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowerList/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerList/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserlist(data[0].follower_list);
+        console.log("Hello" + data[0].follower_list);
+      });
+  };
+
+  const handleClickOpenFollowing = () => {
+    setOpen(true);
+
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowingList/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingList/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserlist(data[0].following_list);
+        console.log("Hello" + data[0].following_list);
+      });
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+  //////////////
 
   const [follower_count, setFollowerCount] = useState("Placeholder");
   const [following_count, setFollowingCount] = useState("Placeholder");
@@ -251,11 +308,29 @@ const Profile = (props) => {
             style={{ paddingRight: "10px" }}
           >
             <h2 className={classes.h2}>Followers</h2>
-            <p>{follower_count}</p>
+            <div>
+              <Button variant="Text" onClick={handleClickOpenFollower}>
+                {follower_count}
+              </Button>
+              <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                userlist={userlist}
+              />
+            </div>
           </div>
           <div className={classes.following_div}>
             <h2 className={classes.h2}>Following</h2>
-            <p>{following_count}</p>
+            <div>
+              <Button variant="Text" onClick={handleClickOpenFollowing}>
+                {following_count}
+              </Button>
+              <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                userlist={userlist}
+              />
+            </div>
           </div>
         </div>
       </Card>

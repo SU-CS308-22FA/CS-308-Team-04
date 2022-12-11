@@ -132,4 +132,39 @@ module.exports = class FollowController{
         }
     }
 
+    static async apiGetFollowerList(req,res,next){
+        try{
+            const user_id= req.params.user_id;
+            console.log(user_id); //
+
+            const list = await FollowerDAO.GetFollowerListOfUserWithID(user_id);
+            //console.log("Response: " + follow + "\n"); //
+            res.json(list);
+        }
+        catch(e) {
+            res.status(500).json({error : e.message}); //
+        }
+    }
+    /*
+    PostDAO.getPosts(page).then(
+                (data) => {
+                    posts_list = data;
+                   // console.log({posts_list,page});
+                    res.json({posts_list,page});
+                }*/ 
+
+    static async apiGetFollowingList(req,res,next){
+        try{
+            const user_id= req.params.user_id;
+            console.log(user_id); //
+
+            const list = await FollowingDAO.GetFollowingListOfUserWithID(user_id);
+            //console.log("Response: " + follow + "\n"); //
+            res.json(list);
+        }
+        catch(e) {
+            res.status(500).json({error : e.message}); //
+        }
+    }
+
 }
