@@ -20,6 +20,18 @@ const Feed = (props) => {
     ? location.state.user_id
     : localStorage.getItem("user");
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Feed refreshed");
+      if (reload === 1) {
+        setReload(0);
+      } else {
+        setReload(1);
+      }
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [reload]);
+
   const [userInfo, setUserInfo] = useState({
     _id: "",
     email: "",
@@ -31,11 +43,13 @@ const Feed = (props) => {
     birth_date: "",
   });
 
-  const AddPostHandler = async (enteredText) => {
+  const AddPostHandler = async (enteredText,enteredURL) => {
     console.log(enteredText);
+    console.log(enteredURL);
     fetch(
-      "https://genc-football-backend.herokuapp.com/GencFootball/posts/add",
-      //`/GencFootball/posts/add`
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/posts/add`
+        : "https://genc-football-backend.herokuapp.com/GencFootball/posts/add",
       {
         method: "POST",
         headers: {
@@ -45,6 +59,7 @@ const Feed = (props) => {
           user_id: user_id,
           username: userInfo.username,
           post_message: enteredText,
+          post_photo_url:enteredURL
         }),
       }
     )
@@ -100,10 +115,7 @@ const Feed = (props) => {
     setPageNum(PageNum + 1);
   };
 
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   const deleteHandler = async () => {
-    await sleep(100);
     if (reload === 1) {
       setReload(0);
     } else {

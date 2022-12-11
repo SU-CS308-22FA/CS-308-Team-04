@@ -15,11 +15,13 @@ router.route("/user/:user_id").delete(UserCtrl.apiDeleteUser);
 router.route("/users/:email").get(UserCtrl.apiGetUserByEmail);
 router.route("/user/userwithpost/:user_id").get(UserCtrl.apiGetUserWithPost);
 router.route("/user/isPrivate/:user_id").get(UserCtrl.apiIsUserPrivate);
+router.route("/user/userwithquery/:user_info").get(UserCtrl.apiGetUserWithQuery);
 
 //ROUTERS OF VIEW TABLE
 router.route("/posts/add").post(PostCtrl.apiPostPosts);
 router.route("/posts/:post_id").put(PostCtrl.apiUpdatePost);
 router.route("/posts/getposts/:user_id").get(PostCtrl.apiGetPosts);
+router.route("/posts/postreaction/:post_id").put(PostCtrl.apiUpdatePostReaction);
 router.route("/posts/deleteposts").delete(PostCtrl.apiDeletePosts);
 
 //ROUTERS OF FOLLOWER & FOLLOWING TABLE

@@ -13,8 +13,9 @@ import Alert from '@mui/material/Alert';
 export default function AddPost(props) {
   const [open, setOpen] = React.useState(false);
   const [PostContent, setPostContent] = React.useState("");
-  const [isValidPost,set_isValidPost] = React.useState(false);
-  const [isButtonClicked,set_isButtonClicked] = React.useState(false);
+  const [PostURL, setPostURL] = React.useState("");
+  const [isValidPost, set_isValidPost] = React.useState(false);
+  const [isButtonClicked, set_isButtonClicked] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,59 +25,70 @@ export default function AddPost(props) {
     setOpen(false);
   };
 
-  React.useEffect(()=> {
+  React.useEffect(() => {
 
     set_isButtonClicked(false);
-   //PostContent.trim().length == 0 ? console.log("It can not be empty")&&set_isValidPost(false) :  set_isValidPost(true);
-   if(PostContent.trim().length === 0){
-    set_isValidPost(false);
-   }
-   else {
-    set_isValidPost(true);
-   }
-   //console.log(PostContent);
-   // console.log(PostContent.trim().length);
+    //PostContent.trim().length == 0 ? console.log("It can not be empty")&&set_isValidPost(false) :  set_isValidPost(true);
+    if (PostContent.trim().length === 0) {
+      set_isValidPost(false);
+    }
+    else {
+      set_isValidPost(true);
+    }
+    //console.log(PostContent);
+    // console.log(PostContent.trim().length);
     //console.log(isValidPost);
 
-  },[PostContent,isValidPost])
+  }, [PostContent, isValidPost])
   const PostContentHandler = (event) => {
     setPostContent(event.target.value);
+  }
+
+  const PostURLHandler = (event) => {
+    setPostURL(event.target.value);
   }
 
   const PostSubmitHandler = (event) => {
     //console.log(PostContent.trim().length);
     //PostContent.trim().length === 0 ? set_isValidPost(true) :  set_isValidPost(false);
-   // isValidPost ? setOpen(false) : console.log("Post content should be valid");
-   set_isButtonClicked(true);
-   if(isValidPost) {
-        props.onAddPost(PostContent);
-        setPostContent("");
-        setOpen(false);
-   }
-   else {
-        console.log("Post content should be valid");
-   }
+    // isValidPost ? setOpen(false) : console.log("Post content should be valid");
+    set_isButtonClicked(true);
+    if (isValidPost) {
+      props.onAddPost(PostContent,PostURL);
+      setPostContent("");
+      setOpen(false);
+    }
+    else {
+      console.log("Post content should be valid");
+    }
   }
 
 
   return (
     <div>
-        <Fab size="small" color="primary" aria-label="add" onClick = {handleClickOpen}>
-            <AddIcon />
-        </Fab>
+      <Fab size="small" color="primary" aria-label="add" onClick={handleClickOpen}>
+        <AddIcon />
+      </Fab>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create Your Post</DialogTitle>
         <DialogContent>
           <DialogContentText>
           </DialogContentText>
+          <TextField
+            label="Photo URL"
+            id="Photo-Id"
+            size="small"
+            variant="standard"
+            fullWidth
+            onChange={PostURLHandler}
+          />
           <div>{isButtonClicked && !isValidPost ? <Alert severity="error">You can not send empty post!</Alert> : ""}</div>
           <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            type="text"
-            fullWidth
+            label="Post Content"
+            id="Post-Content"
+            size="small"
             variant="standard"
+            fullWidth
             onChange={PostContentHandler}
           />
         </DialogContent>
