@@ -30,6 +30,27 @@ module.exports = class UserController {
         }
     }
 
+    static async apiAddComment(req,res,next) {
+            console.log("Elimnen1");
+        try{
+            const post_id = req.params.post_id;
+            const comment_user_id = req.params.user_id;
+            const comment_info = {
+                user_id : comment_user_id,
+                comment_content : req.body.comment_content,
+                date : new Date()
+            };
+            const PostdbResponse = await PostDAO.AddComment(post_id,comment_info);
+            console.log(PostdbResponse)
+            res.json(PostdbResponse);
+
+        }
+
+        catch(e){
+            res.status(500).json({error : e.message});
+        }
+    }
+
     static async apiGetPosts(req,res,next){
         try {
             //const postPerPage = req.query.postPerPage ? parseInt(req.query.postPerPage,10) : 10;

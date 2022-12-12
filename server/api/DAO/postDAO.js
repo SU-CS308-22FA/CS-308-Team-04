@@ -147,6 +147,31 @@ module.exports = class PostDAO {
 
     }
 
+    static async AddComment(post_id, comment_info) {
+        try {
+            const updateResponse = await Post.updateOne(
+
+                { _id: ObjectId(post_id) },
+                {
+                    $push: {
+                        comments_list : {
+                        user_id: ObjectId(comment_info.user_id),
+                        comment_content : comment_info.comment_content,
+                        date : comment_info.date
+                        }
+                    }
+                }
+            );
+
+            return updateResponse;
+        }
+        catch (e) {
+            console.log("Unable to Update Review");
+            return { error: e };
+        }
+
+    }
+
     static async updatePostReaction(post_id, Reaction_info) {
         try {
            /* const is_exist = await Post.findOne(
