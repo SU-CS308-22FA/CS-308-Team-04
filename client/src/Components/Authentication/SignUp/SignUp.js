@@ -1,10 +1,4 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  //useReducer,
-  //useContext,
-} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import classes from "./SignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../UI/Card/Card";
@@ -51,6 +45,10 @@ const SignUp = () => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  /**
+   * This function shows the password of the user when he/she
+   * clicks on the show password field.
+   */
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -91,18 +89,36 @@ const SignUp = () => {
     setErrMsg("");
   }, [email, password, rePassword]);
 
+  /**
+   * This function handles email variable when user enters.
+   * @param {event} event of the email change event.
+   */
   const emailChangeHandler = (event) => {
     setEmail(event.target.value);
   };
+
+  /**
+   * This function handles password variable when user enters.
+   * @param {event} event of the password change event.
+   */
   const PasswordChangeHandler = (event) => {
     setPassword(event.target.value);
   };
 
+  /**
+   * This function handles re-password variable when user enters.
+   * @param {event} event of the password change event.
+   */
   const RePasswordChangeHandler = (event) => {
     setrePassword(event.target.value);
     console.log(rePassword);
   };
 
+  /**
+   * This function try to fetch a user with given email address.
+   * If successful returns true, else returns false.
+   * @param {string} email of the user.
+   */
   const isUserExists = async (email) => {
     let response = await fetch(
       USE_LOCAL_BACKEND
@@ -123,6 +139,12 @@ const SignUp = () => {
     return true;
   };
 
+  /**
+   * This function checks if user exists.
+   * then if successful navigates user to second
+   * signup page.
+   * @param {event} event
+   */
   const SubmitButtonHandler = (event) => {
     event.preventDefault();
 

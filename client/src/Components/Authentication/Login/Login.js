@@ -1,10 +1,4 @@
-import React, {
-  //useRef,
-  useState,
-  useEffect,
-  //useReducer,
-  //useContext,
-} from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import classes from "./Login.module.css";
 import Card from "../../UI/Card/Card";
@@ -33,10 +27,7 @@ const Login = (props) => {
 
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
-    console.log(result);
-    console.log(email);
     setValidEmail(result);
-    console.log("valid email is : ", ValidEmail);
   }, [email, ValidEmail]);
 
   const [values, setValues] = React.useState({
@@ -51,6 +42,10 @@ const Login = (props) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  /**
+   * This function shows the password of the user when he/she
+   * clicks on the show password field.
+   */
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -62,14 +57,27 @@ const Login = (props) => {
     event.preventDefault();
   };
 
+  /**
+   * This function handles email variable when user enters.
+   * @param {event} event of the email change event.
+   */
   const EmailChangeHandler = (event) => {
     setEmail(event.target.value);
   };
 
+  /**
+   * This function handles password variable when user enters.
+   * @param {event} event of the password change event.
+   */
   const PasswordChangeHandler = (event) => {
     setPassword(event.target.value);
   };
 
+  /**
+   * This function handles login event by fetching user.
+   * fetched user is checked for his/her email and then for his/her password.
+   * @param {event} event of the login event.
+   */
   const loginHandler = async (event) => {
     event.preventDefault();
 
@@ -79,7 +87,7 @@ const Login = (props) => {
           ? `/GencFootball/users/${email}`
           : `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
       );
-      console.log(response);
+      //console.log(response);
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
         window.alert(message);
@@ -100,9 +108,9 @@ const Login = (props) => {
         if (!user_obj) {
           return;
         } //user not found
-        console.log(user_obj);
+        //console.log(user_obj);
 
-        console.log("user id is :", user_obj._id);
+        //console.log("user id is :", user_obj._id);
         if (user_obj.password === values.password) {
           localStorage.setItem("user", user_obj._id);
           navigate("/Profile", {

@@ -10,7 +10,6 @@ import classes from "./SignUpSecondPage.module.css";
 import Card from "../../UI/Card/Card";
 import navbarLogo from "../../../images/logo_light.png";
 import TextField from "@mui/material/TextField";
-//import dayjs from 'dayjs';
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -37,7 +36,8 @@ const Profile = (props) => {
     mobile_number: "",
     birth_date: null,
     profiletype: "",
-    post_photo_url: "https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb"
+    post_photo_url:
+      "https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb",
   });
 
   const [saveClick, setSaveClick] = useState({
@@ -48,27 +48,34 @@ const Profile = (props) => {
     setUserInfo({ ...userInfo, [prop]: event.target.value });
   };
 
+  /**
+   * This function try to fetch a user with given email address.
+   * If successful returns true, else returns false.
+   * @param {string} email of the user.
+   */
   const isUserExists = async (email) => {
     let response = await fetch(
       USE_LOCAL_BACKEND
-      ?`/GencFootball/users/${email}`
-      :`https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
-      //
+        ? `/GencFootball/users/${email}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
     );
 
     console.log(response);
     if (!response.ok) {
-      //const message = `An error has occurred: ${response.statusText}`;
       return null;
     }
     if (response.status === 404) {
-      //user not found
       return false;
     }
-    //user exists
     return true;
   };
 
+  /**
+   * This function prevents double clicking on save button.
+   * Then creates a new user with given values if successful.
+   * @param {event} event
+   * @returns
+   */
   const buttonSaveHandler = (event) => {
     //double click prevention
     event.preventDefault();
