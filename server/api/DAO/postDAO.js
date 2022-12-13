@@ -86,6 +86,11 @@ module.exports = class PostDAO {
                         "stage1": 0,
                         "stage2": 0
                     }
+                },
+                {
+                    "$sort": {
+                        "date": -1
+                    }
                 }
               ]);
         }
