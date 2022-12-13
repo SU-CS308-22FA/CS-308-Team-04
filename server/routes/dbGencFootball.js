@@ -24,6 +24,7 @@ router.route("/posts/getposts/:user_id").get(PostCtrl.apiGetPosts);
 router.route("/posts/postreaction/:post_id").put(PostCtrl.apiUpdatePostReaction);
 router.route("/posts/deleteposts").delete(PostCtrl.apiDeletePosts);
 router.route("/posts/addcomment/:user_id/:post_id").put(PostCtrl.apiAddComment);
+router.route("/posts/getcomments/:post_id").get(PostCtrl.apiGetComments);
 
 //ROUTERS OF FOLLOWER & FOLLOWING TABLE
 router.route("/follow/addFollower").put(FollowCtrl.apiAddFollowerAndUpdateCounts); // "/follow/addFollower/:user_id"

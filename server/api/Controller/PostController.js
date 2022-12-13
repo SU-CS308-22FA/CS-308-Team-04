@@ -29,6 +29,21 @@ module.exports = class UserController {
             res.status(500).json({error : e.message});
         }
     }
+    
+    static async apiGetComments(req,res,next) {
+        try{
+            const post_id = req.params.post_id;
+            console.log("Hello post id is",post_id);
+            const PostdbResponse = await PostDAO.GetComments(post_id);
+            console.log(PostdbResponse)
+            res.json(PostdbResponse);
+    
+        }
+    
+        catch(e){
+            res.status(500).json({error : e.message});
+        }
+    }
 
     static async apiAddComment(req,res,next) {
             console.log("Elimnen1");

@@ -159,10 +159,12 @@ module.exports = class PostDAO {
                         comment_content : comment_info.comment_content,
                         date : comment_info.date
                         }
+                    },
+                    "$inc" : {
+                        comments_count : 1
                     }
                 }
             );
-
             return updateResponse;
         }
         catch (e) {
@@ -170,6 +172,51 @@ module.exports = class PostDAO {
             return { error: e };
         }
 
+    }
+
+    static async GetComments(post_id) {
+        console.log("You are in GetComments and post id is ",post_id);
+        let cursor;
+        try {
+            cursor = await Post.aggregate([
+                {
+                    "$match": {
+                      _id: ObjectId(post_id)
+                    }
+                  },
+                  {
+                    "$unwind": "$comments_list"
+                  },
+                  {
+                    "$lookup": {
+                      "from": "users",
+                      "localField": "comments_list.user_id",
+                      "foreignField": "_id",
+                      "as": "comment_info"
+                    },
+
+                  },
+                  {
+                    "$unwind": "$comment_info"
+                  },
+            ]);
+        }
+        catch (e) {
+            console.error("Unable to Get Comments of the Posts", e);
+            return [];
+        }
+
+        //const displayCursor = cursor.limit(postsPerPage).skip(postsPerPage * page);
+        try {
+            const posts_list = await cursor.toArray();
+            console.log("Posts_list is", posts_list);
+            return posts_list;
+        }
+
+        catch (e) {
+            console.error("Unable to convert cursor to array", e);
+            return [];
+        }
     }
 
     static async updatePostReaction(post_id, Reaction_info) {

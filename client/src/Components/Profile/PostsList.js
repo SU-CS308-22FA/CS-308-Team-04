@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../UI/Card/Card";
 import classes from "./PostsList.module.css";
 import { USE_LOCAL_BACKEND } from "../../config.js";
+import AddComment from "../PopUps/AddComment";
 import { useEffect } from "react";
 const PostsList = (props) => {
   let navigate = useNavigate();
@@ -15,6 +16,37 @@ const PostsList = (props) => {
       },
     });
   };
+
+  const AddCommentHandler = (post_id, comment_content) => {
+    const user_id = localStorage.getItem("user");
+    console.log(user_id, post_id, comment_content);
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/posts/addcomment/${user_id}/${post_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/addcomment/${user_id}/${post_id}`,
+
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          {
+            comment_content: comment_content,
+          }
+        ),
+      }
+    ).catch((error) => {
+      window.alert(error);
+      return;
+    })
+      .then((response) => {
+        //success
+        console.log(response);
+        //reload feed
+      })
+  }
+
 
   function isImage(url) {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -69,6 +101,7 @@ const PostsList = (props) => {
       });
   };
 
+
   return (
     <div className={classes.PostsList}>
       {props.list.map((element) => (
@@ -113,6 +146,7 @@ const PostsList = (props) => {
               </div>
             </div>
             <div className={classes.post_info_right}>
+              <AddComment post_id={element._id} ReactionButtonHandler={likePostHandler} element={element} onAddComment={AddCommentHandler}></AddComment>
               <button
                 onClick={() => {
                   deletePostHandler(element);
