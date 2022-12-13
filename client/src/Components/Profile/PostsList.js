@@ -5,8 +5,59 @@ import classes from "./PostsList.module.css";
 import { USE_LOCAL_BACKEND } from "../../config.js";
 import AddComment from "../PopUps/AddComment";
 import { useEffect } from "react";
+import Emoji from "../UI/Card/Emoji";
+import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
+import Rating from '@mui/material/Rating';
+
 const PostsList = (props) => {
   let navigate = useNavigate();
+
+
+  const StyledRating = styled(Rating)(({ theme }) => ({
+    '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
+      color: theme.palette.action.disabled,
+    },
+  }));
+
+  const customIcons = {
+    1: {
+      icon: <Emoji label="Brick" symbol="🧱" />,
+      label: 'Defence',
+      index: 1,
+    },
+    2: {
+      icon: <Emoji label="Gloves" symbol="🧤" />,
+      label: 'Save',
+      index: 2,
+    },
+    3: {
+      icon: <Emoji label="Man sprinting" symbol="🏃‍♂‍" />,
+      label: 'Speed',
+      index: 3,
+    },
+    4: {
+      icon: <Emoji label="Running shoe" symbol="👟" />,
+      label: 'Dribble',
+      index: 4,
+    },
+    5: {
+      icon: <Emoji label="Goal net" symbol="🥅" />,
+      label: 'Goal',
+      index: 5,
+    },
+  };
+
+  function IconContainer(props) {
+    const { value, ...other } = props;
+    return <span {...other}>{customIcons[value].icon}</span>;
+  }
+
+  IconContainer.propTypes = {
+    value: PropTypes.number.isRequired,
+  };
+
+
 
   const SendProfileHandler = (user_id) => {
     console.log(user_id);
@@ -52,14 +103,14 @@ const PostsList = (props) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   }
 
-  const likePostHandler = (element) => {
+  const likePostHandler = (element, indexReaction) => {
     let updated_reaction_list = element.reactions_list;
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         reactedby_id: localStorage.getItem("user"),
-        reacted_index: 0, //like button index 0, reactions indexes: 1,2,3,4
+        reacted_index: indexReaction, //like button index 0, reactions indexes: 1,2,3,4
       }),
     };
     fetch(
@@ -129,7 +180,7 @@ const PostsList = (props) => {
               <div className={classes.react_buttons_div}>
                 <button
                   onClick={() => {
-                    likePostHandler(element);
+                    likePostHandler(element,0);
                   }}
                   className={classes.react_buttons}
                 >
@@ -141,7 +192,76 @@ const PostsList = (props) => {
                     element.reactions_list[0] //like index
                   }
                 </p>
-
+                <button
+                  onClick={() => {
+                    likePostHandler(element,1);
+                  }}
+                  className={classes.react_buttons}
+                >
+                 <Emoji label="Brick" symbol="🧱" />
+                </button>
+                <p className={classes.react_buttons_count}>
+                  {
+                    //Math.floor(Math.random() * 100)
+                    element.reactions_list[1] //like index
+                  }
+                </p>
+                <button
+                  onClick={() => {
+                    likePostHandler(element,2);
+                  }}
+                  className={classes.react_buttons}
+                >
+                  <Emoji label="Gloves" symbol="🧤" />
+                </button>
+                <p className={classes.react_buttons_count}>
+                  {
+                    //Math.floor(Math.random() * 100)
+                    element.reactions_list[2] //like index
+                  }
+                </p>
+                <button
+                  onClick={() => {
+                    likePostHandler(element,3);
+                  }}
+                  className={classes.react_buttons}
+                >
+                  <Emoji label="Man sprinting" symbol="🏃‍♂‍" />
+                </button>
+                <p className={classes.react_buttons_count}>
+                  {
+                    //Math.floor(Math.random() * 100)
+                    element.reactions_list[3] //like index
+                  }
+                </p>
+                <button
+                  onClick={() => {
+                    likePostHandler(element,4);
+                  }}
+                  className={classes.react_buttons}
+                >
+                  <Emoji label="Running shoe" symbol="👟" />
+                </button>
+                <p className={classes.react_buttons_count}>
+                  {
+                    //Math.floor(Math.random() * 100)
+                    element.reactions_list[4] //like index
+                  }
+                </p>
+                <button
+                  onClick={() => {
+                    likePostHandler(element,5);
+                  }}
+                  className={classes.react_buttons}
+                >
+                  <Emoji label="Goal net" symbol="🥅" />
+                </button>
+                <p className={classes.react_buttons_count}>
+                  {
+                    //Math.floor(Math.random() * 100)
+                    element.reactions_list[5] //like index
+                  }
+                </p>
                 {/* TO ADD ALL THE REACTION ON A ARRAY DO THE SAME THING IN UPPER CODE */}
               </div>
             </div>

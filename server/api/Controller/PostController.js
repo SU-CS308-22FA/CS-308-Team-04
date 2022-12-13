@@ -16,7 +16,7 @@ module.exports = class UserController {
                 comments_list : [],
                 comments_count : 0,
                 reacted_by : [],
-                reactions_list :[0,0,0,0,0],
+                reactions_list :[0,0,0,0,0,0],
                 share_count : 0,
                 date : new Date()
             };
