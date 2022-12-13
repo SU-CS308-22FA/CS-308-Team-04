@@ -10,7 +10,6 @@ import classes from "./SignUpSecondPage.module.css";
 import Card from "../../UI/Card/Card";
 import navbarLogo from "../../../images/logo_light.png";
 import TextField from "@mui/material/TextField";
-//import dayjs from 'dayjs';
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -20,6 +19,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { matchIsValidTel } from "mui-tel-input";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { USE_LOCAL_BACKEND } from "../../../config.js";
 
 const Profile = (props) => {
   const navigate = useNavigate();
@@ -36,6 +36,8 @@ const Profile = (props) => {
     mobile_number: "",
     birth_date: null,
     profiletype: "",
+    post_photo_url:
+      "https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb",
   });
 
   const [saveClick, setSaveClick] = useState({
@@ -46,25 +48,34 @@ const Profile = (props) => {
     setUserInfo({ ...userInfo, [prop]: event.target.value });
   };
 
+  /**
+   * This function try to fetch a user with given email address.
+   * If successful returns true, else returns false.
+   * @param {string} email of the user.
+   */
   const isUserExists = async (email) => {
     let response = await fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
-      //`/GencFootball/users/${email}`
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/users/${email}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/users/${email}`
     );
 
     console.log(response);
     if (!response.ok) {
-      //const message = `An error has occurred: ${response.statusText}`;
       return null;
     }
     if (response.status === 404) {
-      //user not found
       return false;
     }
-    //user exists
     return true;
   };
 
+  /**
+   * This function prevents double clicking on save button.
+   * Then creates a new user with given values if successful.
+   * @param {event} event
+   * @returns
+   */
   const buttonSaveHandler = (event) => {
     //double click prevention
     event.preventDefault();
@@ -76,8 +87,10 @@ const Profile = (props) => {
     isUserExists(userInfo.email).then((isExists) => {
       if (!isExists) {
         fetch(
-          "https://genc-football-backend.herokuapp.com/GencFootball/user/add",
-          //"/GencFootball/user/add"
+          USE_LOCAL_BACKEND
+            ? "/GencFootball/user/add"
+            : "https://genc-football-backend.herokuapp.com/GencFootball/user/add",
+
           {
             method: "POST",
             headers: {
@@ -92,16 +105,19 @@ const Profile = (props) => {
           })
           .then((resp) => {
             fetch(
-              `https://genc-football-backend.herokuapp.com/GencFootball/users/${userInfo.email}`
-              //`/GencFootball/users/${userInfo.email}`
+              USE_LOCAL_BACKEND
+                ? `/GencFootball/users/${userInfo.email}`
+                : `https://genc-football-backend.herokuapp.com/GencFootball/users/${userInfo.email}`
             )
               .then((response) => response.json())
               .then((data) => {
                 userid = data._id;
                 console.log("creating registration for user id" + userid);
                 fetch(
-                  "https://genc-football-backend.herokuapp.com/GencFootball/follow/registerFollow",
-                  //"/GencFootball/follow/registerFollow"
+                  USE_LOCAL_BACKEND
+                    ? "/GencFootball/follow/registerFollow"
+                    : "https://genc-football-backend.herokuapp.com/GencFootball/follow/registerFollow",
+
                   {
                     method: "POST",
                     headers: {
@@ -124,7 +140,6 @@ const Profile = (props) => {
       }
     });
   };
-
   return (
     <>
       <div className={classes.logo_div}>

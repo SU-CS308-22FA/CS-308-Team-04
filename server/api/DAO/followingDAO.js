@@ -123,5 +123,40 @@ module.exports =  class FollowingDAO{
             return {error:e};
         }
     }
+
+    static async GetFollowingListOfUserWithID (user_id) {
+        try{
+
+            return await Following.aggregate([
+                {
+                  "$match": {
+                    "user_id": ObjectId(user_id)
+                  }
+                },
+                {
+                  "$lookup": {
+                    "from": "users",
+                    "localField": "following_list",
+                    "foreignField": "_id",
+                    "as": "following_list"
+                  }
+                },
+                {
+                  "$project": {
+                    "following_list._id": 1,
+                    "following_list.name": 1,
+                    "following_list.surname": 1,
+                    "following_list.username": 1
+                  }
+                }
+              ]).toArray();
+        }
+        catch(e){
+
+            console.log("Unable to return following list",e);
+            return {error:e};
+        }
+    }
+
         
 }

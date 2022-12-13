@@ -1,4 +1,5 @@
 const mongodb = require("mongodb");
+const { search } = require("../../routes/dbGencFootball");
 const ObjectId = mongodb.ObjectId;
 
 let User;
@@ -42,6 +43,42 @@ module.exports =  class UserDAO{
             catch(e){
                 console.log("Unable to Get User",e);
                 return {error:e};
+            }
+        }
+
+        static async getQueryUserList(user_info){
+            
+            //let query;
+            //query =  {$text: {$search : user_info}};
+            let cursor;
+            try{
+                cursor = await User.find({ $or:[{
+                    name: {
+                        $regex: new RegExp(user_info),$options : "i"
+                    }},
+                    {
+                    username: {
+                        $regex: new RegExp(user_info),$options : "i"
+                    }}]
+                },
+                );
+            }
+            catch(er){
+
+                console.error("Unable to find issue find command ", er);
+                return {UsersList : []};
+            }
+            let list_num = 5;
+            const displayCursor = cursor.limit(list_num);
+            try{
+
+                const UsersList = await displayCursor.toArray();
+                return UsersList;
+            }
+            catch(er){
+
+                console.error("Unable to find issue find command ", er);
+                return {UsersList : []};
             }
         }
 
@@ -118,7 +155,10 @@ module.exports =  class UserDAO{
                         email : updated_user.email,
                         mobile_number : updated_user.mobile_number,
                         birth_date : updated_user.birth_date,
-                        date : updated_user.date
+                        date : updated_user.date,
+                        post_photo_url : updated_user.post_photo_url,
+                        isPrivate : updated_user.isPrivate
+                        
                     }}
                 );
 
@@ -137,6 +177,26 @@ module.exports =  class UserDAO{
                 const deleteResponse = await User.deleteOne({_id : ObjectId(user_id)});
                 console.log(deleteResponse);
                 return deleteResponse;
+            }
+
+            catch(e){
+                console.log("Unable to delete reviews",e);
+                return {error:e};
+            }
+        }
+
+        static async isUserPrivate(user_id){
+            
+            try{
+                return await User.findOne({
+                    _id : ObjectId(user_id),
+                    isPrivate: true
+                  },
+                  {projection:
+                    {isPrivate: 1,
+                    _id: 0,}
+                  }
+                  )
             }
 
             catch(e){

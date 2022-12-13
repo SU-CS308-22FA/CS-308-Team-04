@@ -8,15 +8,34 @@ import React, {
 import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./Profile.module.css";
 import Card from "../UI/Card/Card";
-
+import { USE_LOCAL_BACKEND } from "../../config.js";
 import Navbar from "../Navigation/navbar";
 import PostsList from "./PostsList";
+import SimpleDialog from "./SimpleDialog";
+//import FollowListDialog from "./FollowListDialog";
+/////
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+import PersonIcon from "@mui/icons-material/Person";
+import AddIcon from "@mui/icons-material/Add";
+import Typography from "@mui/material/Typography";
+import { blue } from "@mui/material/colors";
+/////
 
 const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [reload, setReload] = useState(0);
-  let user_id = location.state ? location.state.user_id : localStorage.getItem('user');
+  let user_id = location.state
+    ? location.state.user_id
+    : localStorage.getItem("user");
 
   const [userInfo, setUserInfo] = useState({
     _id: "",
@@ -27,18 +46,61 @@ const Profile = (props) => {
     surname: "",
     mobile_number: "",
     birth_date: "",
+    isPrivate: "",
   });
 
-  const [follower_count,setFollowerCount] = useState("Placeholder");
-  const [following_count,setFollowingCount] = useState("Placeholder");
+  /////Used for Follow List Dialog
+  const [userlist, setUserlist] = React.useState([]);
 
-  const [PostLists,setPostListsFunction] = useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpenFollower = () => {
+    setOpen(true);
+
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowerList/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerList/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserlist(data[0].follower_list);
+        console.log("Hello" + data[0].follower_list);
+      });
+  };
+
+  const handleClickOpenFollowing = () => {
+    setOpen(true);
+
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowingList/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingList/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserlist(data[0].following_list);
+        console.log("Hello" + data[0].following_list);
+      });
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+  //////////////
+
+  const [follower_count, setFollowerCount] = useState("Placeholder");
+  const [following_count, setFollowingCount] = useState("Placeholder");
+  const [isDisplayedProfileFollowed, setIsDisplayedProfileFollowed] =
+    useState(false);
+
+  const [PostLists, setPostListsFunction] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      //const response = await fetch(`/GencFootball/user/${user_id}`);
       const response = await fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/user/userwithpost/${user_id}`
-        //`/GencFootball/user/userwithpost/${user_id}`
+        USE_LOCAL_BACKEND
+          ? `/GencFootball/user/userwithpost/${user_id}`
+          : `https://genc-football-backend.herokuapp.com/GencFootball/user/userwithpost/${user_id}`
       );
       //console.log(response);
       if (!response.ok) {
@@ -58,75 +120,106 @@ const Profile = (props) => {
     fetchData();
 
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerCount/${user_id}`
-      //`/GencFootball/follow/getFollowerCount/${user_id}`
-      ).then(response => response.json())
-        .then(data => {setFollowerCount(data.follower_count)});
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowerCount/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowerCount/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFollowerCount(data.follower_count);
+      });
 
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingCount/${user_id}`
-      //`/GencFootball/follow/getFollowingCount/${user_id}`
-      ).then(response => response.json())
-        .then(data => 
-          {setFollowingCount(data.following_count)});
-        
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/getFollowingCount/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/getFollowingCount/${user_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFollowingCount(data.following_count);
+      });
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user"),
+        other_user_id: user_id,
+      }),
+    };
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/isFollowing`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/isFollowing`,
+      requestOptions
+    )
+      .catch((err) => {
+        console.log("Caught error", err);
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsDisplayedProfileFollowed(data.isFollowing);
+        //console.log("ISFOLLOWING:"+data.isFollowing)
+      });
+
     return;
   }, [user_id, reload]);
 
   const FollowUserHandler = (event) => {
     event.preventDefault();
-        const requestOptions = {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(
-            {
-              user_id : localStorage.getItem('user'),
-              other_user_id : user_id
-            }
-          )
-      };
-      fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/follow/addFollower`
-        //`/GencFootball/follow/addFollower`
-        , requestOptions
-        )
-      .catch(err => {
-        console.log("Caught error",err);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user"),
+        other_user_id: user_id,
+      }),
+    };
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/addFollower`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/addFollower`,
+      requestOptions
+    )
+      .catch((err) => {
+        console.log("Caught error", err);
       })
-      .then(response => response.json());
-      setFollowerCount(follower_count+1);
-  }
+      .then((response) => response.json());
+    setFollowerCount(follower_count + 1);
+    setIsDisplayedProfileFollowed(true);
+  };
 
   const UnfollowUserHandler = (event) => {
     event.preventDefault();
-        const requestOptions = {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(
-            {
-              user_id : localStorage.getItem('user'),
-              other_user_id : user_id
-            }
-          )
-      };
-      fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/follow/removeFollower`
-        //`/GencFootball/follow/removeFollower`
-        , requestOptions
-        )
-      .catch(err => {
-        console.log("Caught error",err);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user"),
+        other_user_id: user_id,
+      }),
+    };
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/follow/removeFollower`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/follow/removeFollower`,
+      requestOptions
+    )
+      .catch((err) => {
+        console.log("Caught error", err);
       })
-      .then(response => response.json());
-      setFollowerCount(follower_count-1);
-  }
+      .then((response) => response.json());
+    setFollowerCount(follower_count - 1);
+    setIsDisplayedProfileFollowed(false);
+  };
 
   console.log(PostLists);
   const DeleteUserHandler = async (event) => {
     event.preventDefault();
     await fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`,
-      //`/GencFootball/user/${user_id}`,
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/user/${user_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`,
       {
         method: "DELETE",
       }
@@ -135,21 +228,16 @@ const Profile = (props) => {
     navigate("/Login");
   };
 
-  const sleep = ms => new Promise(
-    resolve => setTimeout(resolve, ms)
-  );
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const deleteHandler = async () => {
-    await sleep(100)
-    if (reload === 1)
-    {
-      setReload(0)
+    await sleep(100);
+    if (reload === 1) {
+      setReload(0);
+    } else {
+      setReload(1);
     }
-    else
-    {
-      setReload(1)
-    }
-  }
+  };
 
   const UpdateUserHandler = async (event) => {
     event.preventDefault();
@@ -158,16 +246,26 @@ const Profile = (props) => {
         userInfo: userInfo,
       },
     });
+    /*console.log(
+      "isPrivate: " +
+        userInfo.isPrivate +
+        " isFollowed: " +
+        userInfo.isFollowed +
+        "user_id: " +
+        localStorage.getItem("user") +
+        "profileId: " +
+        user_id
+    );*/
   };
   return (
     <>
-      <Navbar className="Navbar" user={userInfo}/>
+      <Navbar className="Navbar" user={userInfo} />
       <Card className={classes.profile_bar}>
         <div className={classes.profile_img_divider}>
           <img
             className={classes.profile_logo}
             alt="cat"
-            src="https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&w=1080&fit=max&q=80&fm=jpg&crop=entropy&cs=tinysrgb"
+            src={userInfo.post_photo_url}
           />
           <div className={classes.profile_info}>
             <h2 className={classes.h2}>
@@ -176,43 +274,89 @@ const Profile = (props) => {
             <h2 className={classes.h2}>@{userInfo.username}</h2>
           </div>
         </div>
-        <button className={classes.button} onClick={FollowUserHandler}>
-          Follow
-        </button>
-        <button className={classes.button} onClick={UnfollowUserHandler}>
-          Unfollow
-        </button>
+        <div>
+          <button
+            className={classes.button}
+            onClick={FollowUserHandler}
+            hidden={
+              user_id != localStorage.getItem("user")
+                ? isDisplayedProfileFollowed
+                  ? "hidden"
+                  : undefined
+                : "hidden"
+            }
+          >
+            Follow
+          </button>
+          <button
+            className={classes.button}
+            onClick={UnfollowUserHandler}
+            hidden={
+              user_id != localStorage.getItem("user")
+                ? isDisplayedProfileFollowed
+                  ? undefined
+                  : "hidden"
+                : "hidden"
+            }
+          >
+            Unfollow
+          </button>
+        </div>
         <div className={classes.profile_counts}>
           <div
             className={classes.following_div}
-            style={{ "paddingRight": "10px" }}
+            style={{ paddingRight: "10px" }}
           >
             <h2 className={classes.h2}>Followers</h2>
-            <p>{follower_count}</p>
+            <div>
+              <Button variant="Text" onClick={handleClickOpenFollower}>
+                {follower_count}
+              </Button>
+              <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                userlist={userlist}
+              />
+            </div>
           </div>
           <div className={classes.following_div}>
             <h2 className={classes.h2}>Following</h2>
-            <p>{following_count}</p>
+            <div>
+              <Button variant="Text" onClick={handleClickOpenFollowing}>
+                {following_count}
+              </Button>
+              <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                userlist={userlist}
+              />
+            </div>
           </div>
         </div>
       </Card>
       <div className={classes.body}>
-        <div className={classes.posts}>
-          <div className={classes.post_title}>Your Posts:</div>
-          {/*<div className={classes.post_content}></div>*/}
-          <PostsList onDelete={deleteHandler} list = {PostLists}></PostsList>
-        </div>
+        {user_id == localStorage.getItem("user") ||
+        !userInfo.isPrivate ||
+        (userInfo.isPrivate && isDisplayedProfileFollowed) ? (
+          <div className={classes.posts}>
+            <div className={classes.post_title}>Your Posts:</div>
+            {/*<div className={classes.post_content}></div>*/}
+            <PostsList onDelete={deleteHandler} list={PostLists}></PostsList>
+          </div>
+        ) : (
+          <div className={classes.posts}>
+            <h1>Private profile</h1>
+          </div>
+        )}
 
         <div className={classes.right_bar}></div>
-      </div >
-
+      </div>
       <button className={classes.button} onClick={UpdateUserHandler}>
         Update
       </button>
       <button className={classes.button} onClick={DeleteUserHandler}>
         Delete
       </button>
-
     </>
   );
 };

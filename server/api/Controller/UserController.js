@@ -25,6 +25,33 @@ module.exports = class UserController{
         }
     }
 
+    static async apiGetUserWithQuery(req,res,next){
+        console.log("Hi");
+        console.log(req.params.user_info)
+        try {
+
+            //let filters = {user_info : ""};
+            let user_info = req.params.user_info;
+            console.log("You are here");
+            const usersList = await UserDAO.getQueryUserList(user_info);
+            console.log(usersList);
+            console.log("You are here");
+            if(!usersList){
+                console.log("could not found user!");
+                res.status(404).json({error : "Not Found User"});
+                return;
+            }
+            
+            console.log(usersList);
+            res.json(usersList);    
+        }
+
+        catch(e){
+            console.log(e);
+            res.status(500).json({error:e});
+        }
+    }
+
     static async apiGetUserByEmail(req,res,next){
 
         try{
@@ -78,7 +105,9 @@ module.exports = class UserController{
              email : req.body.email,
              mobile_number : req.body.mobile_number,
              birth_date : req.body.birth_date,
-             date : new Date()
+             post_photo_url : req.body.post_photo_url,
+             date : new Date(),
+             isPrivate: false
             }
 
         const UserdbResponse = await UserDAO.addUser(user);
@@ -104,7 +133,9 @@ module.exports = class UserController{
                 email : req.body.email,
                 mobile_number : req.body.mobile_number,
                 birth_date : req.body.birth_date,
-                date : new Date()
+                post_photo_url : req.body.post_photo_url,
+                date : new Date(),
+                isPrivate: req.body.isPrivate
             };
             
             const UserdbResponse = await UserDAO.updateUser(user_id,updated_user);
@@ -136,6 +167,20 @@ module.exports = class UserController{
             console.log(user_id);
             const UserResponse = await UserDAO.deleteUser(user_id);
             res.json({status : "success"});
+
+            console.log(UserResponse);
+        }
+        catch(e) {
+            res.status(500).json({error : e.message});
+        }
+    }
+
+    static async apiIsUserPrivate(req,res,next){
+        try{
+            const user_id= req.params.user_id;
+            console.log(user_id);
+            const UserResponse = await UserDAO.isUserPrivate(user_id);
+            res.json(UserResponse);
 
             console.log(UserResponse);
         }

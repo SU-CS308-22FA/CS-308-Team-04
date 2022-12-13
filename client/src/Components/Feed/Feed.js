@@ -7,6 +7,7 @@ import AddPost from "./AddPost";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { USE_LOCAL_BACKEND } from "../../config.js";
 
 const Feed = (props) => {
   const [PostList, setPostList] = useState([]);
@@ -19,6 +20,18 @@ const Feed = (props) => {
     ? location.state.user_id
     : localStorage.getItem("user");
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Feed refreshed");
+      if (reload === 1) {
+        setReload(0);
+      } else {
+        setReload(1);
+      }
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [reload]);
+
   const [userInfo, setUserInfo] = useState({
     _id: "",
     email: "",
@@ -30,11 +43,13 @@ const Feed = (props) => {
     birth_date: "",
   });
 
-  const AddPostHandler = async (enteredText) => {
+  const AddPostHandler = async (enteredText,enteredURL) => {
     console.log(enteredText);
+    console.log(enteredURL);
     fetch(
-      "https://genc-football-backend.herokuapp.com/GencFootball/posts/add",
-      //`/GencFootball/posts/add`
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/posts/add`
+        : "https://genc-football-backend.herokuapp.com/GencFootball/posts/add",
       {
         method: "POST",
         headers: {
@@ -44,6 +59,7 @@ const Feed = (props) => {
           user_id: user_id,
           username: userInfo.username,
           post_message: enteredText,
+          post_photo_url:enteredURL
         }),
       }
     )
@@ -59,8 +75,9 @@ const Feed = (props) => {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
-        `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
-        // `/GencFootball/user/${user_id}`
+        USE_LOCAL_BACKEND
+          ? `/GencFootball/user/${user_id}`
+          : `https://genc-football-backend.herokuapp.com/GencFootball/user/${user_id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -71,12 +88,13 @@ const Feed = (props) => {
       console.log(user_fetch);
     }
     fetchData();
-  },[user_id]);
+  }, [user_id]);
 
   useEffect(() => {
     fetch(
-      `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts?page=${encodedValue}`
-      // `/GencFootball/posts/getposts?page=${encodedValue}`
+      USE_LOCAL_BACKEND
+      ? `/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
+      : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
     )
       .catch((err) => {
         console.log("Caught error", err);
@@ -97,26 +115,18 @@ const Feed = (props) => {
     setPageNum(PageNum + 1);
   };
 
-  const sleep = ms => new Promise(
-    resolve => setTimeout(resolve, ms)
-  );
-  
   const deleteHandler = async () => {
-    await sleep(100)
-    if (reload === 1)
-    {
-      setReload(0)
+    if (reload === 1) {
+      setReload(0);
+    } else {
+      setReload(1);
     }
-    else
-    {
-      setReload(1)
-    }
-  }
+  };
 
   return (
     <>
       <Navbar className="Navbar" user={userInfo} />
-      <AddPost  onAddPost={AddPostHandler}></AddPost>
+      <AddPost onAddPost={AddPostHandler}></AddPost>
       <div className={classes.body}>
         <div className={classes.posts}>
           <PostsList onDelete={deleteHandler} list={PostList}></PostsList>
