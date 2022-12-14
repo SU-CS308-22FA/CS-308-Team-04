@@ -103,6 +103,11 @@ const PostsList = (props) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   }
 
+  function isSame(user_id) {
+    let isSame = localStorage.getItem("user") == user_id ? true : false
+    return isSame;
+  }
+
   const likePostHandler = (element, indexReaction) => {
     let updated_reaction_list = element.reactions_list;
     const requestOptions = {
@@ -180,7 +185,7 @@ const PostsList = (props) => {
               <div className={classes.react_buttons_div}>
                 <button
                   onClick={() => {
-                    likePostHandler(element,0);
+                    likePostHandler(element, 0);
                   }}
                   className={classes.react_buttons}
                 >
@@ -194,11 +199,11 @@ const PostsList = (props) => {
                 </p>
                 <button
                   onClick={() => {
-                    likePostHandler(element,1);
+                    likePostHandler(element, 1);
                   }}
                   className={classes.react_buttons}
                 >
-                 <Emoji label="Brick" symbol="🧱" />
+                  <Emoji label="Brick" symbol="🧱" />
                 </button>
                 <p className={classes.react_buttons_count}>
                   {
@@ -208,7 +213,7 @@ const PostsList = (props) => {
                 </p>
                 <button
                   onClick={() => {
-                    likePostHandler(element,2);
+                    likePostHandler(element, 2);
                   }}
                   className={classes.react_buttons}
                 >
@@ -222,7 +227,7 @@ const PostsList = (props) => {
                 </p>
                 <button
                   onClick={() => {
-                    likePostHandler(element,3);
+                    likePostHandler(element, 3);
                   }}
                   className={classes.react_buttons}
                 >
@@ -236,7 +241,7 @@ const PostsList = (props) => {
                 </p>
                 <button
                   onClick={() => {
-                    likePostHandler(element,4);
+                    likePostHandler(element, 4);
                   }}
                   className={classes.react_buttons}
                 >
@@ -250,7 +255,7 @@ const PostsList = (props) => {
                 </p>
                 <button
                   onClick={() => {
-                    likePostHandler(element,5);
+                    likePostHandler(element, 5);
                   }}
                   className={classes.react_buttons}
                 >
@@ -267,14 +272,16 @@ const PostsList = (props) => {
             </div>
             <div className={classes.post_info_right}>
               <AddComment post_id={element._id} ReactionButtonHandler={likePostHandler} element={element} onAddComment={AddCommentHandler}></AddComment>
-              <button
-                onClick={() => {
-                  deletePostHandler(element);
-                }}
-                className={classes.react_buttons}
-              >
-                Delete
-              </button>
+              {isSame(element.user_id) ? (
+                <button
+                  onClick={() => {
+                    deletePostHandler(element);
+                  }}
+                  className={classes.react_buttons}
+                >
+                  Delete
+                </button>
+              ) : null}
             </div>
           </div>
         </Card>

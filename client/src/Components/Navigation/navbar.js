@@ -191,12 +191,16 @@ export default function Navbar(props) {
   //search bar click search result which is username handler
   const ClickHandler = (e, value) => {
     console.log(e.target, value.username, value._id);
+    //setInputValue("");
     e.preventDefault();
+    if(inputValue.trim().length != 0){
     navigate("/Profile", {
       state: {
         user_id: value._id,
       },
     });
+
+  }
   };
 
   const menuId = "primary-search-account-menu";
