@@ -12,7 +12,6 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 
 const App = () => {
-
   const [user, setUser] = useState();
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -26,12 +25,16 @@ const App = () => {
       {/*<Navbar className="Navbar"/>*/}
       <div className="Content">
         <Routes>
-        <Route exact path="/" element={user==null ? <SignUp /> : <Profile />} />
+          <Route
+            exact
+            path="/"
+            element={user == null ? <SignUp /> : <Profile />}
+          />
           <Route path="/SignUpSecondPage" element={<SignUpSecondPage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/UpdateProfile" element={<UpdateProfile />} />
-          <Route path="/Feed" element = {<Feed></Feed>} />
+          <Route path="/Feed" element={<Feed></Feed>} />
         </Routes>
       </div>
     </div>
