@@ -193,14 +193,13 @@ export default function Navbar(props) {
     console.log(e.target, value.username, value._id);
     //setInputValue("");
     e.preventDefault();
-    if(inputValue.trim().length != 0){
-    navigate("/Profile", {
-      state: {
-        user_id: value._id,
-      },
-    });
-
-  }
+    if (inputValue.trim().length != 0) {
+      navigate("/Profile", {
+        state: {
+          user_id: value._id,
+        },
+      });
+    }
   };
 
   const menuId = "primary-search-account-menu";
