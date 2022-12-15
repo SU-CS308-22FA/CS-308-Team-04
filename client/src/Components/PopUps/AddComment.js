@@ -146,7 +146,7 @@ export default function AlertDialog(props) {
                 <div className={classes.react_buttons_div}>
                   <button
                     onClick={() => {
-                      props.ReactionButtonHandler(props.element);
+                      props.ReactionButtonHandler(props.element,0);
                     }}
                     className={classes.react_buttons}
                   >
