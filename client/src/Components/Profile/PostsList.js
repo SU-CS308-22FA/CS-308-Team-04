@@ -67,7 +67,12 @@ const PostsList = (props) => {
       },
     });
   };
-
+  /**
+   * AddCommentHandler sends a PUT request to the backend to add a comment to the specified post.
+   *
+   * @param {number} post_id - The ID of the post to add the comment to.
+   * @param {string} comment_content - The content of the comment to add.
+   */
   const AddCommentHandler = (post_id, comment_content) => {
     const user_id = localStorage.getItem("user");
     console.log(user_id, post_id, comment_content);
@@ -107,7 +112,13 @@ const PostsList = (props) => {
     let isSame = localStorage.getItem("user") == user_id ? true : false
     return isSame;
   }
-
+  	
+  /**
+   * likePostHandler sends a PUT request to the backend to like a post.
+   *
+   * @param {object} element - The post element to like.
+   * @param {number} indexReaction - The index of the reaction to like.
+   */
   const likePostHandler = (element, indexReaction) => {
     let updated_reaction_list = element.reactions_list;
     const requestOptions = {
@@ -132,7 +143,11 @@ const PostsList = (props) => {
         props.onDelete();
       });
   };
-
+  /**
+   * deletePostHandler sends a DELETE request to the backend to delete a post.
+   *
+   * @param {object} element - The post element to delete.
+   */
   const deletePostHandler = (element) => {
     console.log(element.user_id, element._id);
     const encodedValue1 = encodeURIComponent(element.user_id);
