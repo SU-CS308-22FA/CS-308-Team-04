@@ -18,6 +18,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.2",
     "dayjs": "^1.11.6",
+    "email-js": "^2.0.2",
     "mui-tel-input": "^2.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

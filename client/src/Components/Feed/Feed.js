@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { USE_LOCAL_BACKEND } from "../../config.js";
+import emailjs from "@emailjs/browser";
 
 const Feed = (props) => {
   const [PostList, setPostList] = useState([]);
@@ -43,7 +44,25 @@ const Feed = (props) => {
     birth_date: "",
   });
 
-  const AddPostHandler = async (enteredText,enteredURL) => {
+  const handleReport = (ReportedID, ContentID) => {
+    emailjs
+      .send("service_mrjks8r", "template_2j2ce7o", {
+        reporterID: user_id,
+        reportedID: ReportedID,
+        type: "Post",
+        contentID: ContentID,
+      })
+      .then(
+        function (response) {
+          console.log("Report: SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("Report: FAILED...", error);
+        }
+      );
+  };
+
+  const AddPostHandler = async (enteredText, enteredURL) => {
     console.log(enteredText);
     console.log(enteredURL);
     fetch(
@@ -59,7 +78,7 @@ const Feed = (props) => {
           user_id: user_id,
           username: userInfo.username,
           post_message: enteredText,
-          post_photo_url:enteredURL
+          post_photo_url: enteredURL,
         }),
       }
     )
@@ -93,8 +112,8 @@ const Feed = (props) => {
   useEffect(() => {
     fetch(
       USE_LOCAL_BACKEND
-      ? `/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
-      : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
+        ? `/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
     )
       .catch((err) => {
         console.log("Caught error", err);
