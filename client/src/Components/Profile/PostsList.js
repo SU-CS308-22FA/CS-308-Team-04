@@ -9,10 +9,11 @@ import Emoji from "../UI/Card/Emoji";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import Rating from "@mui/material/Rating";
+import emailjs from "@emailjs/browser";
 
 const PostsList = (props) => {
   let navigate = useNavigate();
-
+  emailjs.init("WKhaHGOHXG8Vd9o6q");
   const StyledRating = styled(Rating)(({ theme }) => ({
     "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
       color: theme.palette.action.disabled,
@@ -97,6 +98,25 @@ const PostsList = (props) => {
         console.log(response);
         //reload feed
       });
+  };
+
+  const ReportHandler = (ReportedID, ContentID) => {
+    let user_id = localStorage.getItem("user");
+    emailjs
+      .send("service_mrjks8r", "template_2j2ce7o", {
+        reporterID: user_id,
+        reportedID: ReportedID,
+        type: "Post",
+        contentID: ContentID,
+      })
+      .then(
+        function (response) {
+          console.log("Report: SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("Report: FAILED...", error);
+        }
+      );
   };
 
   function isImage(url) {
@@ -296,6 +316,14 @@ const PostsList = (props) => {
                   Delete
                 </button>
               ) : null}
+              <button
+                onClick={() => {
+                  ReportHandler(element.user_id, element._id);
+                }}
+                className={classes.react_buttons}
+              >
+                Report
+              </button>
             </div>
           </div>
         </Card>
