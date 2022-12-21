@@ -11,9 +11,11 @@ import Card from "../UI/Card/Card";
 import classes from "../Profile/PostsList.module.css";
 import { useNavigate } from "react-router-dom";
 import { USE_LOCAL_BACKEND } from "../../config.js";
+import emailjs from "@emailjs/browser";
 
 export default function AlertDialog(props) {
   let navigate = useNavigate();
+  emailjs.init("WKhaHGOHXG8Vd9o6q");
   const [open, setOpen] = React.useState(false);
   const [CommentContent, setCommentContent] = React.useState("");
   const [isValidComment, set_isValidComment] = React.useState(false);
@@ -55,6 +57,27 @@ export default function AlertDialog(props) {
     } else {
       console.log("Comment content should be valid");
     }
+  };
+
+  const ReportHandler = (ReportedID, ContentID) => {
+    let user_id = localStorage.getItem("user");
+    emailjs
+      .send("service_mrjks8r", "template_2j2ce7o", {
+        reporterID: user_id,
+        reportedID: ReportedID,
+        type: "Comment",
+        contentID: ContentID,
+      })
+      .then(
+        function (response) {
+          console.log("Report: SUCCESS!", response.status, response.text);
+          alert("Reported Successfully.");
+        },
+        function (error) {
+          console.log("Report: FAILED...", error);
+          alert("Failed to report, try again later.");
+        }
+      );
   };
 
   React.useEffect(() => {
@@ -146,7 +169,7 @@ export default function AlertDialog(props) {
                 <div className={classes.react_buttons_div}>
                   <button
                     onClick={() => {
-                      props.ReactionButtonHandler(props.element,0);
+                      props.ReactionButtonHandler(props.element, 0);
                     }}
                     className={classes.react_buttons}
                   >
@@ -177,6 +200,15 @@ export default function AlertDialog(props) {
                   <p className={classes.post_info_text}>
                     {element.comments_list.comment_content}
                   </p>
+                  <button
+                    onClick={() => {
+                      //console.log(element);
+                      ReportHandler(element.user_id, element._id);
+                    }}
+                    className={classes.react_buttons}
+                  >
+                    Report
+                  </button>
                 </div>
               </div>
             </Card>

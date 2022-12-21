@@ -111,10 +111,12 @@ const PostsList = (props) => {
       })
       .then(
         function (response) {
+          alert("Reported Successfully.");
           console.log("Report: SUCCESS!", response.status, response.text);
         },
         function (error) {
           console.log("Report: FAILED...", error);
+          alert("Failed to report, try again later.");
         }
       );
   };
