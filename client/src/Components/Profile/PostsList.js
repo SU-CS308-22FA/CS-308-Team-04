@@ -6,16 +6,16 @@ import { USE_LOCAL_BACKEND } from "../../config.js";
 import AddComment from "../PopUps/AddComment";
 import { useEffect } from "react";
 import Emoji from "../UI/Card/Emoji";
-import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
-import Rating from '@mui/material/Rating';
+import PropTypes from "prop-types";
+import { styled } from "@mui/material/styles";
+import Rating from "@mui/material/Rating";
+import emailjs from "@emailjs/browser";
 
 const PostsList = (props) => {
   let navigate = useNavigate();
-
-
+  emailjs.init("WKhaHGOHXG8Vd9o6q");
   const StyledRating = styled(Rating)(({ theme }) => ({
-    '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
+    "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
       color: theme.palette.action.disabled,
     },
   }));
@@ -23,27 +23,27 @@ const PostsList = (props) => {
   const customIcons = {
     1: {
       icon: <Emoji label="Brick" symbol="🧱" />,
-      label: 'Defence',
+      label: "Defence",
       index: 1,
     },
     2: {
       icon: <Emoji label="Gloves" symbol="🧤" />,
-      label: 'Save',
+      label: "Save",
       index: 2,
     },
     3: {
       icon: <Emoji label="Man sprinting" symbol="🏃‍♂‍" />,
-      label: 'Speed',
+      label: "Speed",
       index: 3,
     },
     4: {
       icon: <Emoji label="Running shoe" symbol="👟" />,
-      label: 'Dribble',
+      label: "Dribble",
       index: 4,
     },
     5: {
       icon: <Emoji label="Goal net" symbol="🥅" />,
-      label: 'Goal',
+      label: "Goal",
       index: 5,
     },
   };
@@ -56,8 +56,6 @@ const PostsList = (props) => {
   IconContainer.propTypes = {
     value: PropTypes.number.isRequired,
   };
-
-
 
   const SendProfileHandler = (user_id) => {
     console.log(user_id);
@@ -86,33 +84,52 @@ const PostsList = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(
-          {
-            comment_content: comment_content,
-          }
-        ),
+        body: JSON.stringify({
+          comment_content: comment_content,
+        }),
       }
-    ).catch((error) => {
-      window.alert(error);
-      return;
-    })
+    )
+      .catch((error) => {
+        window.alert(error);
+        return;
+      })
       .then((response) => {
         //success
         console.log(response);
         //reload feed
-      })
-  }
+      });
+  };
 
+  const ReportHandler = (ReportedID, ContentID) => {
+    let user_id = localStorage.getItem("user");
+    emailjs
+      .send("service_mrjks8r", "template_2j2ce7o", {
+        reporterID: user_id,
+        reportedID: ReportedID,
+        type: "Post",
+        contentID: ContentID,
+      })
+      .then(
+        function (response) {
+          alert("Reported Successfully.");
+          console.log("Report: SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("Report: FAILED...", error);
+          alert("Failed to report, try again later.");
+        }
+      );
+  };
 
   function isImage(url) {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   }
 
   function isSame(user_id) {
-    let isSame = localStorage.getItem("user") == user_id ? true : false
+    let isSame = localStorage.getItem("user") === user_id ? true : false;
     return isSame;
   }
-  	
+
   /**
    * likePostHandler sends a PUT request to the backend to like a post.
    *
@@ -171,7 +188,6 @@ const PostsList = (props) => {
         props.onDelete();
       });
   };
-
 
   return (
     <div className={classes.PostsList}>
@@ -286,7 +302,12 @@ const PostsList = (props) => {
               </div>
             </div>
             <div className={classes.post_info_right}>
-              <AddComment post_id={element._id} ReactionButtonHandler={likePostHandler} element={element} onAddComment={AddCommentHandler}></AddComment>
+              <AddComment
+                post_id={element._id}
+                ReactionButtonHandler={likePostHandler}
+                element={element}
+                onAddComment={AddCommentHandler}
+              ></AddComment>
               {isSame(element.user_id) ? (
                 <button
                   onClick={() => {
@@ -297,6 +318,14 @@ const PostsList = (props) => {
                   Delete
                 </button>
               ) : null}
+              <button
+                onClick={() => {
+                  ReportHandler(element.user_id, element._id);
+                }}
+                className={classes.react_buttons}
+              >
+                Report
+              </button>
             </div>
           </div>
         </Card>
