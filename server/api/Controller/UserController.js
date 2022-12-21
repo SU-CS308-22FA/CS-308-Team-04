@@ -107,6 +107,7 @@ module.exports = class UserController{
              birth_date : req.body.birth_date,
              post_photo_url : req.body.post_photo_url,
              date : new Date(),
+             profiletype : req.body.profiletype,
              isPrivate: false
             }
 
@@ -135,6 +136,7 @@ module.exports = class UserController{
                 birth_date : req.body.birth_date,
                 post_photo_url : req.body.post_photo_url,
                 date : new Date(),
+                profiletype : req.body.profiletype,
                 isPrivate: req.body.isPrivate
             };
             
