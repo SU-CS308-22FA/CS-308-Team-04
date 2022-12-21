@@ -71,9 +71,11 @@ export default function AlertDialog(props) {
       .then(
         function (response) {
           console.log("Report: SUCCESS!", response.status, response.text);
+          alert("Reported Successfully.");
         },
         function (error) {
           console.log("Report: FAILED...", error);
+          alert("Failed to report, try again later.");
         }
       );
   };
