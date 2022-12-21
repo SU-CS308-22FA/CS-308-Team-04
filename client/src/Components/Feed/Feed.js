@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { USE_LOCAL_BACKEND } from "../../config.js";
-import emailjs from "@emailjs/browser";
 
 const Feed = (props) => {
   const [PostList, setPostList] = useState([]);
@@ -43,24 +42,6 @@ const Feed = (props) => {
     mobile_number: "",
     birth_date: "",
   });
-
-  const handleReport = (ReportedID, ContentID) => {
-    emailjs
-      .send("service_mrjks8r", "template_2j2ce7o", {
-        reporterID: user_id,
-        reportedID: ReportedID,
-        type: "Post",
-        contentID: ContentID,
-      })
-      .then(
-        function (response) {
-          console.log("Report: SUCCESS!", response.status, response.text);
-        },
-        function (error) {
-          console.log("Report: FAILED...", error);
-        }
-      );
-  };
 
   const AddPostHandler = async (enteredText, enteredURL) => {
     console.log(enteredText);
