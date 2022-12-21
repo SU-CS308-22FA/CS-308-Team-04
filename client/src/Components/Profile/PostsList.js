@@ -6,16 +6,15 @@ import { USE_LOCAL_BACKEND } from "../../config.js";
 import AddComment from "../PopUps/AddComment";
 import { useEffect } from "react";
 import Emoji from "../UI/Card/Emoji";
-import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
-import Rating from '@mui/material/Rating';
+import PropTypes from "prop-types";
+import { styled } from "@mui/material/styles";
+import Rating from "@mui/material/Rating";
 
 const PostsList = (props) => {
   let navigate = useNavigate();
 
-
   const StyledRating = styled(Rating)(({ theme }) => ({
-    '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
+    "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
       color: theme.palette.action.disabled,
     },
   }));
@@ -23,27 +22,27 @@ const PostsList = (props) => {
   const customIcons = {
     1: {
       icon: <Emoji label="Brick" symbol="🧱" />,
-      label: 'Defence',
+      label: "Defence",
       index: 1,
     },
     2: {
       icon: <Emoji label="Gloves" symbol="🧤" />,
-      label: 'Save',
+      label: "Save",
       index: 2,
     },
     3: {
       icon: <Emoji label="Man sprinting" symbol="🏃‍♂‍" />,
-      label: 'Speed',
+      label: "Speed",
       index: 3,
     },
     4: {
       icon: <Emoji label="Running shoe" symbol="👟" />,
-      label: 'Dribble',
+      label: "Dribble",
       index: 4,
     },
     5: {
       icon: <Emoji label="Goal net" symbol="🥅" />,
-      label: 'Goal',
+      label: "Goal",
       index: 5,
     },
   };
@@ -56,8 +55,6 @@ const PostsList = (props) => {
   IconContainer.propTypes = {
     value: PropTypes.number.isRequired,
   };
-
-
 
   const SendProfileHandler = (user_id) => {
     console.log(user_id);
@@ -86,33 +83,31 @@ const PostsList = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(
-          {
-            comment_content: comment_content,
-          }
-        ),
+        body: JSON.stringify({
+          comment_content: comment_content,
+        }),
       }
-    ).catch((error) => {
-      window.alert(error);
-      return;
-    })
+    )
+      .catch((error) => {
+        window.alert(error);
+        return;
+      })
       .then((response) => {
         //success
         console.log(response);
         //reload feed
-      })
-  }
-
+      });
+  };
 
   function isImage(url) {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   }
 
   function isSame(user_id) {
-    let isSame = localStorage.getItem("user") == user_id ? true : false
+    let isSame = localStorage.getItem("user") === user_id ? true : false;
     return isSame;
   }
-  	
+
   /**
    * likePostHandler sends a PUT request to the backend to like a post.
    *
@@ -171,7 +166,6 @@ const PostsList = (props) => {
         props.onDelete();
       });
   };
-
 
   return (
     <div className={classes.PostsList}>
@@ -286,7 +280,12 @@ const PostsList = (props) => {
               </div>
             </div>
             <div className={classes.post_info_right}>
-              <AddComment post_id={element._id} ReactionButtonHandler={likePostHandler} element={element} onAddComment={AddCommentHandler}></AddComment>
+              <AddComment
+                post_id={element._id}
+                ReactionButtonHandler={likePostHandler}
+                element={element}
+                onAddComment={AddCommentHandler}
+              ></AddComment>
               {isSame(element.user_id) ? (
                 <button
                   onClick={() => {

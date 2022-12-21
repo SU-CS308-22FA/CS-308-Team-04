@@ -13,21 +13,7 @@ import Navbar from "../Navigation/navbar";
 import PostsList from "./PostsList";
 import SimpleDialog from "./SimpleDialog";
 //import FollowListDialog from "./FollowListDialog";
-/////
-import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
-import PersonIcon from "@mui/icons-material/Person";
-import AddIcon from "@mui/icons-material/Add";
-import Typography from "@mui/material/Typography";
-import { blue } from "@mui/material/colors";
-/////
 
 const Profile = (props) => {
   const location = useLocation();
@@ -246,16 +232,6 @@ const Profile = (props) => {
         userInfo: userInfo,
       },
     });
-    /*console.log(
-      "isPrivate: " +
-        userInfo.isPrivate +
-        " isFollowed: " +
-        userInfo.isFollowed +
-        "user_id: " +
-        localStorage.getItem("user") +
-        "profileId: " +
-        user_id
-    );*/
   };
   return (
     <>
@@ -279,7 +255,7 @@ const Profile = (props) => {
             className={classes.button}
             onClick={FollowUserHandler}
             hidden={
-              user_id != localStorage.getItem("user")
+              user_id !== localStorage.getItem("user")
                 ? isDisplayedProfileFollowed
                   ? "hidden"
                   : undefined
@@ -292,7 +268,7 @@ const Profile = (props) => {
             className={classes.button}
             onClick={UnfollowUserHandler}
             hidden={
-              user_id != localStorage.getItem("user")
+              user_id !== localStorage.getItem("user")
                 ? isDisplayedProfileFollowed
                   ? undefined
                   : "hidden"
@@ -335,12 +311,11 @@ const Profile = (props) => {
         </div>
       </Card>
       <div className={classes.body}>
-        {user_id == localStorage.getItem("user") ||
+        {user_id === localStorage.getItem("user") ||
         !userInfo.isPrivate ||
         (userInfo.isPrivate && isDisplayedProfileFollowed) ? (
           <div className={classes.posts}>
             <div className={classes.post_title}>Your Posts:</div>
-            {/*<div className={classes.post_content}></div>*/}
             <PostsList onDelete={deleteHandler} list={PostLists}></PostsList>
           </div>
         ) : (

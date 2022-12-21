@@ -38,7 +38,7 @@ const UpdateProfile = (props) => {
   });
 
   const handleChange = (prop) => (event) => {
-    setUpdatedUserInfo({ ...userInfo, [prop]: event.target.value});
+    setUpdatedUserInfo({ ...userUpdatedInfo, [prop]: event.target.value });
   };
 
   const buttonCancelHandler = (event) => {
@@ -85,11 +85,11 @@ const UpdateProfile = (props) => {
         </div>
         <Card>
           <form>
-          <img
-            className="profile_logo_change"
-            alt="cat"
-            src={userUpdatedInfo.post_photo_url}
-          />
+            <img
+              className="profile_logo_change"
+              alt="cat"
+              src={userUpdatedInfo.post_photo_url}
+            />
             <TextField
               fullWidth
               size="medium"
@@ -185,16 +185,22 @@ const UpdateProfile = (props) => {
                 )}
               />
             </LocalizationProvider>
-            <FormControlLabel control={<Switch
-              checked={userUpdatedInfo.isPrivate}
-              onChange={() => {
-                setUpdatedUserInfo({
-                  ...userUpdatedInfo,
-                  isPrivate: !userUpdatedInfo.isPrivate,
-                });
-              }}
-              inputProps={{ "aria-label": "controlled" }}
-            />} label="Set Profile as Private:" labelPlacement="start"></FormControlLabel>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={userUpdatedInfo.isPrivate}
+                  onChange={() => {
+                    setUpdatedUserInfo({
+                      ...userUpdatedInfo,
+                      isPrivate: !userUpdatedInfo.isPrivate,
+                    });
+                  }}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+              label="Set Profile as Private:"
+              labelPlacement="start"
+            ></FormControlLabel>
             <Button
               sx={{
                 backgroundColor: "#00FF77",
