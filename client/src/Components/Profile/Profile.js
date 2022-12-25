@@ -14,8 +14,9 @@ import PostsList from "./PostsList";
 import SimpleDialog from "./SimpleDialog";
 //import FollowListDialog from "./FollowListDialog";
 import Button from "@mui/material/Button";
-
+import emailjs from "@emailjs/browser";
 const Profile = (props) => {
+  emailjs.init("WKhaHGOHXG8Vd9o6q");
   const location = useLocation();
   const navigate = useNavigate();
   const [reload, setReload] = useState(0);
@@ -35,7 +36,6 @@ const Profile = (props) => {
     isPrivate: "",
   });
 
-  /////Used for Follow List Dialog
   const [userlist, setUserlist] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
@@ -73,7 +73,6 @@ const Profile = (props) => {
   const handleClose = (value) => {
     setOpen(false);
   };
-  //////////////
 
   const [follower_count, setFollowerCount] = useState("Placeholder");
   const [following_count, setFollowingCount] = useState("Placeholder");
@@ -150,6 +149,27 @@ const Profile = (props) => {
 
     return;
   }, [user_id, reload]);
+
+  const ReportHandler = (ReportedID) => {
+    let user_id = localStorage.getItem("user");
+    emailjs
+      .send("service_mrjks8r", "template_2j2ce7o", {
+        reporterID: user_id,
+        reportedID: ReportedID,
+        type: "Profile",
+        contentID: ReportedID,
+      })
+      .then(
+        function (response) {
+          alert("Reported Successfully.");
+          console.log("Report: SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("Report: FAILED...", error);
+          alert("Failed to report, try again later.");
+        }
+      );
+  };
 
   const FollowUserHandler = (event) => {
     event.preventDefault();
@@ -276,6 +296,21 @@ const Profile = (props) => {
             }
           >
             Unfollow
+          </button>
+          <button
+            onClick={() => {
+              ReportHandler(user_id);
+            }}
+            hidden={
+              user_id !== localStorage.getItem("user")
+                ? isDisplayedProfileFollowed
+                  ? undefined
+                  : "hidden"
+                : "hidden"
+            }
+            className={classes.button}
+          >
+            Report
           </button>
         </div>
         <div className={classes.profile_counts}>
