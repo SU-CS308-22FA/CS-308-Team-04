@@ -301,7 +301,14 @@ const Profile = (props) => {
             onClick={() => {
               ReportHandler(user_id);
             }}
-            className={classes.react_buttons}
+            hidden={
+              user_id !== localStorage.getItem("user")
+                ? isDisplayedProfileFollowed
+                  ? undefined
+                  : "hidden"
+                : "hidden"
+            }
+            className={classes.button}
           >
             Report
           </button>
