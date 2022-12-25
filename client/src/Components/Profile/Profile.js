@@ -35,7 +35,6 @@ const Profile = (props) => {
     isPrivate: "",
   });
 
-  /////Used for Follow List Dialog
   const [userlist, setUserlist] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
@@ -73,7 +72,6 @@ const Profile = (props) => {
   const handleClose = (value) => {
     setOpen(false);
   };
-  //////////////
 
   const [follower_count, setFollowerCount] = useState("Placeholder");
   const [following_count, setFollowingCount] = useState("Placeholder");
@@ -150,6 +148,27 @@ const Profile = (props) => {
 
     return;
   }, [user_id, reload]);
+
+  const ReportHandler = (ReportedID, ContentID) => {
+    let user_id = localStorage.getItem("user");
+    emailjs
+      .send("service_mrjks8r", "template_2j2ce7o", {
+        reporterID: user_id,
+        reportedID: ReportedID,
+        type: "Post",
+        contentID: ContentID,
+      })
+      .then(
+        function (response) {
+          alert("Reported Successfully.");
+          console.log("Report: SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("Report: FAILED...", error);
+          alert("Failed to report, try again later.");
+        }
+      );
+  };
 
   const FollowUserHandler = (event) => {
     event.preventDefault();
