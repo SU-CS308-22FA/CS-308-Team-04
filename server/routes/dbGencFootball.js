@@ -2,6 +2,7 @@ const express = require("express");
 const UserCtrl = require("../api/Controller/UserController.js")
 const PostCtrl = require("../api/Controller/PostController.js")
 const FollowCtrl = require("../api/Controller/FollowController.js");
+const DmController = require("../api/Controller/DmController.js");
 //const { addFollowerToOtherUserWithID } = require("../api/DAO/followerDAO.js");
 const router = express.Router();
 
@@ -37,5 +38,10 @@ router.route("/follow/getFollowerList/:user_id").get(FollowCtrl.apiGetFollowerLi
 router.route("/follow/getFollowingList/:user_id").get(FollowCtrl.apiGetFollowingList);
 router.route("/follow/isFollowing").post(FollowCtrl.apiIsFollowing); // OK !!!!!!!!!!
 
-
+//ROUTERS OF DirectMessage TABLE
+router.route("/dm/createDm/:user1_id/:user2_id").post(DmController.apiCreateMessageBetweenUsers);
+router.route("/dm/sendMessage/:dm_id").put(DmController.apiSendMessageBetweenUsers);
+router.route("/dm/checkconversation/:user1_id/:user2_id").get(DmController.apiisConversationExists);
+router.route("/dm/getSpecificConversation/:user1_id/:user2_id").get(DmController.apiGetSpecificConversation);
+router.route("/dm/getAllConversationsforUser/:user_id").get(DmController.apiGetAllConversationsforUser);
 module.exports = router;
