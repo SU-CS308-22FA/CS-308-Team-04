@@ -7,6 +7,8 @@ import classes from "./DirectMessages.module.css";
 import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+import { padding } from "@mui/system";
 
 const DirectMessages = () => {
   const [dm_id, setDmId] = React.useState("");
@@ -141,21 +143,19 @@ const DirectMessages = () => {
           );
         })}
       </div>
-      <div className={classes.message_send_window}>
-        <div style={{padding: "5%", background:"white"}}>
-        <TextField
-            style={{background: "white"}}
-            className={classes.message_send_text_field}
-            label="Message content"
-            id="Message-Content"
-            size="small"
-            variant="standard"
-            fullWidth
-            onChange={MessageContentHandler}
-            value={MessageContent}
-          />
+      <div className={classes.dm_message_send_bundle}>
+        <div className={classes.dm_message_content_window}>
+          <TextField
+              label="Message content"
+              id="Message-Content"
+              size="small"
+              variant="standard"
+              fullWidth
+              onChange={MessageContentHandler}
+              value={MessageContent}
+            />
         </div>
-        <Button onClick={MessageSendHandler}>Send Message</Button>
+        <Button variant="contained" endIcon={<SendIcon/>} onClick={MessageSendHandler}>Send</Button>
       </div>
 
     </>

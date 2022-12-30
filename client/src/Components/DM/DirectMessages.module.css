@@ -98,7 +98,27 @@
     margin-left : 10.0%;
   }
   
-  .message_send_window {
-    position: 'fixed';
-    padding-bottom: 10px;
+  .dm_message_send_bundle {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dm_message_content_window {
+    width: 100%;
+    margin-right: 10px;
+    background: white;
+    padding: 8px;
+  }
+
+  .dm_divider_vert{
+    height:2%;
+  }
+
+  .dm_divider_horz{
+    width:2%;
   }
