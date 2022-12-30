@@ -112,7 +112,6 @@ module.exports = class DmDAO {
                         "user_info1.birth_date": 0,
                         "user_info1.date": 0,
                         "user_info1.isPrivate": 0,
-                        "user_info1.post_photo_url": 0,
                         "user_info1.profiletype": 0,
                     }
                 },
@@ -124,7 +123,6 @@ module.exports = class DmDAO {
                         "user_info2.birth_date": 0,
                         "user_info2.date": 0,
                         "user_info2.isPrivate": 0,
-                        "user_info2.post_photo_url": 0,
                         "user_info2.profiletype": 0,
                     }
                 }
@@ -175,7 +173,6 @@ module.exports = class DmDAO {
                         "user_info1.birth_date": 0,
                         "user_info1.date": 0,
                         "user_info1.isPrivate": 0,
-                        "user_info1.post_photo_url": 0,
                         "user_info1.profiletype": 0,
                     }
                 },
@@ -187,7 +184,6 @@ module.exports = class DmDAO {
                         "user_info2.birth_date": 0,
                         "user_info2.date": 0,
                         "user_info2.isPrivate": 0,
-                        "user_info2.post_photo_url": 0,
                         "user_info2.profiletype": 0,
                     }
                 },

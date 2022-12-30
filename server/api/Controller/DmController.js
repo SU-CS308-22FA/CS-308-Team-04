@@ -29,6 +29,7 @@ module.exports = class DmController {
         try {
             let dm_id = req.params.dm_id;
             const MessageInformations = {
+                message_id : new ObjectId(),
                 sender_id: ObjectId(req.body.sender_id),
                 date: new Date(),
                 message_content: req.body.message_content
