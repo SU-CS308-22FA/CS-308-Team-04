@@ -156,6 +156,16 @@ export default function Navbar(props) {
     stringify: (option) => option.username,
   });
 
+  const showConversationsHandler = () => {
+    navigate("/DisplayConversations",
+    {
+      state : {
+        user_id : currentUserId,
+        userInfo : userInfo
+      }
+    })
+  }
+
   const SearchTextChangeHandler = async (event) => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     setInputValue(event.target.value);
@@ -340,8 +350,9 @@ export default function Navbar(props) {
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              onClick={showConversationsHandler}
             >
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={1} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
