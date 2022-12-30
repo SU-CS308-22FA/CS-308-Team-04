@@ -15,6 +15,9 @@ import SimpleDialog from "./SimpleDialog";
 //import FollowListDialog from "./FollowListDialog";
 import Button from "@mui/material/Button";
 import emailjs from "@emailjs/browser";
+import MessageIcon from '@mui/icons-material/Message';
+import IconButton from '@mui/material/IconButton';
+
 const Profile = (props) => {
   emailjs.init("WKhaHGOHXG8Vd9o6q");
   const location = useLocation();
@@ -36,6 +39,12 @@ const Profile = (props) => {
     isPrivate: "",
   });
 
+  function isSame() {
+    console.log("isSame", user_id, localStorage.getItem("user"))
+    let isSame = localStorage.getItem("user") === user_id ? true : false;
+    console.log(isSame)
+    return isSame;
+  }
   const [userlist, setUserlist] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
@@ -170,6 +179,59 @@ const Profile = (props) => {
         }
       );
   };
+
+  const DirectMessageHandler = () => {
+    let sender_id = localStorage.getItem("user");
+    let receiver_id = user_id;
+    console.log("Check conversation between", sender_id, "and", receiver_id);
+    fetch(
+      USE_LOCAL_BACKEND
+        ? `/GencFootball/dm/checkconversation/${sender_id}/${receiver_id}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/dm/checkconversation/${sender_id}/${receiver_id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("The response of get method is:", data);
+        if (!data) {
+          const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          };
+          fetch(
+            USE_LOCAL_BACKEND
+              ? `/GencFootball/dm/createDm/${sender_id}/${receiver_id}`
+              : `https://genc-football-backend.herokuapp.com/GencFootball/dm/createDm/${sender_id}/${receiver_id}`,
+            requestOptions
+          )
+            .catch((err) => {
+              console.log("Caught error", err);
+            })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Conversation is created");
+              navigate("/DirectMessages", {
+                state: {
+                  sender_id: sender_id,
+                  receiver_id: receiver_id,
+                  userInfo : userInfo
+                },
+              });
+            });
+        }
+        else{
+          console.log("Conversation already exist");
+          console.log("User info is: ", userInfo);
+          navigate("/DirectMessages", {
+            state: {
+              sender_id: sender_id,
+              receiver_id: receiver_id,
+              userInfo : userInfo
+            },
+          });
+        }
+      });
+
+  }
 
   const FollowUserHandler = (event) => {
     event.preventDefault();
@@ -314,6 +376,9 @@ const Profile = (props) => {
           </button>
         </div>
         <div className={classes.profile_counts}>
+          {!isSame() ? (<IconButton size="large" onClick={DirectMessageHandler}>
+            <MessageIcon fontSize="large"></MessageIcon>
+          </IconButton>) : null}
           <div
             className={classes.following_div}
             style={{ paddingRight: "10px" }}
@@ -347,8 +412,8 @@ const Profile = (props) => {
       </Card>
       <div className={classes.body}>
         {user_id === localStorage.getItem("user") ||
-        !userInfo.isPrivate ||
-        (userInfo.isPrivate && isDisplayedProfileFollowed) ? (
+          !userInfo.isPrivate ||
+          (userInfo.isPrivate && isDisplayedProfileFollowed) ? (
           <div className={classes.posts}>
             <div className={classes.post_title}>Your Posts:</div>
             <PostsList onDelete={deleteHandler} list={PostLists}></PostsList>
