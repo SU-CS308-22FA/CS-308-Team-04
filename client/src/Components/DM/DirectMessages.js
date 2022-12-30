@@ -7,8 +7,8 @@ import classes from "./DirectMessages.module.css";
 const DirectMessages = () => {
   const location = useLocation();
   const userInfo = location.state.userInfo;
-  const sender_id = location.state.sender_id;
-  const receiver_id = location.state.receiver_id;
+  const my_user_id = location.state.sender_id;
+  const other_userid = location.state.receiver_id;
   const [messagesList, setMessagesList] = useState([]);
   const [MyUserInfo, setMyUserInfo] = useState({
     name: "",
@@ -23,15 +23,15 @@ const DirectMessages = () => {
     _id: ""
   });
   function isMyMessage(message_sender_id) {
-    let isTrue = message_sender_id === sender_id ? true : false;
+    let isTrue = message_sender_id === my_user_id ? true : false;
     return isTrue;
   }
 
   useEffect(() => {
     fetch(
       USE_LOCAL_BACKEND
-        ? `/GencFootball/dm/getSpecificConversation/${sender_id}/${receiver_id}`
-        : `https://genc-football-backend.herokuapp.com/GencFootball/dm/getSpecificConversation/${sender_id}/${receiver_id}`
+        ? `/GencFootball/dm/getSpecificConversation/${my_user_id}/${other_userid}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/dm/getSpecificConversation/${my_user_id}/${other_userid}`
     )
       .catch((err) => {
         console.log("Caught error", err);
@@ -43,7 +43,7 @@ const DirectMessages = () => {
         console.log("Direct Messages is1 ", data.direct_messages);
         setMessagesList(data.direct_messages);
         console.log("Direct Messages is2 ", messagesList);
-        if (sender_id === data.user_info1._id) {
+        if (my_user_id === data.user_info1._id) {
           console.log("Yes they are equal");
           setMyUserInfo(data.user_info1);
           setOtherUserInfo(data.user_info2);
