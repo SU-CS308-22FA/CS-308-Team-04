@@ -76,6 +76,13 @@ const DirectMessages = () => {
         .then((response) => response.json());
       
       setMessageContent("");
+
+      if (reload === 1) {
+        setReload(0);
+      } else {
+        setReload(1);
+      }
+      
     }
     else {
       console.log("Message content should be valid");
