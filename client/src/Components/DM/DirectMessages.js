@@ -18,6 +18,8 @@ const DirectMessages = () => {
   const other_userid = location.state.receiver_id;
   const [MessageContent, setMessageContent] = React.useState("");
   const [isValidMessage, set_isValidMessage] = React.useState(false);
+  const [reload, setReload] = useState(0);
+  const [trigger, setTrigger] = useState(0);
   const [messagesList, setMessagesList] = useState([]);
   const [MyUserInfo, setMyUserInfo] = useState({
     name: "",
@@ -31,6 +33,19 @@ const DirectMessages = () => {
     username: "",
     _id: ""
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Messages refreshed");
+      if (reload === 1) {
+        setReload(0);
+      } else {
+        setReload(1);
+      }
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [reload]);
+
   function isMyMessage(message_sender_id) {
     let isTrue = message_sender_id === my_user_id ? true : false;
     return isTrue;
@@ -62,11 +77,22 @@ const DirectMessages = () => {
         .then((response) => response.json());
       
       setMessageContent("");
+
+      if (reload === 1) {
+        setReload(0);
+      } else {
+        setReload(1);
+      }
+
     }
     else {
       console.log("Message content should be valid");
     }
   }
+
+  useEffect(() => {
+    setTrigger(trigger+1);
+  }, [reload])
 
   useEffect(() => {
     if (MessageContent.trim().length === 0) {
@@ -107,7 +133,7 @@ const DirectMessages = () => {
         }
         //console.log("My user_info id is",myUserInfo._id);
       });
-  }, [/*sendButtonClicker*/]);
+  }, [trigger, reload]);
 
   return (
     <>
