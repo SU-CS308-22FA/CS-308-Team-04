@@ -19,6 +19,7 @@ const DirectMessages = () => {
   const [MessageContent, setMessageContent] = React.useState("");
   const [isValidMessage, set_isValidMessage] = React.useState(false);
   const [reload, setReload] = useState(0);
+  const [trigger, setTrigger] = useState(0);
   const [messagesList, setMessagesList] = useState([]);
   const [MyUserInfo, setMyUserInfo] = useState({
     name: "",
@@ -82,12 +83,16 @@ const DirectMessages = () => {
       } else {
         setReload(1);
       }
-      
+
     }
     else {
       console.log("Message content should be valid");
     }
   }
+
+  useEffect(() => {
+    setTrigger(trigger+1);
+  }, [reload])
 
   useEffect(() => {
     if (MessageContent.trim().length === 0) {
@@ -128,7 +133,7 @@ const DirectMessages = () => {
         }
         //console.log("My user_info id is",myUserInfo._id);
       });
-  }, [/*sendButtonClicker*/]);
+  }, [trigger, reload]);
 
   return (
     <>
