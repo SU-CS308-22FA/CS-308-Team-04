@@ -166,6 +166,12 @@ module.exports = class DmDAO {
                     },
                 },
                 {
+                    "$unwind": "$user_info1"
+                },
+                {
+                    "$unwind": "$user_info2"
+                },
+                {
                     "$project": {
                         "user_info1.password": 0,
                         "user_info1.email": 0,
