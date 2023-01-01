@@ -93,7 +93,7 @@ const DirectMessages = () => {
         console.log("Direct Messages is1 ", data.direct_messages);
         setMessagesList(data.direct_messages);
         setDmId(data._id);
-        console.log("DM ID!!!!!:",dm_id);
+        //console.log("DM ID!!!!!:",dm_id);
         console.log("Direct Messages is2 ", messagesList);
         if (my_user_id === data.user_info1._id) {
           console.log("Yes they are equal");
