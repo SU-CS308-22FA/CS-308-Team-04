@@ -20,11 +20,14 @@ export default function AlignItemsList(props) {
     const user_id = location.state.user_id;
     const userInfo = location.state.userInfo;
     const [userInfo2, setUserInfo2] = React.useState();
+    const [reload, setReload] = React.useState(0);
     const [conversationsList, setConversationsList] = React.useState([]);
+
     function isMe(message_sender_id) {
         let isTrue = message_sender_id === user_id ? true : false;
         return isTrue;
     }
+
     const conversationClickHandler = (element) => {
         let user_info1_id = element.user_info1._id;
         let user_info2_id = element.user_info2._id;
@@ -47,6 +50,17 @@ export default function AlignItemsList(props) {
             },
         });
     }
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            console.log("Conversations refreshed");
+            if (reload === 1) {
+                setReload(0);
+            } else {
+                setReload(1);
+            }
+        }, 15000);
+        return () => clearInterval(interval);
+    }, [reload]);
 
     React.useEffect(() => {
         fetch(
@@ -68,7 +82,7 @@ export default function AlignItemsList(props) {
                     setUserInfo2(data[0].user_info2);
                 }
             })
-    }, [])
+    }, [reload])
     return (
         <>
             <Navbar className="Navbar" user={userInfo} />
