@@ -152,7 +152,7 @@ class PythonOrgSearch(unittest.TestCase):
         time.sleep(3)
         #at dm page with target user
 
-        time.sleep(20)
+        time.sleep(5)
         refreshMsgExists = (any("Messages refreshed" in entry['message']) for entry in driver.get_log('browser'))
         #Check console logs for refresh message
         self.assertTrue(refreshMsgExists, "Message refresh - Unsuccesful")     
@@ -218,18 +218,17 @@ class PythonOrgSearch(unittest.TestCase):
         actions.send_keys(Keys.TAB)
         actions.send_keys(Keys.TAB)
         actions.send_keys(Keys.ENTER)
-        msgContent = 'testMsg#' + get_random_string(16)
+        msgContent = 'testMsg#' + get_random_string(8)
         actions.send_keys(msgContent)
         actions.send_keys(Keys.TAB)
         actions.send_keys(Keys.ENTER)
         actions.perform()
-        time.sleep(20)
+        time.sleep(5)
 
         # find <p> elements in the page
-        messages = driver.find_elements(By.ID, 'dmMessageContent')
-        testMsgFound = (any(element == msgContent) for element in messages.reverse())
+        messages = driver.find_elements(By.XPATH, '//p[text()="'+msgContent+'"]')
 
-        self.assertTrue(testMsgFound, "Test message not found")        
+        self.assertTrue(len(messages) > 0, "Test message not found")        
         time.sleep(1)
 
     def tearDown(self):
