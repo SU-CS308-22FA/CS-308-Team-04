@@ -153,7 +153,7 @@ class PythonOrgSearch(unittest.TestCase):
         #at dm page with target user
 
         time.sleep(20)
-        refreshMsgExists = any("Messages refreshed" in entry['message']) for entry in driver.get_log('browser')
+        refreshMsgExists = (any("Messages refreshed" in entry['message']) for entry in driver.get_log('browser'))
         #Check console logs for refresh message
         self.assertTrue(refreshMsgExists, "Message refresh - Unsuccesful")     
         time.sleep(1)
@@ -219,7 +219,7 @@ class PythonOrgSearch(unittest.TestCase):
         actions.send_keys(Keys.TAB)
         actions.send_keys(Keys.ENTER)
         msgContent = 'testMsg#' + get_random_string(16)
-        actions.send_keys(msgContentString)
+        actions.send_keys(msgContent)
         actions.send_keys(Keys.TAB)
         actions.send_keys(Keys.ENTER)
         actions.perform()
@@ -227,7 +227,7 @@ class PythonOrgSearch(unittest.TestCase):
 
         # find <p> elements in the page
         messages = driver.find_elements(By.ID, 'dmMessageContent')
-        testMsgFound = any(element == msgContent) for element in messages.reverse()
+        testMsgFound = (any(element == msgContent) for element in messages.reverse())
 
         self.assertTrue(testMsgFound, "Test message not found")        
         time.sleep(1)
