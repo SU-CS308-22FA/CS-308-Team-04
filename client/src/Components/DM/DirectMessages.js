@@ -18,6 +18,7 @@ const DirectMessages = () => {
   const other_userid = location.state.receiver_id;
   const [MessageContent, setMessageContent] = React.useState("");
   const [isValidMessage, set_isValidMessage] = React.useState(false);
+  const [reload, setReload] = useState(0);
   const [messagesList, setMessagesList] = useState([]);
   const [MyUserInfo, setMyUserInfo] = useState({
     name: "",
@@ -31,6 +32,19 @@ const DirectMessages = () => {
     username: "",
     _id: ""
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Messages refreshed");
+      if (reload === 1) {
+        setReload(0);
+      } else {
+        setReload(1);
+      }
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [reload]);
+
   function isMyMessage(message_sender_id) {
     let isTrue = message_sender_id === my_user_id ? true : false;
     return isTrue;
