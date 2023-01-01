@@ -115,17 +115,17 @@ const DirectMessages = () => {
       .then((response) => response.json())
       .then((data) => {
         //setPostList(data.posts_list);
-        console.log("Data is", data);
-        console.log("Direct Messages is1 ", data.direct_messages);
+        //console.log("Data is", data);
+        //console.log("Direct Messages is1 ", data.direct_messages);
         setMessagesList(data.direct_messages);
         setDmId(data._id);
         //console.log("DM ID!!!!!:",dm_id);
-        console.log("Direct Messages is2 ", messagesList);
+        //console.log("Direct Messages is2 ", messagesList);
         if (my_user_id === data.user_info1._id) {
-          console.log("Yes they are equal");
+          //console.log("Yes they are equal");
           setMyUserInfo(data.user_info1);
           setOtherUserInfo(data.user_info2);
-          console.log("OtherUserInfo is", OtherUserInfo);
+          //console.log("OtherUserInfo is", OtherUserInfo);
         }
         else {
           setMyUserInfo(data.user_info2);
@@ -163,7 +163,7 @@ const DirectMessages = () => {
                 alt="cat"
                 src={isMyMessage(element.sender_id) ? MyUserInfo.post_photo_url : OtherUserInfo.post_photo_url}
               />
-              <p className={classes.message_info_text}>{element.message_content}</p>
+              <p id="dmMessageContent" className={classes.message_info_text}>{element.message_content}</p>
             </div>
           </Card>
           );
