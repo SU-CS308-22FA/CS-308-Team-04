@@ -6,6 +6,7 @@ import Profile from "./Components/Profile/Profile";
 import Feed from "./Components/Feed/Feed";
 import UpdateProfile from "./Components/Profile/UpdateProfile";
 import DirectMessages from "./Components/DM/DirectMessages";
+import DisplayConversations from "./Components/PopUps/DisplayConversations";
 // We use Route in order to define the different routes of our application
 import { Route, Routes } from "react-router-dom";
 //import Navbar from "./Components/Navigation/navbar";
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/UpdateProfile" element={<UpdateProfile />} />
           <Route path="/Feed" element={<Feed></Feed>} />
           <Route path = "/DirectMessages" element = {<DirectMessages></DirectMessages>}/>
+          <Route path = "/DisplayConversations" element = {<DisplayConversations></DisplayConversations>}/>
         </Routes>
       </div>
     </div>
