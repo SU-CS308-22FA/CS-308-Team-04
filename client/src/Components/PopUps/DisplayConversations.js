@@ -8,14 +8,15 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { USE_LOCAL_BACKEND } from '../../config';
 import Navbar from '../Navigation/navbar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
-
+import classes from "./DisplayConversations.module.css";
 
 
 export default function AlignItemsList(props) {
 
     const location = useLocation();
+    let navigate = useNavigate();
     const user_id = location.state.user_id;
     const userInfo = location.state.userInfo;
     const [userInfo2, setUserInfo2] = React.useState();
@@ -24,6 +25,29 @@ export default function AlignItemsList(props) {
         let isTrue = message_sender_id === user_id ? true : false;
         return isTrue;
     }
+    const conversationClickHandler = (element) => {
+        let user_info1_id = element.user_info1._id;
+        let user_info2_id = element.user_info2._id;
+        let is_sender_me = isMe(user_info1_id);
+        let sender_id = "";
+        let receiver_id = "";
+        if (is_sender_me) {
+            sender_id = user_info1_id;
+            receiver_id = user_info2_id;
+        }
+        else {
+            sender_id = user_info2_id;
+            receiver_id = user_info1_id;
+        }
+        navigate("/DirectMessages", {
+            state: {
+                sender_id: sender_id,
+                receiver_id: receiver_id,
+                userInfo: userInfo
+            },
+        });
+    }
+
     React.useEffect(() => {
         fetch(
             USE_LOCAL_BACKEND
@@ -48,47 +72,44 @@ export default function AlignItemsList(props) {
     return (
         <>
             <Navbar className="Navbar" user={userInfo} />
-            <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper', marginBottom: "30%", marginTop: "2%" }}>
-                {conversationsList.map((element) => {
-                    return (
-                        <ListItem alignItems="flex-start" key={element._id}>
-                            <ListItemAvatar>
-                                <Avatar alt="Remy Sharp" src={isMe(element.user_info1._id) ? element.user_info2.post_photo_url : element.user_info1.post_photo_url} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        {isMe(element.user_info1._id) ? element.user_info2.username : element.user_info1.username}
-                                        <p style={{ marginLeft: 'auto' }}>{moment(element.date).format('YYYY MM DD HH:mm')}</p>
-                                    </div>
-                                }
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography
-                                            sx={{ display: 'inline' }}
-                                            component="span"
-                                            variant="body2"
-                                            color="text.primary"
-                                            display="flex"
-                                            flexDirection="row"
-                                        >
+            <div className={classes.Conversationsclass}>
+                <h1>Conversations</h1>
+                <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper', marginBottom: "30%", marginTop: "2%" }}>
+                    {conversationsList.map((element) => {
+                        return (
+                            <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} onClick={() => { conversationClickHandler(element) }}>
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={isMe(element.user_info1._id) ? element.user_info2.post_photo_url : element.user_info1.post_photo_url} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={
+                                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                            {isMe(element.user_info1._id) ? element.user_info2.username : element.user_info1.username}
+                                            <p style={{ marginLeft: 'auto' }}>{moment(element.date).format('YYYY MM DD HH:mm')}</p>
+                                        </div>
+                                    }
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                sx={{ display: 'inline' }}
+                                                component="span"
+                                                variant="body2"
+                                                color="text.primary"
+                                                display="flex"
+                                                flexDirection="row"
+                                            >
 
-                                        </Typography>
-                                    
-                                        <p>{element.last_message}</p>
-                                    </React.Fragment>
-                                }
-                            />
+                                            </Typography>
 
-
-
-
-
-                        </ListItem>
-
-                    )
-                })}
-            </List>
+                                            <p>{element.last_message}</p>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            </div>
         </>
     );
 }
