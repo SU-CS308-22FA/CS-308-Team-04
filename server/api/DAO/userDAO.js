@@ -49,7 +49,11 @@ module.exports =  class UserDAO{
         static async getRandomUsers(){
             let cursor;
             try{
-                cursor = await User.find().limit(6).sample(6).toArray();
+                cursor = await User.aggregate([
+                    {
+                        $sample: {size: 6}
+                    }
+                ]).toArray();
                 return cursor;
             }
             catch(e){
