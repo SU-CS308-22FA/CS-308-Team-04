@@ -391,7 +391,7 @@ return (
           <h2 className={classes.h2}>
             {userInfo.name} {userInfo.surname}
           </h2>
-          <h2 className={classes.h2}>@{userInfo.username}</h2>
+          <h2 id="profileUsername" className={classes.h2}>@{userInfo.username}</h2>
         </div>
       </div>
       <div>
@@ -494,7 +494,7 @@ return (
               return;
             }
             return (
-              <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} onClick={() => {profileClickHandler(element._id)}} >
+              <ListItem id = "listOfProfiles" sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} onClick={() => {profileClickHandler(element._id)}} >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={element.post_photo_url} />
                 </ListItemAvatar>
