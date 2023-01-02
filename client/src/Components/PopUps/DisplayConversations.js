@@ -115,7 +115,7 @@ export default function AlignItemsList(props) {
 
                                             </Typography>
 
-                                            <p>{element.last_message}</p>
+                                            <p id = "last_message">{element.last_message}</p>
                                         </React.Fragment>
                                     }
                                 />
