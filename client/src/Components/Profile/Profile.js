@@ -57,7 +57,7 @@ const Profile = (props) => {
         .then((data) => {
             console.log(data);
             setRandomUsers(data);
-            
+
         })
 }, []) 
 const profileClickHandler = (user_id) => {
@@ -458,6 +458,9 @@ return (
         <h2>Suggested Profiles</h2>
         <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper', marginBottom: "30%", marginTop: "2%" }}>
           {randomUsers.map((element) => {
+            if (element._id === user_id) {
+              return;
+            }
             return (
               <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} onClick={() => {profileClickHandler(element._id)}} >
                 <ListItemAvatar>
