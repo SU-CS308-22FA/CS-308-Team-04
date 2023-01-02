@@ -231,7 +231,7 @@ class PythonOrgSearch(unittest.TestCase):
         self.assertTrue(len(messages) > 0, "Test message not found")        
         time.sleep(1)
 
-    def test_for_refreshing_conversations(self):
+    def test_for_conversations_lastmessage_check(self):
         driver = self.driver
         driver.get("http://www.gencfootball.com/login")
         time.sleep(5)
@@ -260,11 +260,45 @@ class PythonOrgSearch(unittest.TestCase):
         # opened conversations list
 
         lastMessage = driver.find_element(By.ID, 'last_message')
+        tempLastMessage = lastMessage.text
         lastMessage.click()
         time.sleep(3)
         lastMessage2 = driver.find_elements(By.ID,'dmMessageContent')[-1]
-        self.assertIn(lastMessage.text, lastMessage2.text, "The words are not same")   
+        self.assertIn(tempLastMessage, lastMessage2.text, "The words are not same")   
         time.sleep(1)
+    def test_for_conversations_refresh_check(self):
+        driver = self.driver
+        driver.get("http://www.gencfootball.com/login")
+        time.sleep(5)
+
+        #login
+        actions = ActionChains(driver)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys('alikoray1@gmail.com')
+        actions.send_keys(Keys.TAB)
+        actions.send_keys('Koray1234')
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+        time.sleep(3)
+        # user at their own profile
+
+        actions = ActionChains(driver)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+        # opened conversations list
+        time.sleep(15)
+        refreshConversationMessageExists = (any("Conversations refreshed" in entry['message']) for entry in driver.get_log('browser'))
+        #Check console logs for refresh message
+        self.assertTrue(refreshConversationMessageExists, "Message refresh - Unsuccesful")     
+        time.sleep(1)
+
+        
 
     def tearDown(self):
         self.driver.close()
