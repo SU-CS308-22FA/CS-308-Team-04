@@ -231,6 +231,41 @@ class PythonOrgSearch(unittest.TestCase):
         self.assertTrue(len(messages) > 0, "Test message not found")        
         time.sleep(1)
 
+    def test_for_refreshing_conversations(self):
+        driver = self.driver
+        driver.get("http://www.gencfootball.com/login")
+        time.sleep(5)
+
+        #login
+        actions = ActionChains(driver)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys('alikoray1@gmail.com')
+        actions.send_keys(Keys.TAB)
+        actions.send_keys('Koray1234')
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+        time.sleep(3)
+        # user at their own profile
+
+        actions = ActionChains(driver)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.TAB)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+        time.sleep(3)
+        # opened conversations list
+
+        lastMessage = driver.find_element(By.ID, 'last_message')
+        lastMessage.click()
+        time.sleep(3)
+        lastMessage2 = driver.find_elements(By.ID,'dmMessageContent')[-1]
+        self.assertIn(lastMessage.text, lastMessage2.text, "The words are not same")   
+        time.sleep(1)
+
     def tearDown(self):
         self.driver.close()
 
