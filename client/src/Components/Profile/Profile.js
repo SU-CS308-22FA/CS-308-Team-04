@@ -28,6 +28,7 @@ const Profile = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [reload, setReload] = useState(0);
+  let myUserID = localStorage.getItem("user");
   let user_id = location.state
     ? location.state.user_id
     : localStorage.getItem("user");
@@ -458,7 +459,7 @@ return (
         <h2>Suggested Profiles</h2>
         <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper', marginBottom: "30%", marginTop: "2%" }}>
           {randomUsers.map((element) => {
-            if (element._id === user_id) {
+            if (element._id === myUserID) {
               return;
             }
             return (
