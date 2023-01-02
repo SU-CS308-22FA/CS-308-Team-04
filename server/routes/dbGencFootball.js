@@ -17,6 +17,7 @@ router.route("/users/:email").get(UserCtrl.apiGetUserByEmail);
 router.route("/user/userwithpost/:user_id").get(UserCtrl.apiGetUserWithPost);
 router.route("/user/isPrivate/:user_id").get(UserCtrl.apiIsUserPrivate);
 router.route("/user/userwithquery/:user_info").get(UserCtrl.apiGetUserWithQuery);
+router.route("/randomUsers").get(UserCtrl.apiGetRandomUsers);
 
 //ROUTERS OF VIEW TABLE
 router.route("/posts/add").post(PostCtrl.apiPostPosts);
