@@ -59,7 +59,14 @@ const Profile = (props) => {
             setRandomUsers(data);
             
         })
-}, [])
+}, []) 
+const profileClickHandler = (user_id) => {
+  navigate("/Profile", {
+    state: {
+      user_id: user_id
+    },
+  });
+}
 
 function isSame() {
   console.log("isSame", user_id, localStorage.getItem("user"))
@@ -448,11 +455,11 @@ return (
       )}
 
       <div className={classes.right_bar}>
-        <h1>Suggested Profiles</h1>
+        <h2>Suggested Profiles</h2>
         <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper', marginBottom: "30%", marginTop: "2%" }}>
           {randomUsers.map((element) => {
             return (
-              <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} >
+              <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} onClick={() => {profileClickHandler(element._id)}} >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={element.post_photo_url} />
                 </ListItemAvatar>
