@@ -17,6 +17,11 @@ import Button from "@mui/material/Button";
 import emailjs from "@emailjs/browser";
 import MessageIcon from '@mui/icons-material/Message';
 import IconButton from '@mui/material/IconButton';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 const Profile = (props) => {
   emailjs.init("WKhaHGOHXG8Vd9o6q");
@@ -447,7 +452,7 @@ return (
         <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper', marginBottom: "30%", marginTop: "2%" }}>
           {randomUsers.map((element) => {
             return (
-              <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} onClick={() => { conversationClickHandler(element) }}>
+              <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={element.post_photo_url} />
                 </ListItemAvatar>
