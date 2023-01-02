@@ -50,6 +50,13 @@ const UpdateProfile = (props) => {
     });
   };
 
+  /**
+   * Handles the click event for updating a user's profile.
+   * Makes a PUT request to the backend to update the user's information.
+   * Displays a success message and navigates to the profile page for the updated user.
+   *
+   * @param {Event} event - The event object for the click event.
+   */
   const buttonUpdateHandler = (event) => {
     event.preventDefault();
     const requestOptions = {

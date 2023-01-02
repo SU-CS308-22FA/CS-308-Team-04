@@ -35,6 +35,11 @@ export default function AlertDialog(props) {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   }
 
+  /**
+   * Navigates to the profile page for the specified user.
+   *
+   * @param {string} user_id - The ID of the user whose profile should be displayed.
+   */
   const SendProfileHandler = (user_id) => {
     console.log(user_id);
     navigate("/Profile", {
@@ -48,6 +53,13 @@ export default function AlertDialog(props) {
     setCommentContent(event.target.value);
   };
 
+  /**
+   * Handles the submit event for a comment form.
+   * Adds the comment to the backend if the comment content is valid.
+   * Clears the comment content and closes the form.
+   *
+   * @param {Event} event - The event object for the submit event.
+   */
   const CommentSubmitHandler = (event) => {
     set_isButtonClicked(true);
     if (isValidComment) {
@@ -59,6 +71,13 @@ export default function AlertDialog(props) {
     }
   };
 
+  /**
+   * Sends a report to the backend via email.
+   * Displays a success or failure message to the user.
+   *
+   * @param {string} ReportedID - The ID of the user being reported.
+   * @param {string} ContentID - The ID of the content being reported.
+   */
   const ReportHandler = (ReportedID, ContentID) => {
     let user_id = localStorage.getItem("user");
     emailjs

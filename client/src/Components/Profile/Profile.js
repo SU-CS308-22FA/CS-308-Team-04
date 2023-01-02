@@ -61,6 +61,11 @@ const Profile = (props) => {
 
         })
 }, []) 
+/**
+ * Handles the click event for a profile click.
+ *
+ * @param {string} user_id - The ID of the user whose profile should be displayed.
+ */
 const profileClickHandler = (user_id) => {
   navigate("/Profile", {
     state: {
@@ -79,6 +84,12 @@ const [userlist, setUserlist] = React.useState([]);
 
 const [open, setOpen] = React.useState(false);
 
+
+/**
+ * Handles the click event for opening the follower modal.
+ * Makes a GET request to the backend to retrieve the follower list for the specified user.
+ * Updates the state with the retrieved follower list.
+ */
 const handleClickOpenFollower = () => {
   setOpen(true);
 
@@ -263,6 +274,13 @@ const DirectMessageHandler = () => {
 
 }
 
+/**
+ * Handles the click event for following a user.
+ * Makes a PUT request to the backend to add the current user to the follower list of the specified user.
+ * Updates the follower count and the followed status in the state.
+ *
+ * @param {Event} event - The event object for the click event.
+ */
 
 const FollowUserHandler = (event) => {
   event.preventDefault();
@@ -288,6 +306,13 @@ const FollowUserHandler = (event) => {
   setIsDisplayedProfileFollowed(true);
 };
 
+/**
+ * Handles the click event for unfollowing a user.
+ * Makes a PUT request to the backend to remove the current user from the follower list of the specified user.
+ * Updates the follower count and the followed status in the state.
+ *
+ * @param {Event} event - The event object for the click event.
+ */
 const UnfollowUserHandler = (event) => {
   event.preventDefault();
   const requestOptions = {
@@ -338,6 +363,12 @@ const deleteHandler = async () => {
   }
 };
 
+/**
+ * Handles the click event for updating the current user's profile.
+ * Navigates to the update profile page and passes the current user's information as state.
+ *
+ * @param {Event} event - The event object for the click event.
+ */
 const UpdateUserHandler = async (event) => {
   event.preventDefault();
   navigate("/UpdateProfile", {

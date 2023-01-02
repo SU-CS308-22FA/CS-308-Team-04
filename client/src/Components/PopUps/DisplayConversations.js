@@ -23,11 +23,25 @@ export default function AlignItemsList(props) {
     const [reload, setReload] = React.useState(0);
     const [conversationsList, setConversationsList] = React.useState([]);
 
+
+    /**
+     * Determines if the specified message sender ID matches the current user's ID.
+     *
+     * @param {string} message_sender_id - The ID of the message sender.
+     * @returns {boolean} - True if the message sender is the current user, false otherwise.
+     */
     function isMe(message_sender_id) {
         let isTrue = message_sender_id === user_id ? true : false;
         return isTrue;
     }
 
+    /**
+     * Handles the click event for a conversation.
+     * Determines the sender and receiver IDs for the conversation based on the current user's ID.
+     * Navigates to the direct messages page and passes the sender, receiver, and current user's information as state.
+     *
+     * @param {Object} element - The conversation object.
+     */
     const conversationClickHandler = (element) => {
         let user_info1_id = element.user_info1._id;
         let user_info2_id = element.user_info2._id;
