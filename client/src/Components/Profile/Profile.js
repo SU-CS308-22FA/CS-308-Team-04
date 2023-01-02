@@ -424,7 +424,28 @@ const Profile = (props) => {
           </div>
         )}
 
-        <div className={classes.right_bar}></div>
+        <div className={classes.right_bar}>
+        <h1>Suggested Profiles</h1>
+                <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper', marginBottom: "30%", marginTop: "2%" }}>
+                    {profileList.map((element) => {
+                        return (
+                            <ListItem sx={{ cursor: "pointer" }} alignItems="flex-start" key={element._id} onClick={() => { conversationClickHandler(element) }}>
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={isMe(element.user_info1._id) ? element.user_info2.post_photo_url : element.user_info1.post_photo_url} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={
+                                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                            {element.user_id}
+                                            <p style={{ marginLeft: 'auto' }}>{moment(element.date).format('YYYY MM DD HH:mm')}</p>
+                                        </div>
+                                    }
+                                />
+                            </ListItem>
+                        )
+                    })}
+                </List>
+        </div>
       </div>
       <button className={classes.button} onClick={UpdateUserHandler}>
         Update

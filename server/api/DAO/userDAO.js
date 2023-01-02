@@ -46,6 +46,18 @@ module.exports =  class UserDAO{
             }
         }
 
+        static async getRandomUsers(){
+            let cursor;
+            try{
+                cursor = await User.find().limit(6).sample(6).toArray();
+                return cursor;
+            }
+            catch(e){
+                console.log("Unable to Get Users",e);
+                return [];
+            }
+        }
+
         static async getQueryUserList(user_info){
             
             //let query;

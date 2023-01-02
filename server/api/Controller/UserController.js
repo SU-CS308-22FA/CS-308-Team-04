@@ -93,6 +93,20 @@ module.exports = class UserController{
             res.status(500).json({error:e});
         }
     }
+    static async apiGetRandomUsers(req,res,next){
+        try{
+           
+            let randomUsers = await UserDAO.getRandomUsers();
+            
+         
+            res.json(randomUsers);
+        }
+
+        catch(e){
+            console.log(e);
+            res.status(500).json({error:e});
+        }
+    }
     
     static async apiPostUser(req,res,next){
 
