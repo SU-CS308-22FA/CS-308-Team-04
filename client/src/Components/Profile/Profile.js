@@ -401,7 +401,7 @@ return (
             {userInfo.name} {userInfo.surname} 
           </h2>
           <h2 id="profileUsername" className={classes.h2}>@{userInfo.username} </h2>
-          <div id="profileType" lassName={classes.profile_type}> {userInfo.profiletype} </div>
+          <div id="profileType" className={classes.profile_type}> {userInfo.profiletype} </div>
         </div>
         
       </div>
