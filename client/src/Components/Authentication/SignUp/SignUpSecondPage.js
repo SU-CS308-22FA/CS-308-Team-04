@@ -235,9 +235,9 @@ const Profile = (props) => {
               value={userInfo.profileType}
               onChange={handleChange("profiletype")}
             >
-              <MenuItem value={"trainer"}>Trainer</MenuItem>
-              <MenuItem value={"scout"}>Scout</MenuItem>
-              <MenuItem value={"personal"}>Personal</MenuItem>
+              <MenuItem value={"Trainer"}>Trainer</MenuItem>
+              <MenuItem value={"Scout"}>Scout</MenuItem>
+              <MenuItem value={"Personal"}>Personal</MenuItem>
             </Select>
           </FormControl>
           <Button
