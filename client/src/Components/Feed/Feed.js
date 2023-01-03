@@ -135,7 +135,7 @@ const Feed = (props) => {
   return (
     <>
       <Navbar className="Navbar" user={userInfo} />
-      {!isPersonal() ? (<AddPost onAddPost={AddPostHandler}></AddPost>) : null}
+      {!isPersonal() ? (<AddPost id="postButton" onAddPost={AddPostHandler}></AddPost>) : null}
       <div className={classes.body}>
         <div className={classes.posts}>
           <PostsList onDelete={deleteHandler} list={PostList}></PostsList>
