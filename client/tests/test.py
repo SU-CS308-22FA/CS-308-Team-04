@@ -318,7 +318,6 @@ class PythonOrgSearch(unittest.TestCase):
         time.sleep(3)
         # user at their own profile
 
-       
 
         lastProfile = driver.find_element(By.ID, 'listOfProfiles')
         tempLastProfile = lastProfile.text
