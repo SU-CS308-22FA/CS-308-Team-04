@@ -354,9 +354,8 @@ class PythonOrgSearch(unittest.TestCase):
             actions.send_keys(Keys.ENTER)
             actions.perform()
             time.sleep(5)
-            PostButton = driver.find_element(By.ID, 'postButton')
-            print(PostButton)
-            self.assertTrue(PostButton == None, "Unsuccesful")
+            PostButton = driver.find_elements(By.ID, 'postButton')
+            self.assertTrue(len(PostButton) == 0, "Unsuccesful")
             time.sleep(1)
         else:
             actions = ActionChains(driver)
@@ -365,9 +364,9 @@ class PythonOrgSearch(unittest.TestCase):
             actions.send_keys(Keys.ENTER)
             actions.perform()
             time.sleep(5)
-            PostButton = driver.find_element(By.ID, 'postButton')
+            PostButton = driver.find_elements(By.ID, 'postButton')
             print(PostButton)
-            self.assertTrue(PostButton != None, "Unsuccesful")
+            self.assertTrue(len(PostButton) > 0, "Unsuccesful")
             time.sleep(1)
 
     def tearDown(self):
