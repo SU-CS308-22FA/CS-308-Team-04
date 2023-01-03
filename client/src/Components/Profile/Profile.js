@@ -43,7 +43,9 @@ const Profile = (props) => {
     mobile_number: "",
     birth_date: "",
     isPrivate: "",
+    profiletype: "",
   });
+
   const [randomUsers, setRandomUsers] = useState([]);
   useEffect(() => {
     fetch(
@@ -72,6 +74,13 @@ const profileClickHandler = (user_id) => {
       user_id: user_id
     },
   });
+}
+
+function isPersonal() {
+  if (userInfo.profiletype == "Personal"){
+    return true;
+  }
+  return false;
 }
 
 function isSame() {
@@ -389,10 +398,12 @@ return (
         />
         <div className={classes.profile_info}>
           <h2 className={classes.h2}>
-            {userInfo.name} {userInfo.surname}
+            {userInfo.name} {userInfo.surname} 
           </h2>
-          <h2 id="profileUsername" className={classes.h2}>@{userInfo.username}</h2>
+          <h2 id="profileUsername" className={classes.h2}>@{userInfo.username} </h2>
+          <div id="profileType" lassName={classes.profile_type}> {userInfo.profiletype} </div>
         </div>
+        
       </div>
       <div>
         <button
@@ -477,7 +488,7 @@ return (
         !userInfo.isPrivate ||
         (userInfo.isPrivate && isDisplayedProfileFollowed) ? (
         <div className={classes.posts}>
-          <div className={classes.post_title}>Your Posts:</div>
+          {!isPersonal() ? (<div className={classes.post_title}>Your Posts:</div>) : null}
           <PostsList onDelete={deleteHandler} list={PostLists}></PostsList>
         </div>
       ) : (

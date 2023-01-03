@@ -41,8 +41,17 @@ const Feed = (props) => {
     surname: "",
     mobile_number: "",
     birth_date: "",
+    isPrivate: "",
+    profiletype: "",
   });
 
+  function isPersonal() {
+    console.log(userInfo.profiletype)
+    if (userInfo.profiletype == "Personal"){
+      return true;
+    }
+    return false;
+  }
   const AddPostHandler = async (enteredText, enteredURL) => {
     console.log(enteredText);
     console.log(enteredURL);
@@ -126,7 +135,8 @@ const Feed = (props) => {
   return (
     <>
       <Navbar className="Navbar" user={userInfo} />
-      <AddPost onAddPost={AddPostHandler}></AddPost>
+      {!isPersonal() ? (<AddPost onAddPost={AddPostHandler}></AddPost>) : null}
+      
       <div className={classes.body}>
         <div className={classes.posts}>
           <PostsList onDelete={deleteHandler} list={PostList}></PostsList>
