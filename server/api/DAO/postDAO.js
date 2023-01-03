@@ -91,17 +91,23 @@ module.exports = class PostDAO {
                     "$sort": {
                         "date": -1
                     }
-                }
+                },
+                {
+                    "$skip": page * postsPerPage
+                  },
+                  {
+                    "$limit": postsPerPage
+                  }
               ]);
         }
         catch (e) {
             console.error("Unable to post Post", e);
             return [];
         }
-        const displayCursor = cursor.limit(postsPerPage).skip(postsPerPage * page);
-        console.log(displayCursor);
+        //console.log(displayCursor);
         try {
-            const posts_list = await displayCursor.toArray();
+            const posts_list = await cursor.toArray();
+            console.log(posts_list,page);
             return posts_list;
         }
 
