@@ -93,6 +93,20 @@ module.exports = class UserController{
             res.status(500).json({error:e});
         }
     }
+    static async apiGetRandomUsers(req,res,next){
+        try{
+           
+            let randomUsers = await UserDAO.getRandomUsers();
+            
+         
+            res.json(randomUsers);
+        }
+
+        catch(e){
+            console.log(e);
+            res.status(500).json({error:e});
+        }
+    }
     
     static async apiPostUser(req,res,next){
 
@@ -107,6 +121,7 @@ module.exports = class UserController{
              birth_date : req.body.birth_date,
              post_photo_url : req.body.post_photo_url,
              date : new Date(),
+             profiletype : req.body.profiletype,
              isPrivate: false
             }
 
@@ -135,6 +150,7 @@ module.exports = class UserController{
                 birth_date : req.body.birth_date,
                 post_photo_url : req.body.post_photo_url,
                 date : new Date(),
+                profiletype : req.body.profiletype,
                 isPrivate: req.body.isPrivate
             };
             

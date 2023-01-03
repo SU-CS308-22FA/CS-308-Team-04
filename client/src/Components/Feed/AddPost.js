@@ -56,6 +56,7 @@ export default function AddPost(props) {
     if (isValidPost) {
       props.onAddPost(PostContent,PostURL);
       setPostContent("");
+      setPostURL("");
       setOpen(false);
     }
     else {

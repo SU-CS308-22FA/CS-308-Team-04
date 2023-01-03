@@ -43,7 +43,7 @@ const Feed = (props) => {
     birth_date: "",
   });
 
-  const AddPostHandler = async (enteredText,enteredURL) => {
+  const AddPostHandler = async (enteredText, enteredURL) => {
     console.log(enteredText);
     console.log(enteredURL);
     fetch(
@@ -59,7 +59,7 @@ const Feed = (props) => {
           user_id: user_id,
           username: userInfo.username,
           post_message: enteredText,
-          post_photo_url:enteredURL
+          post_photo_url: enteredURL,
         }),
       }
     )
@@ -93,8 +93,8 @@ const Feed = (props) => {
   useEffect(() => {
     fetch(
       USE_LOCAL_BACKEND
-      ? `/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
-      : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
+        ? `/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
+        : `https://genc-football-backend.herokuapp.com/GencFootball/posts/getposts/${user_id}?page=${encodedValue}`
     )
       .catch((err) => {
         console.log("Caught error", err);

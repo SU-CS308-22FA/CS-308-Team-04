@@ -1,0 +1,124 @@
+.messagesList {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: space-between;
+  }
+  .message_header {
+    padding-bottom: 8px;
+    padding-top: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center
+  }
+
+  .profile_bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    margin-top : 16px;
+    margin-bottom: 16px;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+  .profile_img_divider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+  }
+  
+  .profile_info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+    margin: 2%;
+  }
+  .profile_logo {
+    width: 25%;
+    display: flex;
+    margin-right: 20px;
+    margin-bottom: 0px;
+    border-radius: 50%;
+  }
+  
+  .h2design{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .h2 {
+    font-size: 20px;
+    width: 50%;
+  }
+
+  .message_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 40px;
+    width: 100%;
+  }
+
+  .message_info_left {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  }
+  .message_info_text {
+    margin: 0px;
+  }
+  .message_card_right {
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    min-width: 25%;
+    max-width: 25%;
+    max-height: 25%;
+    margin-bottom: 16px;
+    margin-left :66.0%;
+  }
+  .message_card_left {
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    min-width: 25%;
+    max-width: 25%;
+    max-height: 25%;
+    margin-bottom: 16px;
+    margin-left : 10.0%;
+  }
+  
+  .dm_message_send_bundle {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dm_message_content_window {
+    width: 100%;
+    margin-right: 10px;
+    background: white;
+    padding: 8px;
+  }
+
+  .dm_divider_vert{
+    height:2%;
+  }
+
+  .dm_divider_horz{
+    width:2%;
+  }

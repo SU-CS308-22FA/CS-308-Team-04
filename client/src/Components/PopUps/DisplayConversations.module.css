@@ -1,0 +1,14 @@
+.Conversationsclass {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    border-radius: 3px;
+    padding-left: 66px;
+    padding-right: 66px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    overflow: auto;
+}

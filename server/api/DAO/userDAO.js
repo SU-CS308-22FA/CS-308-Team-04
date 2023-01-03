@@ -46,6 +46,22 @@ module.exports =  class UserDAO{
             }
         }
 
+        static async getRandomUsers(){
+            let cursor;
+            try{
+                cursor = await User.aggregate([
+                    {
+                        $sample: {size: 6}
+                    }
+                ]).toArray();
+                return cursor;
+            }
+            catch(e){
+                console.log("Unable to Get Users",e);
+                return [];
+            }
+        }
+
         static async getQueryUserList(user_info){
             
             //let query;
@@ -157,7 +173,8 @@ module.exports =  class UserDAO{
                         birth_date : updated_user.birth_date,
                         date : updated_user.date,
                         post_photo_url : updated_user.post_photo_url,
-                        isPrivate : updated_user.isPrivate
+                        isPrivate : updated_user.isPrivate,
+                        profiletype : updated_user.profiletype,
                         
                     }}
                 );
@@ -204,4 +221,5 @@ module.exports =  class UserDAO{
                 return {error:e};
             }
         }
+
 }
